@@ -1,0 +1,13 @@
+- dataset=sbm
+- dataset.datadir=E:\HiGGs-main1\HiGGs-main\data\sbm\
+- dataset.h=2
+- model=beta_h2
+- model.diffusion_steps=5
+- general.name=beta_h2_independent_audit_epoch
+- general.wandb=disabled
+- general.gpus=0
+- general.check_val_every_n_epochs=1
+- general.log_every_steps=1
+- train.n_epochs=1
+- train.num_workers=0
+- train.progress_bar=false

@@ -1,0 +1,7 @@
+- dataset=sbm_r1
+- model=beta_h2
+- model.diffusion_steps=100
+- model.eta_strategy=fixed
+- train.batch_size=8
+- train.n_epochs=10
+- general.name=sbm_beta_h2_r1_fixed_T100_e10_test

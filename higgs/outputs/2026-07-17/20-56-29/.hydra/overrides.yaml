@@ -1,0 +1,7 @@
+- general=sample_sbm
+- dataset=sbm
+- general.h2_model_family=beta_h2
+- general.h2_model=E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_beta_h2_r1_test.ckpt
+- general.h1_model=E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_h1.ckpt
+- general.glue_model=E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_glue.ckpt
+- general.samples_to_generate=40

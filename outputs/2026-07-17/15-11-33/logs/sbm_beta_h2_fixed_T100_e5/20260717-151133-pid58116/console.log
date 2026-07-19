@@ -1,0 +1,40 @@
+Console log saved to: E:\HiGGs-GBD\HiGGs-main\outputs\2026-07-17\15-11-33\logs\sbm_beta_h2_fixed_T100_e5\20260717-151133-pid58116\console.log
+Get past imports
+[34m[1mwandb[0m: [wandb.login()] Loaded credentials for https://api.wandb.ai from C:\Users\lenovo\_netrc.
+[34m[1mwandb[0m: Currently logged in as: [33mjacksonlu888888[0m ([33mjacksonlu888888-nanyang-technological-university-singapore[0m) to [32mhttps://api.wandb.ai[0m. Use [1m`wandb login --relogin`[0m to force relogin
+[34m[1mwandb[0m: [33mWARNING[0m Using a boolean value for 'reinit' is deprecated. Use 'return_previous' or 'finish_previous' instead.
+[34m[1mwandb[0m: [38;5;178m⢿[0m setting up run 7a0j5dli (0.0s)
+[Am[2K[34m[1mwandb[0m: [38;5;178m⣻[0m setting up run 7a0j5dli (0.0s)
+[Am[2K[34m[1mwandb[0m: [38;5;178m⣽[0m setting up run 7a0j5dli (0.0s)
+[Am[2K[34m[1mwandb[0m: [38;5;178m⣾[0m setting up run 7a0j5dli (0.0s)
+[Am[2K[34m[1mwandb[0m: [38;5;178m⣷[0m setting up run 7a0j5dli (0.0s)
+[Am[2K[34m[1mwandb[0m: Tracking run with wandb version 0.26.0
+[34m[1mwandb[0m: Run data is saved locally in [35m[1mE:\HiGGs-GBD\HiGGs-main\outputs\2026-07-17\15-11-33\wandb\run-20260717_151134-7a0j5dli[0m
+[34m[1mwandb[0m: Run [1m`wandb offline`[0m to turn off syncing.
+[34m[1mwandb[0m: Syncing run [33mh2-majority-07-17-2026-15-11-33[0m
+[34m[1mwandb[0m:  View project at [34m[4mhttps://wandb.ai/jacksonlu888888-nanyang-technological-university-singapore/higgs_sbm[0m
+[34m[1mwandb[0m:  View run at [34m[4mhttps://wandb.ai/jacksonlu888888-nanyang-technological-university-singapore/higgs_sbm/runs/7a0j5dli[0m
+[34m[1mwandb[0m: [33mWARNING[0m `wandb.require('service')` is a no-op as it is now the default behavior.
+Entered SBM datamodule __init__
+Finished SBM datamodule __init__
+Error executing job with overrides: ['dataset=sbm', 'dataset.h=2', 'model=beta_h2', 'model.diffusion_steps=100', 'model.eta_strategy=fixed', 'train.n_epochs=5', 'general.name=sbm_beta_h2_fixed_T100_e5']
+Traceback (most recent call last):
+  File "E:\HiGGs-GBD\HiGGs-main\dgd\main.py", line 276, in main
+    datamodule.prepare_data()
+  File "E:\HiGGs-GBD\HiGGs-main\dgd\datasets\sbm_hierarchies.py", line 821, in prepare_data
+    datasets = {'train': SBMDataset(stage='train',
+  File "E:\HiGGs-GBD\HiGGs-main\dgd\datasets\sbm_hierarchies.py", line 105, in __init__
+    super().__init__(root, None, None, None)
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch_geometric\data\in_memory_dataset.py", line 81, in __init__
+    super().__init__(root, transform, pre_transform, pre_filter, log,
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch_geometric\data\dataset.py", line 115, in __init__
+    self._process()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch_geometric\data\dataset.py", line 239, in _process
+    if not self.force_reload and osp.exists(f) and torch.load(
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\serialization.py", line 1028, in load
+    return _legacy_load(opened_file, map_location, pickle_module, **pickle_load_args)
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\serialization.py", line 1246, in _legacy_load
+    magic_number = pickle_module.load(f, **pickle_load_args)
+_pickle.UnpicklingError: invalid load key, 'v'.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

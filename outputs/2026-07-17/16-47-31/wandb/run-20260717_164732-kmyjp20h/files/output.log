@@ -1,0 +1,138 @@
+[34m[1mwandb[0m: [33mWARNING[0m `wandb.require('service')` is a no-op as it is now the default behavior.
+Entered SBM datamodule __init__
+Finished SBM datamodule __init__
+{'name': 'sbm', 'datadir': 'data/sbm/', 'h': 2, 'random_subset': None, 'pin_memory': False, 'subsample': False, 'resolution': 2, 'max_size': 500, 'regime': 'majority', 'dataset_testing': False}
+Initialising extra features
+Computing in/out dims
+
+Finished building datasets!
+
+
+Getting model
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Got model: ConditionalGraphBetaDiffusionH2(
+  (sampling_metrics): SBMSamplingMetrics()
+  (model): GraphTransformer(
+    (mlp_in_X): Sequential(
+      (0): Linear(in_features=2, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=64, bias=True)
+      (3): ReLU()
+    )
+    (mlp_in_E): Sequential(
+      (0): Linear(in_features=1, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=64, bias=True)
+      (3): ReLU()
+    )
+    (mlp_in_y): Sequential(
+      (0): Linear(in_features=3, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=64, bias=True)
+      (3): ReLU()
+    )
+    (tf_layers): ModuleList(
+      (0-3): 4 x XEyTransformerLayer(
+        (self_attn): NodeEdgeBlock(
+          (q): Linear(in_features=64, out_features=64, bias=True)
+          (k): Linear(in_features=64, out_features=64, bias=True)
+          (v): Linear(in_features=64, out_features=64, bias=True)
+          (e_add): Linear(in_features=64, out_features=64, bias=True)
+          (e_mul): Linear(in_features=64, out_features=64, bias=True)
+          (y_e_mul): Linear(in_features=64, out_features=64, bias=True)
+          (y_e_add): Linear(in_features=64, out_features=64, bias=True)
+          (y_x_mul): Linear(in_features=64, out_features=64, bias=True)
+          (y_x_add): Linear(in_features=64, out_features=64, bias=True)
+          (y_y): Linear(in_features=64, out_features=64, bias=True)
+          (x_y): Xtoy(
+            (lin): Linear(in_features=256, out_features=64, bias=True)
+          )
+          (e_y): Etoy(
+            (lin): Linear(in_features=256, out_features=64, bias=True)
+          )
+          (x_out): Linear(in_features=64, out_features=64, bias=True)
+          (e_out): Linear(in_features=64, out_features=64, bias=True)
+          (y_out): Sequential(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+            (1): ReLU()
+            (2): Linear(in_features=64, out_features=64, bias=True)
+          )
+        )
+        (linX1): Linear(in_features=64, out_features=64, bias=True)
+        (linX2): Linear(in_features=64, out_features=64, bias=True)
+        (normX1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (normX2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (dropoutX1): Dropout(p=0.1, inplace=False)
+        (dropoutX2): Dropout(p=0.1, inplace=False)
+        (dropoutX3): Dropout(p=0.1, inplace=False)
+        (linE1): Linear(in_features=64, out_features=64, bias=True)
+        (linE2): Linear(in_features=64, out_features=64, bias=True)
+        (normE1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (normE2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (dropoutE1): Dropout(p=0.1, inplace=False)
+        (dropoutE2): Dropout(p=0.1, inplace=False)
+        (dropoutE3): Dropout(p=0.1, inplace=False)
+        (lin_y1): Linear(in_features=64, out_features=2048, bias=True)
+        (lin_y2): Linear(in_features=2048, out_features=64, bias=True)
+        (norm_y1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (norm_y2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (dropout_y1): Dropout(p=0.1, inplace=False)
+        (dropout_y2): Dropout(p=0.1, inplace=False)
+        (dropout_y3): Dropout(p=0.1, inplace=False)
+      )
+    )
+    (mlp_out_X): Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=2, bias=True)
+    )
+    (mlp_out_E): Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=1, bias=True)
+    )
+    (mlp_out_y): Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=2, bias=True)
+    )
+  )
+  (loss_module): BetaH2Loss()
+)
+
+Getting trainer, GPU status: gpu
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+
+
+Entering trainer
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+  | Name             | Type               | Params
+--------------------------------------------------------
+0 | sampling_metrics | SBMSamplingMetrics | 0
+1 | model            | GraphTransformer   | 1.5 M
+2 | loss_module      | BetaH2Loss         | 0
+--------------------------------------------------------
+1.5 M     Trainable params
+0         Non-trainable params
+1.5 M     Total params
+6.068     Total estimated model params size (MB)
+
+Epoch 499: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:37<00:00,  1.87s/it, loss=0.551, v_num=p20h]
+Testing DataLoader 0: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00,  5.14it/s]
+`Trainer.fit` stopped: `max_epochs=500` reached.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    test/beta_h2_loss       1.1274510896677123
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────

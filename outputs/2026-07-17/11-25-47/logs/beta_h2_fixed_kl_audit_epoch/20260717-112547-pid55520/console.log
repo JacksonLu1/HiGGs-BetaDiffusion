@@ -1,0 +1,119 @@
+Console log saved to: E:\HiGGs-GBD\HiGGs-main\outputs\2026-07-17\11-25-47\logs\beta_h2_fixed_kl_audit_epoch\20260717-112547-pid55520\console.log
+Get past imports
+Entered SBM datamodule __init__
+Finished SBM datamodule __init__
+{'name': 'sbm', 'datadir': 'E:\\HiGGs-main1\\HiGGs-main\\data\\sbm\\', 'h': 2, 'random_subset': None, 'pin_memory': False, 'subsample': False, 'resolution': 2, 'max_size': 500, 'regime': 'majority', 'dataset_testing': False}
+Initialising extra features
+Computing in/out dims
+
+Finished building datasets!
+
+
+Getting model
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Got model: ConditionalGraphBetaDiffusionH2(
+  (sampling_metrics): SBMSamplingMetrics()
+  (model): GraphTransformer(
+    (mlp_in_X): Sequential(
+      (0): Linear(in_features=2, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=64, bias=True)
+      (3): ReLU()
+    )
+    (mlp_in_E): Sequential(
+      (0): Linear(in_features=1, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=64, bias=True)
+      (3): ReLU()
+    )
+    (mlp_in_y): Sequential(
+      (0): Linear(in_features=3, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=64, bias=True)
+      (3): ReLU()
+    )
+    (tf_layers): ModuleList(
+      (0-3): 4 x XEyTransformerLayer(
+        (self_attn): NodeEdgeBlock(
+          (q): Linear(in_features=64, out_features=64, bias=True)
+          (k): Linear(in_features=64, out_features=64, bias=True)
+          (v): Linear(in_features=64, out_features=64, bias=True)
+          (e_add): Linear(in_features=64, out_features=64, bias=True)
+          (e_mul): Linear(in_features=64, out_features=64, bias=True)
+          (y_e_mul): Linear(in_features=64, out_features=64, bias=True)
+          (y_e_add): Linear(in_features=64, out_features=64, bias=True)
+          (y_x_mul): Linear(in_features=64, out_features=64, bias=True)
+          (y_x_add): Linear(in_features=64, out_features=64, bias=True)
+          (y_y): Linear(in_features=64, out_features=64, bias=True)
+          (x_y): Xtoy(
+            (lin): Linear(in_features=256, out_features=64, bias=True)
+          )
+          (e_y): Etoy(
+            (lin): Linear(in_features=256, out_features=64, bias=True)
+          )
+          (x_out): Linear(in_features=64, out_features=64, bias=True)
+          (e_out): Linear(in_features=64, out_features=64, bias=True)
+          (y_out): Sequential(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+            (1): ReLU()
+            (2): Linear(in_features=64, out_features=64, bias=True)
+          )
+        )
+        (linX1): Linear(in_features=64, out_features=64, bias=True)
+        (linX2): Linear(in_features=64, out_features=64, bias=True)
+        (normX1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (normX2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (dropoutX1): Dropout(p=0.1, inplace=False)
+        (dropoutX2): Dropout(p=0.1, inplace=False)
+        (dropoutX3): Dropout(p=0.1, inplace=False)
+        (linE1): Linear(in_features=64, out_features=64, bias=True)
+        (linE2): Linear(in_features=64, out_features=64, bias=True)
+        (normE1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (normE2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (dropoutE1): Dropout(p=0.1, inplace=False)
+        (dropoutE2): Dropout(p=0.1, inplace=False)
+        (dropoutE3): Dropout(p=0.1, inplace=False)
+        (lin_y1): Linear(in_features=64, out_features=2048, bias=True)
+        (lin_y2): Linear(in_features=2048, out_features=64, bias=True)
+        (norm_y1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (norm_y2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (dropout_y1): Dropout(p=0.1, inplace=False)
+        (dropout_y2): Dropout(p=0.1, inplace=False)
+        (dropout_y3): Dropout(p=0.1, inplace=False)
+      )
+    )
+    (mlp_out_X): Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=2, bias=True)
+    )
+    (mlp_out_E): Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=1, bias=True)
+    )
+    (mlp_out_y): Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=2, bias=True)
+    )
+  )
+  (loss_module): BetaH2Loss()
+)
+
+Getting trainer, GPU status: cpu
+
+
+Entering trainer
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    test/beta_h2_loss        74.3934068673475
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────

@@ -1,0 +1,412 @@
+Console log saved to: E:\HiGGs-GBD\HiGGs-main\outputs\2026-07-18\09-29-12\logs\sbm_beta_h2_r1_fixed_T100_e10_test\20260718-092912-pid61376\console.log
+Get past imports
+[34m[1mwandb[0m: [wandb.login()] Loaded credentials for https://api.wandb.ai from C:\Users\lenovo\_netrc.
+[34m[1mwandb[0m: Currently logged in as: [33mjacksonlu888888[0m ([33mjacksonlu888888-nanyang-technological-university-singapore[0m) to [32mhttps://api.wandb.ai[0m. Use [1m`wandb login --relogin`[0m to force relogin
+[34m[1mwandb[0m: [33mWARNING[0m Using a boolean value for 'reinit' is deprecated. Use 'return_previous' or 'finish_previous' instead.
+[34m[1mwandb[0m: [38;5;178m⢿[0m setting up run y6x4p77d (0.0s)
+[Am[2K[34m[1mwandb[0m: [38;5;178m⣻[0m setting up run y6x4p77d (0.0s)
+[Am[2K[34m[1mwandb[0m: [38;5;178m⣽[0m setting up run y6x4p77d (0.0s)
+[Am[2K[34m[1mwandb[0m: [38;5;178m⣾[0m setting up run y6x4p77d (0.0s)
+[Am[2K[34m[1mwandb[0m: [38;5;178m⣷[0m setting up run y6x4p77d (0.0s)
+[Am[2K[34m[1mwandb[0m: [38;5;178m⣯[0m setting up run y6x4p77d (0.5s)
+[Am[2K[34m[1mwandb[0m: Tracking run with wandb version 0.26.0
+[34m[1mwandb[0m: Run data is saved locally in [35m[1mE:\HiGGs-GBD\HiGGs-main\outputs\2026-07-18\09-29-12\wandb\run-20260718_092913-y6x4p77d[0m
+[34m[1mwandb[0m: Run [1m`wandb offline`[0m to turn off syncing.
+[34m[1mwandb[0m: Syncing run [33mh2-majority-07-18-2026-09-29-12[0m
+[34m[1mwandb[0m:  View project at [34m[4mhttps://wandb.ai/jacksonlu888888-nanyang-technological-university-singapore/higgs_sbm[0m
+[34m[1mwandb[0m:  View run at [34m[4mhttps://wandb.ai/jacksonlu888888-nanyang-technological-university-singapore/higgs_sbm/runs/y6x4p77d[0m
+[34m[1mwandb[0m: [33mWARNING[0m `wandb.require('service')` is a no-op as it is now the default behavior.
+Entered SBM datamodule __init__
+Finished SBM datamodule __init__
+  0%|                                                                                                                                                      | 0/200 [00:00<?, ?it/s] 20%|████████████████████████████                                                                                                                | 40/200 [00:00<00:00, 395.69it/s] 42%|██████████████████████████████████████████████████████████                                                                                  | 83/200 [00:00<00:00, 406.96it/s] 62%|██████████████████████████████████████████████████████████████████████████████████████▏                                                    | 124/200 [00:00<00:00, 249.98it/s] 82%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████▉                         | 164/200 [00:00<00:00, 290.71it/s]100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:00<00:00, 313.62it/s]
+
+Finding communities 200 times with a resolution of 1
+
+  0%|                                                                                                                                                      | 0/200 [00:00<?, ?it/s]  8%|██████████▌                                                                                                                                 | 15/200 [00:00<00:01, 132.92it/s]100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 200/200 [00:00<00:00, 1504.09it/s]
+0it [00:00, ?it/s]24it [00:00, 237.87it/s]48it [00:00, 194.42it/s]68it [00:00, 171.27it/s]86it [00:00, 159.05it/s]103it [00:00, 150.03it/s]119it [00:00, 143.09it/s]134it [00:00, 140.00it/s]150it [00:00, 136.61it/s]167it [00:01, 143.89it/s]182it [00:01, 139.75it/s]200it [00:01, 154.91it/s]
+Graph with 20802 nodes and 100082 edges
+Graph with 20802 nodes and 100082 edges
+Done building CSV:
+   community_id
+0             0
+1             1
+2             2
+3             3
+4             4
+E:\ANACONDA\envs\higgs_env\lib\site-packages\numpy\core\fromnumeric.py:59: FutureWarning: 'DataFrame.swapaxes' is deprecated and will be removed in a future version. Please use 'DataFrame.transpose' instead.
+  return bound(*args, **kwds)
+Processing...
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 5 edges
+Graph with 2 nodes and 1 edges
+Graph with 5 nodes and 9 edges
+Graph with 4 nodes and 6 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 2 edges
+Graph with 4 nodes and 6 edges
+Graph with 2 nodes and 1 edges
+Graph with 4 nodes and 5 edges
+Graph with 4 nodes and 6 edges
+Graph with 5 nodes and 10 edges
+Graph with 2 nodes and 1 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 5 nodes and 10 edges
+Graph with 2 nodes and 1 edges
+Graph with 2 nodes and 1 edges
+Graph with 5 nodes and 10 edges
+Graph with 2 nodes and 1 edges
+Graph with 5 nodes and 9 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 9 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 9 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 2 nodes and 1 edges
+Graph with 4 nodes and 6 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 5 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 10 edges
+Graph with 2 nodes and 1 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 2 nodes and 1 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 5 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 4 nodes and 6 edges
+Graph with 2 nodes and 1 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 10 edges
+Graph with 2 nodes and 1 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 2 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 5 nodes and 10 edges
+Graph with 2 nodes and 1 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 9 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 10 edges
+Graph with 2 nodes and 1 edges
+Graph with 2 nodes and 1 edges
+Graph with 5 nodes and 10 edges
+Graph with 4 nodes and 4 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 9 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 9 edges
+Graph with 4 nodes and 6 edges
+Graph with 2 nodes and 1 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 9 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 5 nodes and 10 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 9 edges
+Graph with 2 nodes and 1 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 0 nodes and 0 edges
+Graph with 5 nodes and 9 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 2 nodes and 1 edges
+Graph with 4 nodes and 5 edges
+Graph with 2 nodes and 1 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 9 edges
+Graph with 3 nodes and 2 edges
+Graph with 5 nodes and 10 edges
+Graph with 2 nodes and 1 edges
+  0%|                                                                                                                                                      | 0/128 [00:00<?, ?it/s]
+  0%|                                                                                                                                                      | 0/128 [00:00<?, ?it/s][A 81%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                         | 104/128 [00:00<00:00, 1039.28it/s]
+ 82%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                        | 105/128 [00:00<00:00, 1049.54it/s][A100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 128/128 [00:00<00:00, 1095.68it/s]
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 128/128 [00:00<00:00, 1086.42it/s]
+
+processed paths: ['E:\\HiGGs-GBD\\HiGGs-main\\data\\sbm\\processed\\proc_train_h2_r1_majority_max500_bs8.pt', 'E:\\HiGGs-GBD\\HiGGs-main\\data\\sbm\\processed\\proc_val_h2_r1_majority_max500_bs8.pt', 'E:\\HiGGs-GBD\\HiGGs-main\\data\\sbm\\processed\\proc_test_h2_r1_majority_max500_bs8.pt']
+file idx: 0
+
+Done!
+Processing...
+Graph with 4 nodes and 6 edges
+Graph with 2 nodes and 1 edges
+Graph with 2 nodes and 1 edges
+Graph with 3 nodes and 2 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 2 nodes and 1 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 10 edges
+Graph with 4 nodes and 6 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 4 nodes and 6 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 10 edges
+Graph with 4 nodes and 6 edges
+  0%|                                                                                                                                                       | 0/32 [00:00<?, ?it/s]
+  0%|                                                                                                                                                       | 0/32 [00:00<?, ?it/s][A100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 32/32 [00:00<00:00, 1336.74it/s]
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 32/32 [00:00<00:00, 1344.44it/s]
+
+processed paths: ['E:\\HiGGs-GBD\\HiGGs-main\\data\\sbm\\processed\\proc_train_h2_r1_majority_max500_bs8.pt', 'E:\\HiGGs-GBD\\HiGGs-main\\data\\sbm\\processed\\proc_val_h2_r1_majority_max500_bs8.pt', 'E:\\HiGGs-GBD\\HiGGs-main\\data\\sbm\\processed\\proc_test_h2_r1_majority_max500_bs8.pt']
+file idx: 1
+
+Done!
+Processing...
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 2 edges
+Graph with 2 nodes and 1 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 3 nodes and 2 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 5 nodes and 10 edges
+Graph with 2 nodes and 1 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 2 nodes and 1 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 9 edges
+Graph with 4 nodes and 6 edges
+Graph with 0 nodes and 0 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 2 nodes and 1 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 5 nodes and 10 edges
+Graph with 3 nodes and 3 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+Graph with 5 nodes and 10 edges
+Graph with 5 nodes and 10 edges
+Graph with 2 nodes and 1 edges
+Graph with 2 nodes and 1 edges
+Graph with 3 nodes and 3 edges
+Graph with 4 nodes and 6 edges
+  0%|                                                                                                                                                       | 0/40 [00:00<?, ?it/s]
+  0%|                                                                                                                                                       | 0/40 [00:00<?, ?it/s][A100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 40/40 [00:00<00:00, 1522.36it/s]
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 40/40 [00:00<00:00, 1476.37it/s]
+
+processed paths: ['E:\\HiGGs-GBD\\HiGGs-main\\data\\sbm\\processed\\proc_train_h2_r1_majority_max500_bs8.pt', 'E:\\HiGGs-GBD\\HiGGs-main\\data\\sbm\\processed\\proc_val_h2_r1_majority_max500_bs8.pt', 'E:\\HiGGs-GBD\\HiGGs-main\\data\\sbm\\processed\\proc_test_h2_r1_majority_max500_bs8.pt']
+file idx: 2
+
+Done!
+==================================================
+N Nodes: 20802
+N Edges: 100082
+Density: 0.0004625904526409354
+Diameter: -1.0
+Transitivity: 0.2740158604971775
+Clustering: 0.27395575467085614
+==================================================
+{'name': 'sbm', 'datadir': 'data/sbm/', 'h': 2, 'random_subset': None, 'pin_memory': False, 'subsample': False, 'resolution': 1, 'max_size': 500, 'regime': 'majority', 'dataset_testing': False}
+Initialising extra features
+Computing in/out dims
+
+[HiGGs] Beta-H2 training data audit
+[HiGGs] dataset.name = sbm
+[HiGGs] dataset.h = 2
+[HiGGs] dataset.resolution = 1
+[HiGGs] dataset.regime = majority
+[HiGGs] dataset.max_size = 500
+[HiGGs] train processed path = E:\HiGGs-GBD\HiGGs-main\data\sbm\processed\proc_train_h2_r1_majority_max500_bs8.pt
+[HiGGs] val processed path = E:\HiGGs-GBD\HiGGs-main\data\sbm\processed\proc_val_h2_r1_majority_max500_bs8.pt
+[HiGGs] test processed path = E:\HiGGs-GBD\HiGGs-main\data\sbm\processed\proc_test_h2_r1_majority_max500_bs8.pt
+[HiGGs] dataset_infos.nodes_dist.prob = [0.0, 0.0, 0.0, 0.43396225571632385, 0.23899370431900024, 0.3270440399646759]
+[HiGGs] max_n_nodes = 5
+[HiGGs] H2 node-count mean = 3.893082
+
+
+Finished building datasets!
+
+
+Getting model
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Got model: ConditionalGraphBetaDiffusionH2(
+  (sampling_metrics): SBMSamplingMetrics()
+  (model): GraphTransformer(
+    (mlp_in_X): Sequential(
+      (0): Linear(in_features=2, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=64, bias=True)
+      (3): ReLU()
+    )
+    (mlp_in_E): Sequential(
+      (0): Linear(in_features=1, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=64, bias=True)
+      (3): ReLU()
+    )
+    (mlp_in_y): Sequential(
+      (0): Linear(in_features=3, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=64, bias=True)
+      (3): ReLU()
+    )
+    (tf_layers): ModuleList(
+      (0-3): 4 x XEyTransformerLayer(
+        (self_attn): NodeEdgeBlock(
+          (q): Linear(in_features=64, out_features=64, bias=True)
+          (k): Linear(in_features=64, out_features=64, bias=True)
+          (v): Linear(in_features=64, out_features=64, bias=True)
+          (e_add): Linear(in_features=64, out_features=64, bias=True)
+          (e_mul): Linear(in_features=64, out_features=64, bias=True)
+          (y_e_mul): Linear(in_features=64, out_features=64, bias=True)
+          (y_e_add): Linear(in_features=64, out_features=64, bias=True)
+          (y_x_mul): Linear(in_features=64, out_features=64, bias=True)
+          (y_x_add): Linear(in_features=64, out_features=64, bias=True)
+          (y_y): Linear(in_features=64, out_features=64, bias=True)
+          (x_y): Xtoy(
+            (lin): Linear(in_features=256, out_features=64, bias=True)
+          )
+          (e_y): Etoy(
+            (lin): Linear(in_features=256, out_features=64, bias=True)
+          )
+          (x_out): Linear(in_features=64, out_features=64, bias=True)
+          (e_out): Linear(in_features=64, out_features=64, bias=True)
+          (y_out): Sequential(
+            (0): Linear(in_features=64, out_features=64, bias=True)
+            (1): ReLU()
+            (2): Linear(in_features=64, out_features=64, bias=True)
+          )
+        )
+        (linX1): Linear(in_features=64, out_features=64, bias=True)
+        (linX2): Linear(in_features=64, out_features=64, bias=True)
+        (normX1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (normX2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (dropoutX1): Dropout(p=0.1, inplace=False)
+        (dropoutX2): Dropout(p=0.1, inplace=False)
+        (dropoutX3): Dropout(p=0.1, inplace=False)
+        (linE1): Linear(in_features=64, out_features=64, bias=True)
+        (linE2): Linear(in_features=64, out_features=64, bias=True)
+        (normE1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (normE2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (dropoutE1): Dropout(p=0.1, inplace=False)
+        (dropoutE2): Dropout(p=0.1, inplace=False)
+        (dropoutE3): Dropout(p=0.1, inplace=False)
+        (lin_y1): Linear(in_features=64, out_features=2048, bias=True)
+        (lin_y2): Linear(in_features=2048, out_features=64, bias=True)
+        (norm_y1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (norm_y2): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (dropout_y1): Dropout(p=0.1, inplace=False)
+        (dropout_y2): Dropout(p=0.1, inplace=False)
+        (dropout_y3): Dropout(p=0.1, inplace=False)
+      )
+    )
+    (mlp_out_X): Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=2, bias=True)
+    )
+    (mlp_out_E): Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=1, bias=True)
+    )
+    (mlp_out_y): Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=64, out_features=2, bias=True)
+    )
+  )
+  (loss_module): BetaH2Loss()
+)
+
+Getting trainer, GPU status: gpu
+
+
+Entering trainer
+
+Training: 0it [00:00, ?it/s]Training:   0%|                                                                                                                                             | 0/13 [00:00<?, ?it/s]Epoch 0:   0%|                                                                                                                                              | 0/13 [00:00<?, ?it/s]Epoch 0:   8%|██████████▎                                                                                                                           | 1/13 [00:26<05:22, 26.88s/it]Epoch 0:   8%|████████▌                                                                                                      | 1/13 [00:26<05:22, 26.88s/it, loss=22.9, v_num=p77d]Epoch 0:  15%|█████████████████                                                                                              | 2/13 [00:26<02:28, 13.49s/it, loss=22.9, v_num=p77d]Epoch 0:  15%|█████████████████                                                                                              | 2/13 [00:26<02:28, 13.49s/it, loss=22.1, v_num=p77d]Epoch 0:  23%|█████████████████████████▌                                                                                     | 3/13 [00:27<01:30,  9.02s/it, loss=22.1, v_num=p77d]Epoch 0:  23%|█████████████████████████▌                                                                                     | 3/13 [00:27<01:30,  9.03s/it, loss=19.9, v_num=p77d]Epoch 0:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:27<01:01,  6.79s/it, loss=19.9, v_num=p77d]Epoch 0:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:27<01:01,  6.79s/it, loss=17.9, v_num=p77d]Epoch 0:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:27<00:43,  5.45s/it, loss=17.9, v_num=p77d]Epoch 0:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:27<00:43,  5.45s/it, loss=17.1, v_num=p77d]Epoch 0:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:27<00:31,  4.57s/it, loss=17.1, v_num=p77d]Epoch 0:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:27<00:31,  4.57s/it, loss=17.3, v_num=p77d]Epoch 0:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:27<00:23,  3.93s/it, loss=17.3, v_num=p77d]Epoch 0:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:27<00:23,  3.93s/it, loss=18.9, v_num=p77d]Epoch 0:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:27<00:17,  3.45s/it, loss=18.9, v_num=p77d]Epoch 0:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:27<00:17,  3.45s/it, loss=18.8, v_num=p77d]Epoch 0:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:27<00:12,  3.08s/it, loss=18.8, v_num=p77d]Epoch 0:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:27<00:12,  3.08s/it, loss=17.7, v_num=p77d]Epoch 0:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:27<00:08,  2.78s/it, loss=17.7, v_num=p77d]Epoch 0:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:27<00:08,  2.78s/it, loss=17.7, v_num=p77d]Epoch 0:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:27<00:05,  2.54s/it, loss=17.7, v_num=p77d]Epoch 0:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:27<00:05,  2.54s/it, loss=17.5, v_num=p77d]Epoch 0:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:28<00:02,  2.34s/it, loss=17.5, v_num=p77d]Epoch 0:  92%|███████████████████████████████████████████████████████████████████████████████████████████████████████▍        | 12/13 [00:28<00:02,  2.34s/it, loss=18, v_num=p77d]Epoch 0: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:28<00:00,  2.16s/it, loss=18, v_num=p77d]Epoch 0: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:28<00:00,  2.16s/it, loss=19, v_num=p77d]Epoch 0: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:28<00:00,  2.16s/it, loss=19, v_num=p77d]Epoch 0:   0%|                                                                                                                         | 0/13 [00:00<?, ?it/s, loss=19, v_num=p77d]Epoch 1:   0%|                                                                                                                         | 0/13 [00:00<?, ?it/s, loss=19, v_num=p77d]Epoch 1:   8%|████████▋                                                                                                        | 1/13 [00:20<04:05, 20.47s/it, loss=19, v_num=p77d]Epoch 1:   8%|████████▌                                                                                                      | 1/13 [00:20<04:05, 20.48s/it, loss=19.7, v_num=p77d]Epoch 1:  15%|█████████████████                                                                                              | 2/13 [00:20<01:53, 10.36s/it, loss=19.7, v_num=p77d]Epoch 1:  15%|█████████████████                                                                                              | 2/13 [00:20<01:53, 10.36s/it, loss=19.1, v_num=p77d]Epoch 1:  23%|█████████████████████████▌                                                                                     | 3/13 [00:20<01:09,  6.97s/it, loss=19.1, v_num=p77d]Epoch 1:  23%|█████████████████████████▌                                                                                     | 3/13 [00:20<01:09,  6.97s/it, loss=18.8, v_num=p77d]Epoch 1:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:21<00:47,  5.27s/it, loss=18.8, v_num=p77d]Epoch 1:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:21<00:47,  5.27s/it, loss=18.9, v_num=p77d]Epoch 1:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:21<00:33,  4.24s/it, loss=18.9, v_num=p77d]Epoch 1:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:21<00:33,  4.25s/it, loss=18.2, v_num=p77d]Epoch 1:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:21<00:24,  3.56s/it, loss=18.2, v_num=p77d]Epoch 1:  46%|████████████████████████████████████████████████████▏                                                            | 6/13 [00:21<00:24,  3.56s/it, loss=18, v_num=p77d]Epoch 1:  54%|████████████████████████████████████████████████████████████▊                                                    | 7/13 [00:21<00:18,  3.08s/it, loss=18, v_num=p77d]Epoch 1:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:21<00:18,  3.08s/it, loss=17.7, v_num=p77d]Epoch 1:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:21<00:13,  2.71s/it, loss=17.7, v_num=p77d]Epoch 1:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:21<00:13,  2.71s/it, loss=17.1, v_num=p77d]Epoch 1:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:21<00:09,  2.43s/it, loss=17.1, v_num=p77d]Epoch 1:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:21<00:09,  2.43s/it, loss=16.2, v_num=p77d]Epoch 1:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:22<00:06,  2.20s/it, loss=16.2, v_num=p77d]Epoch 1:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:22<00:06,  2.20s/it, loss=16.3, v_num=p77d]Epoch 1:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:22<00:04,  2.01s/it, loss=16.3, v_num=p77d]Epoch 1:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:22<00:04,  2.01s/it, loss=16.5, v_num=p77d]Epoch 1:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:22<00:01,  1.86s/it, loss=16.5, v_num=p77d]Epoch 1:  92%|███████████████████████████████████████████████████████████████████████████████████████████████████████▍        | 12/13 [00:22<00:01,  1.86s/it, loss=16, v_num=p77d]Epoch 1: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:22<00:00,  1.72s/it, loss=16, v_num=p77d]Epoch 1: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:22<00:00,  1.72s/it, loss=16, v_num=p77d]Epoch 1: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:22<00:00,  1.72s/it, loss=16, v_num=p77d]Epoch 1:   0%|                                                                                                                         | 0/13 [00:00<?, ?it/s, loss=16, v_num=p77d]Epoch 2:   0%|                                                                                                                         | 0/13 [00:00<?, ?it/s, loss=16, v_num=p77d]Epoch 2:   8%|████████▋                                                                                                        | 1/13 [00:18<03:47, 18.96s/it, loss=16, v_num=p77d]Epoch 2:   8%|████████▌                                                                                                      | 1/13 [00:18<03:47, 18.96s/it, loss=15.4, v_num=p77d]Epoch 2:  15%|█████████████████                                                                                              | 2/13 [00:19<01:45,  9.59s/it, loss=15.4, v_num=p77d]Epoch 2:  15%|█████████████████                                                                                              | 2/13 [00:19<01:45,  9.59s/it, loss=15.3, v_num=p77d]Epoch 2:  23%|█████████████████████████▌                                                                                     | 3/13 [00:19<01:04,  6.46s/it, loss=15.3, v_num=p77d]Epoch 2:  23%|█████████████████████████▌                                                                                     | 3/13 [00:19<01:04,  6.46s/it, loss=15.4, v_num=p77d]Epoch 2:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:19<00:44,  4.91s/it, loss=15.4, v_num=p77d]Epoch 2:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:19<00:44,  4.91s/it, loss=15.5, v_num=p77d]Epoch 2:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:19<00:31,  3.96s/it, loss=15.5, v_num=p77d]Epoch 2:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:19<00:31,  3.96s/it, loss=15.9, v_num=p77d]Epoch 2:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:19<00:23,  3.32s/it, loss=15.9, v_num=p77d]Epoch 2:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:19<00:23,  3.32s/it, loss=15.2, v_num=p77d]Epoch 2:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:20<00:17,  2.86s/it, loss=15.2, v_num=p77d]Epoch 2:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:20<00:17,  2.86s/it, loss=14.7, v_num=p77d]Epoch 2:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:20<00:12,  2.52s/it, loss=14.7, v_num=p77d]Epoch 2:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:20<00:12,  2.52s/it, loss=14.3, v_num=p77d]Epoch 2:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:20<00:09,  2.25s/it, loss=14.3, v_num=p77d]Epoch 2:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:20<00:09,  2.25s/it, loss=14.4, v_num=p77d]Epoch 2:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:20<00:06,  2.05s/it, loss=14.4, v_num=p77d]Epoch 2:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:20<00:06,  2.05s/it, loss=14.7, v_num=p77d]Epoch 2:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:20<00:03,  1.87s/it, loss=14.7, v_num=p77d]Epoch 2:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:20<00:03,  1.87s/it, loss=14.4, v_num=p77d]Epoch 2:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:20<00:01,  1.73s/it, loss=14.4, v_num=p77d]Epoch 2:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:20<00:01,  1.73s/it, loss=15.2, v_num=p77d]Epoch 2: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:20<00:00,  1.61s/it, loss=15.2, v_num=p77d]Epoch 2: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:20<00:00,  1.61s/it, loss=15.8, v_num=p77d]Epoch 2: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:20<00:00,  1.61s/it, loss=15.8, v_num=p77d]Epoch 2:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=15.8, v_num=p77d]Epoch 3:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=15.8, v_num=p77d]Epoch 3:   8%|████████▌                                                                                                      | 1/13 [00:19<03:53, 19.47s/it, loss=15.8, v_num=p77d]Epoch 3:   8%|████████▌                                                                                                      | 1/13 [00:19<03:53, 19.48s/it, loss=16.9, v_num=p77d]Epoch 3:  15%|█████████████████                                                                                              | 2/13 [00:19<01:48,  9.88s/it, loss=16.9, v_num=p77d]Epoch 3:  15%|█████████████████                                                                                              | 2/13 [00:19<01:48,  9.88s/it, loss=17.2, v_num=p77d]Epoch 3:  23%|█████████████████████████▌                                                                                     | 3/13 [00:20<01:07,  6.72s/it, loss=17.2, v_num=p77d]Epoch 3:  23%|█████████████████████████▌                                                                                     | 3/13 [00:20<01:07,  6.72s/it, loss=17.3, v_num=p77d]Epoch 3:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:20<00:45,  5.07s/it, loss=17.3, v_num=p77d]Epoch 3:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:20<00:45,  5.08s/it, loss=17.5, v_num=p77d]Epoch 3:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:20<00:32,  4.09s/it, loss=17.5, v_num=p77d]Epoch 3:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:20<00:32,  4.09s/it, loss=17.9, v_num=p77d]Epoch 3:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:20<00:23,  3.43s/it, loss=17.9, v_num=p77d]Epoch 3:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:20<00:23,  3.43s/it, loss=18.6, v_num=p77d]Epoch 3:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:20<00:17,  2.96s/it, loss=18.6, v_num=p77d]Epoch 3:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:20<00:17,  2.96s/it, loss=18.7, v_num=p77d]Epoch 3:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:20<00:13,  2.61s/it, loss=18.7, v_num=p77d]Epoch 3:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:20<00:13,  2.61s/it, loss=18.4, v_num=p77d]Epoch 3:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:20<00:09,  2.33s/it, loss=18.4, v_num=p77d]Epoch 3:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:20<00:09,  2.33s/it, loss=18.1, v_num=p77d]Epoch 3:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:21<00:06,  2.11s/it, loss=18.1, v_num=p77d]Epoch 3:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:21<00:06,  2.11s/it, loss=18.6, v_num=p77d]Epoch 3:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:21<00:03,  1.93s/it, loss=18.6, v_num=p77d]Epoch 3:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:21<00:03,  1.93s/it, loss=18.9, v_num=p77d]Epoch 3:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:21<00:01,  1.78s/it, loss=18.9, v_num=p77d]Epoch 3:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:21<00:01,  1.78s/it, loss=18.5, v_num=p77d]Epoch 3: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:21<00:00,  1.66s/it, loss=18.5, v_num=p77d]Epoch 3: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:21<00:00,  1.66s/it, loss=19.9, v_num=p77d]Epoch 3: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:21<00:00,  1.66s/it, loss=19.9, v_num=p77d]Epoch 3:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=19.9, v_num=p77d]Epoch 4:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=19.9, v_num=p77d]Epoch 4:   8%|████████▌                                                                                                      | 1/13 [00:19<03:53, 19.43s/it, loss=19.9, v_num=p77d]Epoch 4:   8%|████████▌                                                                                                      | 1/13 [00:19<03:53, 19.44s/it, loss=19.3, v_num=p77d]Epoch 4:  15%|█████████████████                                                                                              | 2/13 [00:20<01:50, 10.02s/it, loss=19.3, v_num=p77d]Epoch 4:  15%|█████████████████                                                                                              | 2/13 [00:20<01:50, 10.02s/it, loss=19.3, v_num=p77d]Epoch 4:  23%|█████████████████████████▌                                                                                     | 3/13 [00:20<01:07,  6.71s/it, loss=19.3, v_num=p77d]Epoch 4:  23%|█████████████████████████▌                                                                                     | 3/13 [00:20<01:07,  6.71s/it, loss=19.2, v_num=p77d]Epoch 4:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:20<00:45,  5.06s/it, loss=19.2, v_num=p77d]Epoch 4:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:20<00:45,  5.06s/it, loss=18.5, v_num=p77d]Epoch 4:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:20<00:32,  4.06s/it, loss=18.5, v_num=p77d]Epoch 4:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:20<00:32,  4.06s/it, loss=18.3, v_num=p77d]Epoch 4:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:20<00:23,  3.40s/it, loss=18.3, v_num=p77d]Epoch 4:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:20<00:23,  3.40s/it, loss=18.5, v_num=p77d]Epoch 4:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:20<00:17,  2.93s/it, loss=18.5, v_num=p77d]Epoch 4:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:20<00:17,  2.93s/it, loss=18.2, v_num=p77d]Epoch 4:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:20<00:12,  2.57s/it, loss=18.2, v_num=p77d]Epoch 4:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:20<00:12,  2.57s/it, loss=17.2, v_num=p77d]Epoch 4:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:20<00:09,  2.30s/it, loss=17.2, v_num=p77d]Epoch 4:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:20<00:09,  2.30s/it, loss=17.3, v_num=p77d]Epoch 4:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:20<00:06,  2.08s/it, loss=17.3, v_num=p77d]Epoch 4:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:20<00:06,  2.08s/it, loss=17.4, v_num=p77d]Epoch 4:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:20<00:03,  1.90s/it, loss=17.4, v_num=p77d]Epoch 4:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:20<00:03,  1.90s/it, loss=17.2, v_num=p77d]Epoch 4:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:20<00:01,  1.75s/it, loss=17.2, v_num=p77d]Epoch 4:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:20<00:01,  1.75s/it, loss=17.1, v_num=p77d]Epoch 4: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:21<00:00,  1.62s/it, loss=17.1, v_num=p77d]Epoch 4: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:21<00:00,  1.62s/it, loss=16.6, v_num=p77d]Epoch 4: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:21<00:00,  1.62s/it, loss=16.6, v_num=p77d]Epoch 4:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=16.6, v_num=p77d]Epoch 5:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=16.6, v_num=p77d]Epoch 5:   8%|████████▌                                                                                                      | 1/13 [00:16<03:14, 16.17s/it, loss=16.6, v_num=p77d]Epoch 5:   8%|████████▋                                                                                                        | 1/13 [00:16<03:14, 16.18s/it, loss=17, v_num=p77d]Epoch 5:  15%|█████████████████▍                                                                                               | 2/13 [00:17<01:33,  8.50s/it, loss=17, v_num=p77d]Epoch 5:  15%|█████████████████                                                                                              | 2/13 [00:17<01:33,  8.50s/it, loss=16.9, v_num=p77d]Epoch 5:  23%|█████████████████████████▌                                                                                     | 3/13 [00:17<00:56,  5.69s/it, loss=16.9, v_num=p77d]Epoch 5:  23%|█████████████████████████▌                                                                                     | 3/13 [00:17<00:56,  5.69s/it, loss=16.7, v_num=p77d]Epoch 5:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:17<00:38,  4.28s/it, loss=16.7, v_num=p77d]Epoch 5:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:17<00:38,  4.28s/it, loss=17.1, v_num=p77d]Epoch 5:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:17<00:27,  3.44s/it, loss=17.1, v_num=p77d]Epoch 5:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:17<00:27,  3.44s/it, loss=16.9, v_num=p77d]Epoch 5:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:17<00:20,  2.88s/it, loss=16.9, v_num=p77d]Epoch 5:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:17<00:20,  2.88s/it, loss=17.1, v_num=p77d]Epoch 5:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:17<00:14,  2.48s/it, loss=17.1, v_num=p77d]Epoch 5:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:17<00:14,  2.48s/it, loss=15.7, v_num=p77d]Epoch 5:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:17<00:10,  2.18s/it, loss=15.7, v_num=p77d]Epoch 5:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:17<00:10,  2.18s/it, loss=15.4, v_num=p77d]Epoch 5:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:17<00:07,  1.94s/it, loss=15.4, v_num=p77d]Epoch 5:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:17<00:07,  1.95s/it, loss=15.6, v_num=p77d]Epoch 5:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:17<00:05,  1.76s/it, loss=15.6, v_num=p77d]Epoch 5:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:17<00:05,  1.76s/it, loss=15.7, v_num=p77d]Epoch 5:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:17<00:03,  1.61s/it, loss=15.7, v_num=p77d]Epoch 5:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:17<00:03,  1.61s/it, loss=16.1, v_num=p77d]Epoch 5:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:17<00:01,  1.48s/it, loss=16.1, v_num=p77d]Epoch 5:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:17<00:01,  1.48s/it, loss=15.9, v_num=p77d]Epoch 5: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:17<00:00,  1.37s/it, loss=15.9, v_num=p77d]Epoch 5: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:17<00:00,  1.37s/it, loss=15.6, v_num=p77d]Epoch 5: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:17<00:00,  1.37s/it, loss=15.6, v_num=p77d]Epoch 5:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=15.6, v_num=p77d]Epoch 6:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=15.6, v_num=p77d]Epoch 6:   8%|████████▌                                                                                                      | 1/13 [00:15<03:06, 15.57s/it, loss=15.6, v_num=p77d]Epoch 6:   8%|████████▌                                                                                                      | 1/13 [00:15<03:06, 15.57s/it, loss=15.2, v_num=p77d]Epoch 6:  15%|█████████████████                                                                                              | 2/13 [00:15<01:27,  7.94s/it, loss=15.2, v_num=p77d]Epoch 6:  15%|█████████████████                                                                                              | 2/13 [00:15<01:27,  7.94s/it, loss=15.4, v_num=p77d]Epoch 6:  23%|█████████████████████████▌                                                                                     | 3/13 [00:16<00:53,  5.35s/it, loss=15.4, v_num=p77d]Epoch 6:  23%|█████████████████████████▌                                                                                     | 3/13 [00:16<00:53,  5.35s/it, loss=15.3, v_num=p77d]Epoch 6:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:16<00:36,  4.04s/it, loss=15.3, v_num=p77d]Epoch 6:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:16<00:36,  4.04s/it, loss=15.6, v_num=p77d]Epoch 6:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:16<00:25,  3.25s/it, loss=15.6, v_num=p77d]Epoch 6:  38%|███████████████████████████████████████████▍                                                                     | 5/13 [00:16<00:25,  3.25s/it, loss=15, v_num=p77d]Epoch 6:  46%|████████████████████████████████████████████████████▏                                                            | 6/13 [00:16<00:19,  2.72s/it, loss=15, v_num=p77d]Epoch 6:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:16<00:19,  2.72s/it, loss=14.7, v_num=p77d]Epoch 6:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:16<00:14,  2.35s/it, loss=14.7, v_num=p77d]Epoch 6:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:16<00:14,  2.35s/it, loss=14.8, v_num=p77d]Epoch 6:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:16<00:10,  2.07s/it, loss=14.8, v_num=p77d]Epoch 6:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:16<00:10,  2.07s/it, loss=14.2, v_num=p77d]Epoch 6:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:16<00:07,  1.85s/it, loss=14.2, v_num=p77d]Epoch 6:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:16<00:07,  1.85s/it, loss=14.6, v_num=p77d]Epoch 6:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:16<00:05,  1.67s/it, loss=14.6, v_num=p77d]Epoch 6:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:16<00:05,  1.67s/it, loss=15.3, v_num=p77d]Epoch 6:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:16<00:03,  1.52s/it, loss=15.3, v_num=p77d]Epoch 6:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:16<00:03,  1.52s/it, loss=14.2, v_num=p77d]Epoch 6:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:16<00:01,  1.40s/it, loss=14.2, v_num=p77d]Epoch 6:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:16<00:01,  1.40s/it, loss=13.6, v_num=p77d]Epoch 6: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:16<00:00,  1.30s/it, loss=13.6, v_num=p77d]Epoch 6: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:16<00:00,  1.30s/it, loss=13.7, v_num=p77d]Epoch 6: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:16<00:00,  1.30s/it, loss=13.7, v_num=p77d]Epoch 6:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=13.7, v_num=p77d]Epoch 7:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=13.7, v_num=p77d]Epoch 7:   8%|████████▌                                                                                                      | 1/13 [00:17<03:24, 17.06s/it, loss=13.7, v_num=p77d]Epoch 7:   8%|████████▌                                                                                                      | 1/13 [00:17<03:24, 17.06s/it, loss=13.9, v_num=p77d]Epoch 7:  15%|█████████████████                                                                                              | 2/13 [00:17<01:36,  8.80s/it, loss=13.9, v_num=p77d]Epoch 7:  15%|█████████████████                                                                                              | 2/13 [00:17<01:36,  8.80s/it, loss=14.1, v_num=p77d]Epoch 7:  23%|█████████████████████████▌                                                                                     | 3/13 [00:17<00:59,  5.92s/it, loss=14.1, v_num=p77d]Epoch 7:  23%|█████████████████████████▌                                                                                     | 3/13 [00:17<00:59,  5.92s/it, loss=13.7, v_num=p77d]Epoch 7:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:17<00:40,  4.46s/it, loss=13.7, v_num=p77d]Epoch 7:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:17<00:40,  4.46s/it, loss=13.6, v_num=p77d]Epoch 7:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:17<00:28,  3.59s/it, loss=13.6, v_num=p77d]Epoch 7:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:17<00:28,  3.59s/it, loss=13.6, v_num=p77d]Epoch 7:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:18<00:21,  3.01s/it, loss=13.6, v_num=p77d]Epoch 7:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:18<00:21,  3.01s/it, loss=13.7, v_num=p77d]Epoch 7:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:18<00:15,  2.59s/it, loss=13.7, v_num=p77d]Epoch 7:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:18<00:15,  2.59s/it, loss=13.5, v_num=p77d]Epoch 7:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:18<00:11,  2.27s/it, loss=13.5, v_num=p77d]Epoch 7:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:18<00:11,  2.27s/it, loss=12.8, v_num=p77d]Epoch 7:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:18<00:08,  2.03s/it, loss=12.8, v_num=p77d]Epoch 7:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:18<00:08,  2.03s/it, loss=12.4, v_num=p77d]Epoch 7:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:18<00:05,  1.84s/it, loss=12.4, v_num=p77d]Epoch 7:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:18<00:05,  1.84s/it, loss=12.4, v_num=p77d]Epoch 7:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:18<00:03,  1.68s/it, loss=12.4, v_num=p77d]Epoch 7:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:18<00:03,  1.68s/it, loss=12.4, v_num=p77d]Epoch 7:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:18<00:01,  1.55s/it, loss=12.4, v_num=p77d]Epoch 7:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:18<00:01,  1.55s/it, loss=12.6, v_num=p77d]Epoch 7: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:18<00:00,  1.43s/it, loss=12.6, v_num=p77d]Epoch 7: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:18<00:00,  1.43s/it, loss=12.3, v_num=p77d]Epoch 7: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:18<00:00,  1.43s/it, loss=12.3, v_num=p77d]Epoch 7:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=12.3, v_num=p77d]Epoch 8:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=12.3, v_num=p77d]Epoch 8:   8%|████████▌                                                                                                      | 1/13 [00:17<03:28, 17.34s/it, loss=12.3, v_num=p77d]Epoch 8:   8%|████████▋                                                                                                        | 1/13 [00:17<03:28, 17.34s/it, loss=12, v_num=p77d]Epoch 8:  15%|█████████████████▍                                                                                               | 2/13 [00:17<01:36,  8.80s/it, loss=12, v_num=p77d]Epoch 8:  15%|█████████████████                                                                                              | 2/13 [00:17<01:36,  8.80s/it, loss=12.1, v_num=p77d]Epoch 8:  23%|█████████████████████████▌                                                                                     | 3/13 [00:17<00:59,  5.92s/it, loss=12.1, v_num=p77d]Epoch 8:  23%|█████████████████████████▌                                                                                     | 3/13 [00:17<00:59,  5.92s/it, loss=11.8, v_num=p77d]Epoch 8:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:17<00:40,  4.47s/it, loss=11.8, v_num=p77d]Epoch 8:  31%|██████████████████████████████████▊                                                                              | 4/13 [00:17<00:40,  4.47s/it, loss=11, v_num=p77d]Epoch 8:  38%|███████████████████████████████████████████▍                                                                     | 5/13 [00:18<00:28,  3.61s/it, loss=11, v_num=p77d]Epoch 8:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:18<00:28,  3.61s/it, loss=12.1, v_num=p77d]Epoch 8:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:18<00:21,  3.03s/it, loss=12.1, v_num=p77d]Epoch 8:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:18<00:21,  3.03s/it, loss=12.8, v_num=p77d]Epoch 8:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:18<00:15,  2.61s/it, loss=12.8, v_num=p77d]Epoch 8:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:18<00:15,  2.61s/it, loss=12.9, v_num=p77d]Epoch 8:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:18<00:11,  2.29s/it, loss=12.9, v_num=p77d]Epoch 8:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:18<00:11,  2.29s/it, loss=13.6, v_num=p77d]Epoch 8:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:18<00:08,  2.05s/it, loss=13.6, v_num=p77d]Epoch 8:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:18<00:08,  2.05s/it, loss=14.3, v_num=p77d]Epoch 8:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:18<00:05,  1.85s/it, loss=14.3, v_num=p77d]Epoch 8:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:18<00:05,  1.85s/it, loss=14.5, v_num=p77d]Epoch 8:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:18<00:03,  1.69s/it, loss=14.5, v_num=p77d]Epoch 8:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:18<00:03,  1.69s/it, loss=15.4, v_num=p77d]Epoch 8:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:18<00:01,  1.56s/it, loss=15.4, v_num=p77d]Epoch 8:  92%|███████████████████████████████████████████████████████████████████████████████████████████████████████▍        | 12/13 [00:18<00:01,  1.56s/it, loss=15, v_num=p77d]Epoch 8: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:18<00:00,  1.44s/it, loss=15, v_num=p77d]Epoch 8: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:18<00:00,  1.44s/it, loss=16.1, v_num=p77d]Epoch 8: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:18<00:00,  1.44s/it, loss=16.1, v_num=p77d]Epoch 8:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=16.1, v_num=p77d]Epoch 9:   0%|                                                                                                                       | 0/13 [00:00<?, ?it/s, loss=16.1, v_num=p77d]Epoch 9:   8%|████████▌                                                                                                      | 1/13 [00:18<03:41, 18.42s/it, loss=16.1, v_num=p77d]Epoch 9:   8%|████████▌                                                                                                      | 1/13 [00:18<03:41, 18.42s/it, loss=16.5, v_num=p77d]Epoch 9:  15%|█████████████████                                                                                              | 2/13 [00:18<01:42,  9.27s/it, loss=16.5, v_num=p77d]Epoch 9:  15%|█████████████████                                                                                              | 2/13 [00:18<01:42,  9.28s/it, loss=16.9, v_num=p77d]Epoch 9:  23%|█████████████████████████▌                                                                                     | 3/13 [00:18<01:02,  6.25s/it, loss=16.9, v_num=p77d]Epoch 9:  23%|█████████████████████████▌                                                                                     | 3/13 [00:18<01:02,  6.25s/it, loss=17.5, v_num=p77d]Epoch 9:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:18<00:42,  4.72s/it, loss=17.5, v_num=p77d]Epoch 9:  31%|██████████████████████████████████▏                                                                            | 4/13 [00:18<00:42,  4.72s/it, loss=17.3, v_num=p77d]Epoch 9:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:18<00:30,  3.79s/it, loss=17.3, v_num=p77d]Epoch 9:  38%|██████████████████████████████████████████▋                                                                    | 5/13 [00:18<00:30,  3.79s/it, loss=17.4, v_num=p77d]Epoch 9:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:19<00:22,  3.17s/it, loss=17.4, v_num=p77d]Epoch 9:  46%|███████████████████████████████████████████████████▏                                                           | 6/13 [00:19<00:22,  3.17s/it, loss=17.2, v_num=p77d]Epoch 9:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:19<00:16,  2.73s/it, loss=17.2, v_num=p77d]Epoch 9:  54%|███████████████████████████████████████████████████████████▊                                                   | 7/13 [00:19<00:16,  2.73s/it, loss=18.2, v_num=p77d]Epoch 9:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:19<00:11,  2.40s/it, loss=18.2, v_num=p77d]Epoch 9:  62%|████████████████████████████████████████████████████████████████████▎                                          | 8/13 [00:19<00:11,  2.40s/it, loss=18.5, v_num=p77d]Epoch 9:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:19<00:08,  2.14s/it, loss=18.5, v_num=p77d]Epoch 9:  69%|████████████████████████████████████████████████████████████████████████████▊                                  | 9/13 [00:19<00:08,  2.14s/it, loss=18.5, v_num=p77d]Epoch 9:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:19<00:05,  1.94s/it, loss=18.5, v_num=p77d]Epoch 9:  77%|████████████████████████████████████████████████████████████████████████████████████▌                         | 10/13 [00:19<00:05,  1.94s/it, loss=18.7, v_num=p77d]Epoch 9:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:19<00:03,  1.77s/it, loss=18.7, v_num=p77d]Epoch 9:  85%|█████████████████████████████████████████████████████████████████████████████████████████████                 | 11/13 [00:19<00:03,  1.77s/it, loss=18.7, v_num=p77d]Epoch 9:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:19<00:01,  1.63s/it, loss=18.7, v_num=p77d]Epoch 9:  92%|█████████████████████████████████████████████████████████████████████████████████████████████████████▌        | 12/13 [00:19<00:01,  1.63s/it, loss=17.8, v_num=p77d]Epoch 9: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:19<00:00,  1.51s/it, loss=17.8, v_num=p77d]Epoch 9: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13/13 [00:19<00:00,  1.51s/it, loss=16.9, v_num=p77d]
+Validation: 0it [00:00, ?it/s][A
+Validation:   0%|                                                                                                                                            | 0/4 [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|                                                                                                                               | 0/4 [00:00<?, ?it/s][A
+Validation DataLoader 0:  25%|█████████████████████████████▊                                                                                         | 1/4 [00:00<00:00, 21.90it/s][AEpoch 9: : 14it [00:39,  2.83s/it, loss=16.9, v_num=p77d]                                                                                                                          
+Validation DataLoader 0:  50%|███████████████████████████████████████████████████████████▌                                                           | 2/4 [00:00<00:00, 22.15it/s][AEpoch 9: : 15it [00:39,  2.64s/it, loss=16.9, v_num=p77d]
+Validation DataLoader 0:  75%|█████████████████████████████████████████████████████████████████████████████████████████▎                             | 3/4 [00:00<00:00, 18.88it/s][AEpoch 9: : 16it [00:39,  2.48s/it, loss=16.9, v_num=p77d]
+Validation DataLoader 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 19.01it/s][AEpoch 9: : 17it [00:39,  2.34s/it, loss=16.9, v_num=p77d]Epoch 9: : 17it [00:39,  2.34s/it, loss=16.9, v_num=p77d]
+                                                                                                                                                                                   [AEpoch 9: : 17it [00:40,  2.36s/it, loss=16.9, v_num=p77d]Epoch 9: : 17it [00:40,  2.37s/it, loss=16.9, v_num=p77d]
+Testing: 0it [00:00, ?it/s]Testing:   0%|                                                                                                                                               | 0/4 [00:00<?, ?it/s]Testing DataLoader 0:   0%|                                                                                                                                  | 0/4 [00:00<?, ?it/s]Testing DataLoader 0:  25%|██████████████████████████████▌                                                                                           | 1/4 [00:00<00:00, 16.81it/s]Testing DataLoader 0:  50%|█████████████████████████████████████████████████████████████                                                             | 2/4 [00:00<00:00, 18.96it/s]Testing DataLoader 0:  75%|███████████████████████████████████████████████████████████████████████████████████████████▌                              | 3/4 [00:00<00:00, 20.24it/s]Testing DataLoader 0: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 21.05it/s]Testing DataLoader 0: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 19.13it/s]
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    test/beta_h2_loss       13.325050506491209
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────

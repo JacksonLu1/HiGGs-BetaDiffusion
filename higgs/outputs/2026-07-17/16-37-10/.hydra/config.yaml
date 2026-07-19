@@ -1,0 +1,62 @@
+general:
+  name: sbm
+  wandb: online
+  gpus: 1
+  root_path: E:\HiGGs-main1\HiGGs-main\data
+  h1_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_h1.ckpt
+  glue_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_glue.ckpt
+  h2_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_beta_h2_r1_test.ckpt
+  h2_model_family: beta_h2
+  samples_to_generate: 1
+  h1_batch_size: 16
+  glue_batch_size: 5
+  visualize: true
+  intermediate_figures: true
+model:
+  type: discrete
+  transition: marginal
+  model: graph_tf
+  diffusion_steps: 100
+  diffusion_noise_schedule: cosine
+  n_layers: 4
+  extra_features: cycles
+  hidden_mlp_dims:
+    X: 32
+    E: 32
+    'y': 32
+  hidden_dims:
+    dx: 32
+    de: 32
+    dy: 32
+    n_head: 8
+    dim_ffX: 32
+    dim_ffE: 32
+    dim_ffy: 32
+  lambda_train:
+  - 5
+  - 0
+train:
+  n_epochs: 5000
+  batch_size: 8
+  lr: 0.0002
+  clip_grad: null
+  save_model: true
+  num_workers: 8
+  ema_decay: 0
+  progress_bar: true
+  weight_decay: 1.0e-12
+  optimizer: adamw
+  amsgrad: true
+  overfit: false
+  seed: 0
+dataset:
+  name: sbm
+  datadir: data/sbm/
+  h: 1
+  random_subset: null
+  pin_memory: false
+  subsample: false
+  resolution: 2
+  max_size: 500
+  regime: majority
+  dataset_testing: false

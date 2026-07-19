@@ -1,0 +1,36 @@
+2026-07-18 14:56:42,606 INFO    MainThread:49428 [wandb_setup.py:_flush():81] Current SDK version is 0.26.0
+2026-07-18 14:56:42,606 INFO    MainThread:49428 [wandb_setup.py:_flush():81] Configure stats pid to 49428
+2026-07-18 14:56:42,606 INFO    MainThread:49428 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-07-18 14:56:42,607 INFO    MainThread:49428 [wandb_init.py:setup_run_log_directory():721] Logging user logs to E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\wandb\run-20260718_145642-aj1lzagi\logs\debug.log
+2026-07-18 14:56:42,607 INFO    MainThread:49428 [wandb_init.py:setup_run_log_directory():722] Logging internal logs to E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\wandb\run-20260718_145642-aj1lzagi\logs\debug-internal.log
+2026-07-18 14:56:42,607 INFO    MainThread:49428 [wandb_init.py:init():848] calling init triggers
+2026-07-18 14:56:42,607 INFO    MainThread:49428 [wandb_init.py:init():853] wandb.init called with sweep_config: {}
+config: {'general': {'name': 'sbm', 'wandb': 'online', 'gpus': 1, 'root_path': 'E:/HiGGs-GBD/HiGGs-main/data', 'h1_model': 'E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_h1.ckpt', 'glue_model': 'E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_glue.ckpt', 'h2_model': 'E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_beta_h2_r1_best.ckpt', 'h2_model_family': 'beta_h2', 'samples_to_generate': 40, 'h1_batch_size': 16, 'glue_batch_size': 5, 'visualize': True, 'intermediate_figures': True}, 'model': {'type': 'discrete', 'transition': 'marginal', 'model': 'graph_tf', 'diffusion_steps': 100, 'diffusion_noise_schedule': 'cosine', 'n_layers': 4, 'extra_features': 'cycles', 'hidden_mlp_dims': {'X': 32, 'E': 32, 'y': 32}, 'hidden_dims': {'dx': 32, 'de': 32, 'dy': 32, 'n_head': 8, 'dim_ffX': 32, 'dim_ffE': 32, 'dim_ffy': 32}, 'lambda_train': [5, 0]}, 'train': {'n_epochs': 5000, 'batch_size': 8, 'lr': 0.0002, 'clip_grad': None, 'save_model': True, 'num_workers': 8, 'ema_decay': 0, 'progress_bar': True, 'weight_decay': 1e-12, 'optimizer': 'adamw', 'amsgrad': True, 'overfit': False, 'seed': 0}, 'dataset': {'name': 'sbm', 'datadir': 'data/sbm/', 'h': 2, 'random_subset': None, 'pin_memory': False, 'subsample': False, 'resolution': 1, 'max_size': 500, 'regime': 'majority', 'dataset_testing': False}, '_wandb': {}}
+2026-07-18 14:56:42,607 INFO    MainThread:49428 [wandb_init.py:init():896] starting backend
+2026-07-18 14:56:45,128 INFO    MainThread:49428 [wandb_init.py:init():911] sending inform_init request
+2026-07-18 14:56:45,152 INFO    MainThread:49428 [wandb_init.py:init():919] backend started and connected
+2026-07-18 14:56:45,153 INFO    MainThread:49428 [wandb_init.py:init():989] updated telemetry
+2026-07-18 14:56:45,158 INFO    MainThread:49428 [wandb_init.py:init():1013] communicating run to backend with 90.0 second timeout
+2026-07-18 14:56:47,376 INFO    MainThread:49428 [wandb_init.py:init():1058] starting run threads in backend
+2026-07-18 14:56:49,652 INFO    MainThread:49428 [wandb_run.py:_console_start():2542] atexit reg
+2026-07-18 14:56:49,653 INFO    MainThread:49428 [wandb_run.py:_redirect():2391] redirect: wrap_raw
+2026-07-18 14:56:49,653 INFO    MainThread:49428 [wandb_run.py:_redirect():2460] Wrapping output streams.
+2026-07-18 14:56:49,653 INFO    MainThread:49428 [wandb_run.py:_redirect():2483] Redirects installed.
+2026-07-18 14:56:49,659 INFO    MainThread:49428 [wandb_init.py:init():1098] run started, returning control to user process
+2026-07-18 15:27:21,492 INFO    wandb-AsyncioManager-main:49428 [service_client.py:_forward_responses():134] Reached EOF.
+2026-07-18 15:27:21,492 INFO    wandb-AsyncioManager-main:49428 [mailbox.py:close():155] Closing mailbox, abandoning 1 handles.
+2026-07-18 15:27:23,367 ERROR   wandb-AsyncioManager-main:49428 [asyncio_manager.py:fn_wrap_exceptions():184] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\wandb\sdk\lib\asyncio_manager.py", line 182, in fn_wrap_exceptions
+    await fn()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\wandb\sdk\lib\service\service_client.py", line 45, in publish
+    await self._send_server_request(request)
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\wandb\sdk\lib\service\service_client.py", line 87, in _send_server_request
+    await self._drain_writer()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\wandb\sdk\lib\service\service_client.py", line 96, in _drain_writer
+    await self._writer.drain()
+  File "E:\ANACONDA\envs\higgs_env\lib\asyncio\streams.py", line 371, in drain
+    await self._protocol._drain_helper()
+  File "E:\ANACONDA\envs\higgs_env\lib\asyncio\streams.py", line 167, in _drain_helper
+    raise ConnectionResetError('Connection lost')
+ConnectionResetError: Connection lost

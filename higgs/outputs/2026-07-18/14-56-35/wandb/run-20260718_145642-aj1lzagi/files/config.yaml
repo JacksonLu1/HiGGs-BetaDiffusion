@@ -1,0 +1,137 @@
+_wandb:
+    value:
+        cli_version: 0.26.0
+        e:
+            y92s5kpzoukph0wwene7g3c26838epn8:
+                args:
+                    - general=sample_sbm
+                    - dataset=sbm_r1
+                    - general.root_path=E:/HiGGs-GBD/HiGGs-main/data
+                    - general.h2_model_family=beta_h2
+                    - general.h2_model=E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_beta_h2_r1_best.ckpt
+                    - general.h1_model=E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_h1.ckpt
+                    - general.glue_model=E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_glue.ckpt
+                    - general.samples_to_generate=40
+                codePath: ..\..\..\sample_main.py
+                codePathLocal: ..\..\..\sample_main.py
+                cpu_count: 14
+                cpu_count_logical: 20
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "509721178112"
+                        used: "403889938432"
+                email: jacksonlu888888@gmail.com
+                executable: E:\ANACONDA\envs\higgs_env\python.exe
+                gpu: NVIDIA GeForce RTX 4060 Laptop GPU
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ada
+                      cudaCores: 3072
+                      memoryTotal: "8585740288"
+                      name: NVIDIA GeForce RTX 4060 Laptop GPU
+                      uuid: GPU-4b17f54f-a4d9-cf3f-6938-c2bb99a78d6d
+                host: LAPTOP-PDC6D1VT
+                memory:
+                    total: "25551560704"
+                os: Windows-10-10.0.22631-SP0
+                program: E:\HiGGs-GBD\HiGGs-main\higgs\sample_main.py
+                python: CPython 3.10.20
+                root: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35
+                startedAt: "2026-07-18T06:56:42.602085Z"
+                writerId: y92s5kpzoukph0wwene7g3c26838epn8
+        m: []
+        python_version: 3.10.20
+        t:
+            "1":
+                - 1
+                - 9
+                - 41
+                - 50
+                - 51
+                - 77
+            "2":
+                - 1
+                - 9
+                - 41
+                - 50
+                - 51
+                - 77
+            "3":
+                - 3
+                - 13
+                - 16
+            "4": 3.10.20
+            "5": 0.26.0
+            "8":
+                - 3
+            "10":
+                - 20
+            "12": 0.26.0
+            "13": windows-amd64
+dataset:
+    value:
+        datadir: data/sbm/
+        dataset_testing: false
+        h: 2
+        max_size: 500
+        name: sbm
+        pin_memory: false
+        random_subset: null
+        regime: majority
+        resolution: 1
+        subsample: false
+general:
+    value:
+        glue_batch_size: 5
+        glue_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_glue.ckpt
+        gpus: 1
+        h1_batch_size: 16
+        h1_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_h1.ckpt
+        h2_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_beta_h2_r1_best.ckpt
+        h2_model_family: beta_h2
+        intermediate_figures: true
+        name: sbm
+        root_path: E:/HiGGs-GBD/HiGGs-main/data
+        samples_to_generate: 40
+        visualize: true
+        wandb: online
+model:
+    value:
+        diffusion_noise_schedule: cosine
+        diffusion_steps: 100
+        extra_features: cycles
+        hidden_dims:
+            de: 32
+            dim_ffE: 32
+            dim_ffX: 32
+            dim_ffy: 32
+            dx: 32
+            dy: 32
+            n_head: 8
+        hidden_mlp_dims:
+            E: 32
+            X: 32
+            "y": 32
+        lambda_train:
+            - 5
+            - 0
+        model: graph_tf
+        n_layers: 4
+        transition: marginal
+        type: discrete
+train:
+    value:
+        amsgrad: true
+        batch_size: 8
+        clip_grad: null
+        ema_decay: 0
+        lr: 0.0002
+        n_epochs: 5000
+        num_workers: 8
+        optimizer: adamw
+        overfit: false
+        progress_bar: true
+        save_model: true
+        seed: 0
+        weight_decay: 1e-12

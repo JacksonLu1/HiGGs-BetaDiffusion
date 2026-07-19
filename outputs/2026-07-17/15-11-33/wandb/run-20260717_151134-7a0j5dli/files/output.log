@@ -1,0 +1,24 @@
+[34m[1mwandb[0m: [33mWARNING[0m `wandb.require('service')` is a no-op as it is now the default behavior.
+Entered SBM datamodule __init__
+Finished SBM datamodule __init__
+Error executing job with overrides: ['dataset=sbm', 'dataset.h=2', 'model=beta_h2', 'model.diffusion_steps=100', 'model.eta_strategy=fixed', 'train.n_epochs=5', 'general.name=sbm_beta_h2_fixed_T100_e5']
+Traceback (most recent call last):
+  File "E:\HiGGs-GBD\HiGGs-main\dgd\main.py", line 276, in main
+    datamodule.prepare_data()
+  File "E:\HiGGs-GBD\HiGGs-main\dgd\datasets\sbm_hierarchies.py", line 821, in prepare_data
+    datasets = {'train': SBMDataset(stage='train',
+  File "E:\HiGGs-GBD\HiGGs-main\dgd\datasets\sbm_hierarchies.py", line 105, in __init__
+    super().__init__(root, None, None, None)
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch_geometric\data\in_memory_dataset.py", line 81, in __init__
+    super().__init__(root, transform, pre_transform, pre_filter, log,
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch_geometric\data\dataset.py", line 115, in __init__
+    self._process()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch_geometric\data\dataset.py", line 239, in _process
+    if not self.force_reload and osp.exists(f) and torch.load(
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\serialization.py", line 1028, in load
+    return _legacy_load(opened_file, map_location, pickle_module, **pickle_load_args)
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\serialization.py", line 1246, in _legacy_load
+    magic_number = pickle_module.load(f, **pickle_load_args)
+_pickle.UnpicklingError: invalid load key, 'v'.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

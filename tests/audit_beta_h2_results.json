@@ -1,0 +1,2206 @@
+{
+  "checkpoint_routing": {
+    "beta_explicit_family": {
+      "checkpoint_exists": true,
+      "loaded_checkpoint_path": "E:\\HiGGs-GBD\\HiGGs-main\\outputs\\2026-07-17\\11-25-47\\checkpoints\\beta_h2_fixed_kl_audit_epoch\\last.ckpt",
+      "loaded_class": "ConditionalGraphBetaDiffusionH2"
+    },
+    "glue_discrete": {
+      "checkpoint_exists": true,
+      "loaded_checkpoint_path": "E:\\HiGGs-main1\\HiGGs-main\\saved_models\\sbm\\sbm_glue.ckpt",
+      "loaded_class": "DiscreteDenoisingDiffusion"
+    },
+    "h1_discrete": {
+      "checkpoint_exists": true,
+      "loaded_checkpoint_path": "E:\\HiGGs-main1\\HiGGs-main\\saved_models\\sbm\\sbm_h1.ckpt",
+      "loaded_class": "DiscreteDenoisingDiffusion"
+    },
+    "legacy_missing_family": {
+      "checkpoint_exists": true,
+      "loaded_checkpoint_path": "E:\\HiGGs-main1\\HiGGs-main\\saved_models\\sbm\\sbm_h2.ckpt",
+      "loaded_class": "DiscreteDenoisingDiffusion"
+    }
+  },
+  "condition_perturbation": {
+    "fixed_production_default": {
+      "continuous_edge_score": {
+        "count": 560,
+        "max": 0.8842549324035645,
+        "mean": 0.5637369257264904,
+        "median": 0.5677567720413208,
+        "min": 0.2014617919921875,
+        "q05": 0.3572121858596802,
+        "q25": 0.4837615266442299,
+        "q75": 0.6451066732406616,
+        "q95": 0.7529026597738265,
+        "std": 0.11845819041754853
+      },
+      "raw": {
+        "clustering": {
+          "count": 20,
+          "max": 0.8773809523809525,
+          "mean": 0.7198511904761904,
+          "median": 0.724404761904762,
+          "min": 0.5583333333333333,
+          "q05": 0.5622916666666666,
+          "q25": 0.6770833333333333,
+          "q75": 0.7547619047619047,
+          "q95": 0.8705952380952381,
+          "std": 0.08656392617545314
+        },
+        "complete_fraction": 0.0,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 160,
+          "max": 7.0,
+          "mean": 4.9875,
+          "median": 5.0,
+          "min": 1.0,
+          "q05": 3.0,
+          "q25": 4.0,
+          "q75": 6.0,
+          "q95": 7.0,
+          "std": 1.2195670338279894
+        },
+        "density": {
+          "count": 20,
+          "max": 0.8571428571428571,
+          "mean": 0.7125000000000001,
+          "median": 0.7142857142857143,
+          "min": 0.5357142857142857,
+          "q05": 0.6035714285714285,
+          "q25": 0.6696428571428572,
+          "q75": 0.7589285714285714,
+          "q95": 0.8571428571428571,
+          "std": 0.08181222277825217
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 24.0,
+          "mean": 19.95,
+          "median": 20.0,
+          "min": 15.0,
+          "q05": 16.9,
+          "q25": 18.75,
+          "q75": 21.25,
+          "q95": 24.0,
+          "std": 2.290742237791062
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 8.0,
+          "mean": 8.0,
+          "median": 8.0,
+          "min": 8.0,
+          "q05": 8.0,
+          "q25": 8.0,
+          "q75": 8.0,
+          "q95": 8.0,
+          "std": 0.0
+        },
+        "single_node_fraction": 0.0
+      }
+    },
+    "onehot_0": {
+      "continuous_edge_score": {
+        "count": 560,
+        "max": 0.8842549324035645,
+        "mean": 0.5637369257264904,
+        "median": 0.5677567720413208,
+        "min": 0.2014617919921875,
+        "q05": 0.3572121858596802,
+        "q25": 0.4837615266442299,
+        "q75": 0.6451066732406616,
+        "q95": 0.7529026597738265,
+        "std": 0.11845819041754853
+      },
+      "raw": {
+        "clustering": {
+          "count": 20,
+          "max": 0.8773809523809525,
+          "mean": 0.7198511904761904,
+          "median": 0.724404761904762,
+          "min": 0.5583333333333333,
+          "q05": 0.5622916666666666,
+          "q25": 0.6770833333333333,
+          "q75": 0.7547619047619047,
+          "q95": 0.8705952380952381,
+          "std": 0.08656392617545314
+        },
+        "complete_fraction": 0.0,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 160,
+          "max": 7.0,
+          "mean": 4.9875,
+          "median": 5.0,
+          "min": 1.0,
+          "q05": 3.0,
+          "q25": 4.0,
+          "q75": 6.0,
+          "q95": 7.0,
+          "std": 1.2195670338279894
+        },
+        "density": {
+          "count": 20,
+          "max": 0.8571428571428571,
+          "mean": 0.7125000000000001,
+          "median": 0.7142857142857143,
+          "min": 0.5357142857142857,
+          "q05": 0.6035714285714285,
+          "q25": 0.6696428571428572,
+          "q75": 0.7589285714285714,
+          "q95": 0.8571428571428571,
+          "std": 0.08181222277825217
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 24.0,
+          "mean": 19.95,
+          "median": 20.0,
+          "min": 15.0,
+          "q05": 16.9,
+          "q25": 18.75,
+          "q75": 21.25,
+          "q95": 24.0,
+          "std": 2.290742237791062
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 8.0,
+          "mean": 8.0,
+          "median": 8.0,
+          "min": 8.0,
+          "q05": 8.0,
+          "q25": 8.0,
+          "q75": 8.0,
+          "q95": 8.0,
+          "std": 0.0
+        },
+        "single_node_fraction": 0.0
+      }
+    },
+    "onehot_1": {
+      "continuous_edge_score": {
+        "count": 560,
+        "max": 0.8762959837913513,
+        "mean": 0.5492422139272094,
+        "median": 0.5525065660476685,
+        "min": 0.19341649115085602,
+        "q05": 0.34402118921279906,
+        "q25": 0.46929480135440826,
+        "q75": 0.629455104470253,
+        "q95": 0.7377425253391265,
+        "std": 0.11794575911083391
+      },
+      "raw": {
+        "clustering": {
+          "count": 20,
+          "max": 0.8363095238095237,
+          "mean": 0.6797321428571428,
+          "median": 0.705654761904762,
+          "min": 0.39999999999999997,
+          "q05": 0.5504166666666667,
+          "q25": 0.6145833333333334,
+          "q75": 0.7422619047619048,
+          "q95": 0.7933333333333333,
+          "std": 0.09813497428977537
+        },
+        "complete_fraction": 0.0,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 160,
+          "max": 7.0,
+          "mean": 4.75,
+          "median": 5.0,
+          "min": 1.0,
+          "q05": 3.0,
+          "q25": 4.0,
+          "q75": 5.25,
+          "q95": 7.0,
+          "std": 1.2093386622447824
+        },
+        "density": {
+          "count": 20,
+          "max": 0.8214285714285714,
+          "mean": 0.6785714285714286,
+          "median": 0.6785714285714286,
+          "min": 0.5357142857142857,
+          "q05": 0.5696428571428571,
+          "q25": 0.6428571428571429,
+          "q75": 0.7142857142857143,
+          "q95": 0.8214285714285714,
+          "std": 0.0686978002202548
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 23.0,
+          "mean": 19.0,
+          "median": 19.0,
+          "min": 15.0,
+          "q05": 15.95,
+          "q25": 18.0,
+          "q75": 20.0,
+          "q95": 23.0,
+          "std": 1.9235384061671346
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 8.0,
+          "mean": 8.0,
+          "median": 8.0,
+          "min": 8.0,
+          "q05": 8.0,
+          "q25": 8.0,
+          "q75": 8.0,
+          "q95": 8.0,
+          "std": 0.0
+        },
+        "single_node_fraction": 0.0
+      }
+    },
+    "paired_effect_same_noise": {
+      "default_vs_onehot0_edge_score_mae": 0.0,
+      "onehot0_vs_onehot1_discrete_pair_change_fraction": 0.03392857313156128,
+      "onehot0_vs_onehot1_edge_score_mae": 0.014494712464511395
+    }
+  },
+  "effective_h2_condition": [
+    [
+      1.0,
+      0.0
+    ]
+  ],
+  "environment": {
+    "checkpoint": "E:\\HiGGs-GBD\\HiGGs-main\\outputs\\2026-07-17\\11-25-47\\checkpoints\\beta_h2_fixed_kl_audit_epoch\\last.ckpt",
+    "checkpoint_T": 5,
+    "cuda_available": true,
+    "device": "cuda",
+    "formal_config_T": 100,
+    "torch": "2.1.0+cu118"
+  },
+  "klub_precision": {
+    "float32_vs_float64": [
+      {
+        "mean_kl_float64": 0.0012618978914190953,
+        "mean_kl_production_float32": 0.0012618978914190953,
+        "noise_scale": 0.01,
+        "positive_kl_zeroed_fraction": 0.0,
+        "step": 0
+      },
+      {
+        "mean_kl_float64": 1.4747302724648544e-05,
+        "mean_kl_production_float32": 1.4747302724648747e-05,
+        "noise_scale": 0.001,
+        "positive_kl_zeroed_fraction": 0.0,
+        "step": 0
+      },
+      {
+        "mean_kl_float64": 0.0012447931458469156,
+        "mean_kl_production_float32": 0.0012447931458469156,
+        "noise_scale": 0.01,
+        "positive_kl_zeroed_fraction": 0.0,
+        "step": 10
+      },
+      {
+        "mean_kl_float64": 1.5135960355498365e-05,
+        "mean_kl_production_float32": 1.5135960355498365e-05,
+        "noise_scale": 0.001,
+        "positive_kl_zeroed_fraction": 0.0,
+        "step": 10
+      },
+      {
+        "mean_kl_float64": 0.0015323166870135827,
+        "mean_kl_production_float32": 0.0015323166870135827,
+        "noise_scale": 0.01,
+        "positive_kl_zeroed_fraction": 0.0,
+        "step": 50
+      },
+      {
+        "mean_kl_float64": 1.815763254029502e-05,
+        "mean_kl_production_float32": 1.815763254029613e-05,
+        "noise_scale": 0.001,
+        "positive_kl_zeroed_fraction": 0.0,
+        "step": 50
+      },
+      {
+        "mean_kl_float64": 0.0012767157443977096,
+        "mean_kl_production_float32": 0.0012767157443977096,
+        "noise_scale": 0.01,
+        "positive_kl_zeroed_fraction": 0.0,
+        "step": 99
+      },
+      {
+        "mean_kl_float64": 1.792892994968249e-05,
+        "mean_kl_production_float32": 1.792892994968249e-05,
+        "noise_scale": 0.001,
+        "positive_kl_zeroed_fraction": 0.0,
+        "step": 99
+      }
+    ],
+    "gamma_floor": [
+      {
+        "fraction_exactly_legacy_beta_eps": 0.0,
+        "log_finite": true,
+        "minimum": 1.1754943508222875e-38,
+        "shape": 5.3e-06
+      },
+      {
+        "fraction_exactly_legacy_beta_eps": 0.0,
+        "log_finite": true,
+        "minimum": 1.1754943508222875e-38,
+        "shape": 2e-05
+      },
+      {
+        "fraction_exactly_legacy_beta_eps": 0.0,
+        "log_finite": true,
+        "minimum": 1.1754943508222875e-38,
+        "shape": 0.000224
+      }
+    ]
+  },
+  "legacy_cached_real_train_y_counts": {
+    "0": 64,
+    "1": 64
+  },
+  "mixed_batch_eta_and_gradient": {
+    "E_shape": [
+      2,
+      7,
+      7,
+      1
+    ],
+    "X_shape": [
+      2,
+      7,
+      2
+    ],
+    "eta_same_storage_forward_to_loss": true,
+    "eta_same_values_forward_to_loss": true,
+    "gradients_finite": true,
+    "loss": 13.982842786298104,
+    "loss_finite": true,
+    "metrics": {
+      "E_loss": 2.216827628528226,
+      "X_loss": 2.8987046436569757,
+      "correction_loss": 22.488358300327036,
+      "inf_count": 0.0,
+      "inf_kl_count": 0.0,
+      "invalid_parameter_count": 0.0,
+      "loss": 13.982842786298104,
+      "materially_negative_count": 0.0,
+      "max_beta_parameter": 100.0,
+      "max_valid_kl": 20.019091312384678,
+      "mean_valid_kl": 3.2689597641760595,
+      "min_beta_parameter": 9.999999974752427e-07,
+      "min_valid_kl": 0.0,
+      "nan_count": 0.0,
+      "nan_kl_count": 0.0,
+      "positive_kl_count": 56.0,
+      "sampling_loss": 13.8969284881766,
+      "tiny_negative_count": 0.0,
+      "valid_edge_pair_count": 27.0,
+      "valid_element_count": 49.0,
+      "valid_node_count": 11.0,
+      "zero_kl_count": 42.0
+    },
+    "node_counts": [
+      4,
+      7
+    ],
+    "valid_upper_edge_pairs": 27
+  },
+  "mode_smokes": [
+    {
+      "eta_strategy": "fixed",
+      "finite": true,
+      "inf_count": 0.0,
+      "input_space": "logit",
+      "loss": 20.3354968292848,
+      "max_beta_parameter": 100.0,
+      "min_beta_parameter": 9.999999974752427e-07,
+      "nan_count": 0.0,
+      "pre_condition": false
+    },
+    {
+      "eta_strategy": "fixed",
+      "finite": true,
+      "inf_count": 0.0,
+      "input_space": "original",
+      "loss": 6.218935155676039,
+      "max_beta_parameter": 100.0,
+      "min_beta_parameter": 9.999999974752427e-07,
+      "nan_count": 0.0,
+      "pre_condition": false
+    },
+    {
+      "eta_strategy": "degree",
+      "finite": true,
+      "inf_count": 0.0,
+      "input_space": "logit",
+      "loss": 6.580727816337482,
+      "max_beta_parameter": 200.0,
+      "min_beta_parameter": 9.999999974752427e-07,
+      "nan_count": 0.0,
+      "pre_condition": true
+    }
+  ],
+  "numerical": {
+    "alpha_t0": 0.9999545812606812,
+    "alpha_t1": 2.2603242086915998e-06,
+    "formal_T100_reverse_parameter_ranges": [
+      {
+        "a_max": 5.786718406852742e-05,
+        "a_min": 5.2606530971388565e-06,
+        "alpha_s": 2.844841219484806e-06,
+        "alpha_t": 2.2603242086915998e-06,
+        "b_max": 99.99997439642902,
+        "b_min": 99.99971836071927,
+        "step": 0
+      },
+      {
+        "a_max": 7.28314903426508e-05,
+        "a_min": 6.621044576604618e-06,
+        "alpha_s": 3.5805128391075414e-06,
+        "alpha_t": 2.844841219484806e-06,
+        "b_max": 99.99996777538445,
+        "b_min": 99.99964552922893,
+        "step": 1
+      },
+      {
+        "a_max": 9.166555719275493e-05,
+        "a_min": 8.33323247206863e-06,
+        "alpha_s": 4.506427558226278e-06,
+        "alpha_t": 3.5805128391075414e-06,
+        "b_max": 99.99995944215198,
+        "b_min": 99.99955386367174,
+        "step": 2
+      },
+      {
+        "a_max": 0.0018410682678222656,
+        "a_min": 0.00016736984252929688,
+        "alpha_s": 0.9999281167984009,
+        "alpha_t": 0.999909520149231,
+        "b_max": 91.00064694881439,
+        "b_min": 1.0071164369583108,
+        "step": 97
+      },
+      {
+        "a_max": 0.0014634132385253906,
+        "a_min": 0.00013303756713867188,
+        "alpha_s": 0.9999428987503052,
+        "alpha_t": 0.9999281167984009,
+        "b_max": 91.00051391124725,
+        "b_min": 1.005653023719788,
+        "step": 98
+      },
+      {
+        "a_max": 0.0011565685272216797,
+        "a_min": 0.00010514259338378906,
+        "alpha_s": 0.9999545812606812,
+        "alpha_t": 0.9999428987503052,
+        "b_max": 91.00040876865387,
+        "b_min": 1.0044964551925717,
+        "step": 99
+      }
+    ],
+    "forward_logit_finite": true,
+    "forward_original_finite": true,
+    "forward_parameter_max": 99.99977111816406,
+    "forward_parameter_min": 0.00022377210552804172,
+    "precondition_mean_finite": true,
+    "precondition_std_finite": true,
+    "precondition_std_min": 0.358562707901001,
+    "reverse_logit_finite": true,
+    "reverse_parameter_max": 99.99797821044922,
+    "reverse_parameter_min": 0.0020030089654028416
+  },
+  "real_train_h2": {
+    "clustering": {
+      "count": 128,
+      "max": 1.0,
+      "mean": 0.8744335185936749,
+      "median": 0.9,
+      "min": 0.5583333333333332,
+      "q05": 0.6420833333333333,
+      "q25": 0.7903373015873015,
+      "q75": 1.0,
+      "q95": 1.0,
+      "std": 0.12123103630735509
+    },
+    "complete_fraction": 0.3046875,
+    "connected_fraction": 1.0,
+    "degree": {
+      "count": 839,
+      "max": 9.0,
+      "mean": 4.748510131108462,
+      "median": 4.0,
+      "min": 1.0,
+      "q05": 3.0,
+      "q25": 4.0,
+      "q75": 6.0,
+      "q95": 8.0,
+      "std": 1.4598053806249012
+    },
+    "density": {
+      "count": 128,
+      "max": 1.0,
+      "mean": 0.8470683396464648,
+      "median": 0.8888888888888888,
+      "min": 0.5238095238095238,
+      "q05": 0.575595238095238,
+      "q25": 0.75,
+      "q75": 1.0,
+      "q95": 1.0,
+      "std": 0.1444441926980607
+    },
+    "edgeless_fraction": 0.0,
+    "edges": {
+      "count": 128,
+      "max": 40.0,
+      "mean": 15.5625,
+      "median": 13.0,
+      "min": 6.0,
+      "q05": 7.3500000000000005,
+      "q25": 10.0,
+      "q75": 20.0,
+      "q95": 32.64999999999999,
+      "std": 7.832973174344465
+    },
+    "isolated_node_fraction": 0.0,
+    "n_graphs": 128,
+    "nodes": {
+      "count": 128,
+      "max": 11.0,
+      "mean": 6.5546875,
+      "median": 6.0,
+      "min": 4.0,
+      "q05": 5.0,
+      "q25": 5.0,
+      "q75": 8.0,
+      "q95": 10.0,
+      "std": 1.793253824014813
+    },
+    "single_node_fraction": 0.0
+  },
+  "real_validation_h2": {
+    "clustering": {
+      "count": 32,
+      "max": 1.0,
+      "mean": 0.8319779265873015,
+      "median": 0.8466666666666667,
+      "min": 0.5277777777777778,
+      "q05": 0.6252380952380953,
+      "q25": 0.7166666666666668,
+      "q75": 1.0,
+      "q95": 1.0,
+      "std": 0.1393285955484356
+    },
+    "complete_fraction": 0.28125,
+    "connected_fraction": 1.0,
+    "degree": {
+      "count": 217,
+      "max": 9.0,
+      "mean": 4.691244239631336,
+      "median": 5.0,
+      "min": 1.0,
+      "q05": 3.0,
+      "q25": 4.0,
+      "q75": 6.0,
+      "q95": 7.199999999999989,
+      "std": 1.5153794737832473
+    },
+    "density": {
+      "count": 32,
+      "max": 1.0,
+      "mean": 0.8080853174603174,
+      "median": 0.8,
+      "min": 0.5357142857142857,
+      "q05": 0.5964285714285714,
+      "q25": 0.6666666666666666,
+      "q75": 1.0,
+      "q95": 1.0,
+      "std": 0.14954309105398045
+    },
+    "edgeless_fraction": 0.0,
+    "edges": {
+      "count": 32,
+      "max": 38.0,
+      "mean": 15.90625,
+      "median": 14.0,
+      "min": 6.0,
+      "q05": 6.55,
+      "q25": 10.0,
+      "q75": 21.25,
+      "q95": 29.9,
+      "std": 7.493160944321161
+    },
+    "isolated_node_fraction": 0.0,
+    "n_graphs": 32,
+    "nodes": {
+      "count": 32,
+      "max": 10.0,
+      "mean": 6.78125,
+      "median": 6.0,
+      "min": 4.0,
+      "q05": 4.55,
+      "q25": 5.0,
+      "q75": 8.25,
+      "q95": 9.45,
+      "std": 1.7630650689920664
+    },
+    "single_node_fraction": 0.0
+  },
+  "threshold_sampling_100_each": {
+    "0.3": {
+      "all_tensor_invariants_pass": true,
+      "continuous_edge_score": {
+        "count": 458,
+        "max": 0.8520888090133667,
+        "mean": 0.5741232145236048,
+        "median": 0.5799410939216614,
+        "min": 0.18745841085910797,
+        "q05": 0.3729590803384781,
+        "q25": 0.5007743239402771,
+        "q75": 0.6513038128614426,
+        "q95": 0.7504131257534027,
+        "std": 0.11329602086749647
+      },
+      "per_seed": [
+        {
+          "output_density_mean": 1.0,
+          "raw_density_mean": 1.0,
+          "seed": 0
+        },
+        {
+          "output_density_mean": 0.9513888888888888,
+          "raw_density_mean": 0.9513888888888888,
+          "seed": 1
+        },
+        {
+          "output_density_mean": 0.9930555555555556,
+          "raw_density_mean": 0.9930555555555556,
+          "seed": 2
+        },
+        {
+          "output_density_mean": 0.9930555555555556,
+          "raw_density_mean": 0.9930555555555556,
+          "seed": 3
+        },
+        {
+          "output_density_mean": 0.9954545454545455,
+          "raw_density_mean": 0.9954545454545455,
+          "seed": 4
+        }
+      ],
+      "public_output_after_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.9865909090909091,
+          "median": 1.0,
+          "min": 0.8333333333333333,
+          "q05": 0.9652777777777778,
+          "q25": 0.9954545454545455,
+          "q75": 1.0,
+          "q95": 1.0,
+          "std": 0.03662451141300319
+        },
+        "complete_fraction": 0.75,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 10.0,
+          "mean": 6.517985611510792,
+          "median": 7.0,
+          "min": 2.0,
+          "q05": 3.0,
+          "q25": 5.0,
+          "q75": 8.0,
+          "q95": 10.0,
+          "std": 2.0823082031799185
+        },
+        "density": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.9865909090909091,
+          "median": 1.0,
+          "min": 0.8333333333333334,
+          "q05": 0.9652777777777778,
+          "q25": 0.9954545454545455,
+          "q75": 1.0,
+          "q95": 1.0,
+          "std": 0.03662451141300317
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 54.0,
+          "mean": 22.65,
+          "median": 15.0,
+          "min": 5.0,
+          "q05": 5.95,
+          "q25": 10.0,
+          "q75": 35.0,
+          "q95": 45.45,
+          "std": 14.100620553720322
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "raw_before_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.9865909090909091,
+          "median": 1.0,
+          "min": 0.8333333333333333,
+          "q05": 0.9652777777777778,
+          "q25": 0.9954545454545455,
+          "q75": 1.0,
+          "q95": 1.0,
+          "std": 0.03662451141300319
+        },
+        "complete_fraction": 0.75,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 10.0,
+          "mean": 6.517985611510792,
+          "median": 7.0,
+          "min": 2.0,
+          "q05": 3.0,
+          "q25": 5.0,
+          "q75": 8.0,
+          "q95": 10.0,
+          "std": 2.0823082031799185
+        },
+        "density": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.9865909090909091,
+          "median": 1.0,
+          "min": 0.8333333333333334,
+          "q05": 0.9652777777777778,
+          "q25": 0.9954545454545455,
+          "q75": 1.0,
+          "q95": 1.0,
+          "std": 0.03662451141300317
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 54.0,
+          "mean": 22.65,
+          "median": 15.0,
+          "min": 5.0,
+          "q05": 5.95,
+          "q25": 10.0,
+          "q75": 35.0,
+          "q95": 45.45,
+          "std": 14.100620553720322
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "tensor_invariants_by_seed": [
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        }
+      ]
+    },
+    "0.35": {
+      "all_tensor_invariants_pass": true,
+      "continuous_edge_score": {
+        "count": 458,
+        "max": 0.8520888090133667,
+        "mean": 0.5741232145236048,
+        "median": 0.5799410939216614,
+        "min": 0.18745841085910797,
+        "q05": 0.3729590803384781,
+        "q25": 0.5007743239402771,
+        "q75": 0.6513038128614426,
+        "q95": 0.7504131257534027,
+        "std": 0.11329602086749647
+      },
+      "per_seed": [
+        {
+          "output_density_mean": 0.9527777777777778,
+          "raw_density_mean": 0.9527777777777778,
+          "seed": 0
+        },
+        {
+          "output_density_mean": 0.9027777777777778,
+          "raw_density_mean": 0.9027777777777778,
+          "seed": 1
+        },
+        {
+          "output_density_mean": 0.9771825396825398,
+          "raw_density_mean": 0.9771825396825398,
+          "seed": 2
+        },
+        {
+          "output_density_mean": 0.9861111111111112,
+          "raw_density_mean": 0.9861111111111112,
+          "seed": 3
+        },
+        {
+          "output_density_mean": 0.9819805194805196,
+          "raw_density_mean": 0.9819805194805196,
+          "seed": 4
+        }
+      ],
+      "public_output_after_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.956427368927369,
+          "median": 1.0,
+          "min": 0.5833333333333333,
+          "q05": 0.8208333333333333,
+          "q25": 0.9593073593073593,
+          "q75": 1.0,
+          "q95": 1.0,
+          "std": 0.09385441473205586
+        },
+        "complete_fraction": 0.55,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 10.0,
+          "mean": 6.388489208633094,
+          "median": 7.0,
+          "min": 1.0,
+          "q05": 3.0,
+          "q25": 5.0,
+          "q75": 8.0,
+          "q95": 9.099999999999994,
+          "std": 2.0897515991826454
+        },
+        "density": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.9601659451659452,
+          "median": 1.0,
+          "min": 0.6666666666666666,
+          "q05": 0.8250000000000001,
+          "q25": 0.9588383838383838,
+          "q75": 1.0,
+          "q95": 1.0,
+          "std": 0.07771109035264602
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 53.0,
+          "mean": 22.2,
+          "median": 15.0,
+          "min": 4.0,
+          "q05": 4.95,
+          "q25": 10.0,
+          "q75": 34.0,
+          "q95": 44.45,
+          "std": 13.869390758068647
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "raw_before_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.956427368927369,
+          "median": 1.0,
+          "min": 0.5833333333333333,
+          "q05": 0.8208333333333333,
+          "q25": 0.9593073593073593,
+          "q75": 1.0,
+          "q95": 1.0,
+          "std": 0.09385441473205586
+        },
+        "complete_fraction": 0.55,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 10.0,
+          "mean": 6.388489208633094,
+          "median": 7.0,
+          "min": 1.0,
+          "q05": 3.0,
+          "q25": 5.0,
+          "q75": 8.0,
+          "q95": 9.099999999999994,
+          "std": 2.0897515991826454
+        },
+        "density": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.9601659451659452,
+          "median": 1.0,
+          "min": 0.6666666666666666,
+          "q05": 0.8250000000000001,
+          "q25": 0.9588383838383838,
+          "q75": 1.0,
+          "q95": 1.0,
+          "std": 0.07771109035264602
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 53.0,
+          "mean": 22.2,
+          "median": 15.0,
+          "min": 4.0,
+          "q05": 4.95,
+          "q25": 10.0,
+          "q75": 34.0,
+          "q95": 44.45,
+          "std": 13.869390758068647
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "tensor_invariants_by_seed": [
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        }
+      ]
+    },
+    "0.4": {
+      "all_tensor_invariants_pass": true,
+      "continuous_edge_score": {
+        "count": 458,
+        "max": 0.8520888090133667,
+        "mean": 0.5741232145236048,
+        "median": 0.5799410939216614,
+        "min": 0.18745841085910797,
+        "q05": 0.3729590803384781,
+        "q25": 0.5007743239402771,
+        "q75": 0.6513038128614426,
+        "q95": 0.7504131257534027,
+        "std": 0.11329602086749647
+      },
+      "per_seed": [
+        {
+          "output_density_mean": 0.9027777777777778,
+          "raw_density_mean": 0.9027777777777778,
+          "seed": 0
+        },
+        {
+          "output_density_mean": 0.8888888888888888,
+          "raw_density_mean": 0.8888888888888888,
+          "seed": 1
+        },
+        {
+          "output_density_mean": 0.9396825396825397,
+          "raw_density_mean": 0.9396825396825397,
+          "seed": 2
+        },
+        {
+          "output_density_mean": 0.9333333333333333,
+          "raw_density_mean": 0.9333333333333333,
+          "seed": 3
+        },
+        {
+          "output_density_mean": 0.9320526695526695,
+          "raw_density_mean": 0.9320526695526695,
+          "seed": 4
+        }
+      ],
+      "public_output_after_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.915631313131313,
+          "median": 0.9333333333333332,
+          "min": 0.5833333333333333,
+          "q05": 0.8102777777777779,
+          "q25": 0.8962121212121212,
+          "q75": 0.9833333333333334,
+          "q95": 1.0,
+          "std": 0.09539146964305685
+        },
+        "complete_fraction": 0.25,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 10.0,
+          "mean": 6.071942446043166,
+          "median": 6.0,
+          "min": 1.0,
+          "q05": 3.0,
+          "q25": 4.0,
+          "q75": 8.0,
+          "q95": 9.0,
+          "std": 2.0237449713137665
+        },
+        "density": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.9193470418470417,
+          "median": 0.9333333333333333,
+          "min": 0.6666666666666666,
+          "q05": 0.8250000000000001,
+          "q25": 0.8848484848484848,
+          "q75": 0.9833333333333333,
+          "q95": 1.0,
+          "std": 0.0801491386095511
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 49.0,
+          "mean": 21.1,
+          "median": 14.5,
+          "min": 4.0,
+          "q05": 4.95,
+          "q25": 10.0,
+          "q75": 31.5,
+          "q95": 44.25,
+          "std": 13.087780560507575
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "raw_before_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.915631313131313,
+          "median": 0.9333333333333332,
+          "min": 0.5833333333333333,
+          "q05": 0.8102777777777779,
+          "q25": 0.8962121212121212,
+          "q75": 0.9833333333333334,
+          "q95": 1.0,
+          "std": 0.09539146964305685
+        },
+        "complete_fraction": 0.25,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 10.0,
+          "mean": 6.071942446043166,
+          "median": 6.0,
+          "min": 1.0,
+          "q05": 3.0,
+          "q25": 4.0,
+          "q75": 8.0,
+          "q95": 9.0,
+          "std": 2.0237449713137665
+        },
+        "density": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.9193470418470417,
+          "median": 0.9333333333333333,
+          "min": 0.6666666666666666,
+          "q05": 0.8250000000000001,
+          "q25": 0.8848484848484848,
+          "q75": 0.9833333333333333,
+          "q95": 1.0,
+          "std": 0.0801491386095511
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 49.0,
+          "mean": 21.1,
+          "median": 14.5,
+          "min": 4.0,
+          "q05": 4.95,
+          "q25": 10.0,
+          "q75": 31.5,
+          "q95": 44.25,
+          "std": 13.087780560507575
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "tensor_invariants_by_seed": [
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        }
+      ]
+    },
+    "0.45": {
+      "all_tensor_invariants_pass": true,
+      "continuous_edge_score": {
+        "count": 458,
+        "max": 0.8520888090133667,
+        "mean": 0.5741232145236048,
+        "median": 0.5799410939216614,
+        "min": 0.18745841085910797,
+        "q05": 0.3729590803384781,
+        "q25": 0.5007743239402771,
+        "q75": 0.6513038128614426,
+        "q95": 0.7504131257534027,
+        "std": 0.11329602086749647
+      },
+      "per_seed": [
+        {
+          "output_density_mean": 0.8527777777777777,
+          "raw_density_mean": 0.8527777777777777,
+          "seed": 0
+        },
+        {
+          "output_density_mean": 0.8236111111111111,
+          "raw_density_mean": 0.8236111111111111,
+          "seed": 1
+        },
+        {
+          "output_density_mean": 0.9091269841269842,
+          "raw_density_mean": 0.9091269841269842,
+          "seed": 2
+        },
+        {
+          "output_density_mean": 0.8625,
+          "raw_density_mean": 0.8625,
+          "seed": 3
+        },
+        {
+          "output_density_mean": 0.8821248196248197,
+          "raw_density_mean": 0.8821248196248197,
+          "seed": 4
+        }
+      ],
+      "public_output_after_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.8643462000962001,
+          "median": 0.869047619047619,
+          "min": 0.5833333333333333,
+          "q05": 0.6625,
+          "q25": 0.8270382395382396,
+          "q75": 0.9333333333333333,
+          "q95": 1.0,
+          "std": 0.10441152932772772
+        },
+        "complete_fraction": 0.15,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 10.0,
+          "mean": 5.654676258992806,
+          "median": 6.0,
+          "min": 1.0,
+          "q05": 3.0,
+          "q25": 4.0,
+          "q75": 7.0,
+          "q95": 9.0,
+          "std": 1.9368157142637754
+        },
+        "density": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.8660281385281386,
+          "median": 0.8638888888888889,
+          "min": 0.6666666666666666,
+          "q05": 0.73,
+          "q25": 0.8150252525252526,
+          "q75": 0.9333333333333333,
+          "q95": 1.0,
+          "std": 0.08987270071547566
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 45.0,
+          "mean": 19.65,
+          "median": 14.0,
+          "min": 4.0,
+          "q05": 4.95,
+          "q25": 10.0,
+          "q75": 29.25,
+          "q95": 41.2,
+          "std": 11.96776921568928
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "raw_before_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.8643462000962001,
+          "median": 0.869047619047619,
+          "min": 0.5833333333333333,
+          "q05": 0.6625,
+          "q25": 0.8270382395382396,
+          "q75": 0.9333333333333333,
+          "q95": 1.0,
+          "std": 0.10441152932772772
+        },
+        "complete_fraction": 0.15,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 10.0,
+          "mean": 5.654676258992806,
+          "median": 6.0,
+          "min": 1.0,
+          "q05": 3.0,
+          "q25": 4.0,
+          "q75": 7.0,
+          "q95": 9.0,
+          "std": 1.9368157142637754
+        },
+        "density": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.8660281385281386,
+          "median": 0.8638888888888889,
+          "min": 0.6666666666666666,
+          "q05": 0.73,
+          "q25": 0.8150252525252526,
+          "q75": 0.9333333333333333,
+          "q95": 1.0,
+          "std": 0.08987270071547566
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 45.0,
+          "mean": 19.65,
+          "median": 14.0,
+          "min": 4.0,
+          "q05": 4.95,
+          "q25": 10.0,
+          "q75": 29.25,
+          "q95": 41.2,
+          "std": 11.96776921568928
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "tensor_invariants_by_seed": [
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        }
+      ]
+    },
+    "0.5": {
+      "all_tensor_invariants_pass": true,
+      "continuous_edge_score": {
+        "count": 458,
+        "max": 0.8520888090133667,
+        "mean": 0.5741232145236048,
+        "median": 0.5799410939216614,
+        "min": 0.18745841085910797,
+        "q05": 0.3729590803384781,
+        "q25": 0.5007743239402771,
+        "q75": 0.6513038128614426,
+        "q95": 0.7504131257534027,
+        "std": 0.11329602086749647
+      },
+      "per_seed": [
+        {
+          "output_density_mean": 0.7444444444444445,
+          "raw_density_mean": 0.7444444444444445,
+          "seed": 0
+        },
+        {
+          "output_density_mean": 0.7041666666666666,
+          "raw_density_mean": 0.7041666666666666,
+          "seed": 1
+        },
+        {
+          "output_density_mean": 0.8051587301587301,
+          "raw_density_mean": 0.8051587301587301,
+          "seed": 2
+        },
+        {
+          "output_density_mean": 0.8347222222222223,
+          "raw_density_mean": 0.8347222222222223,
+          "seed": 3
+        },
+        {
+          "output_density_mean": 0.7636002886002886,
+          "raw_density_mean": 0.7636002886002886,
+          "seed": 4
+        }
+      ],
+      "public_output_after_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.7573229316979315,
+          "median": 0.7579365079365079,
+          "min": 0.4444444444444444,
+          "q05": 0.5763888888888888,
+          "q25": 0.6666666666666666,
+          "q75": 0.8879464285714286,
+          "q95": 0.9366666666666666,
+          "std": 0.14077392338703254
+        },
+        "complete_fraction": 0.05,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 10.0,
+          "mean": 4.9784172661870505,
+          "median": 5.0,
+          "min": 1.0,
+          "q05": 2.0,
+          "q25": 3.0,
+          "q75": 6.0,
+          "q95": 8.0,
+          "std": 1.9134797331558757
+        },
+        "density": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.7704184704184704,
+          "median": 0.7638888888888888,
+          "min": 0.5333333333333333,
+          "q05": 0.6336111111111111,
+          "q25": 0.6848484848484848,
+          "q75": 0.8565476190476191,
+          "q95": 0.9366666666666668,
+          "std": 0.11322654979211959
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 38.0,
+          "mean": 17.3,
+          "median": 12.5,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 8.75,
+          "q75": 25.0,
+          "q95": 38.0,
+          "std": 10.43599540053559
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "raw_before_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.7573229316979315,
+          "median": 0.7579365079365079,
+          "min": 0.4444444444444444,
+          "q05": 0.5763888888888888,
+          "q25": 0.6666666666666666,
+          "q75": 0.8879464285714286,
+          "q95": 0.9366666666666666,
+          "std": 0.14077392338703254
+        },
+        "complete_fraction": 0.05,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 10.0,
+          "mean": 4.9784172661870505,
+          "median": 5.0,
+          "min": 1.0,
+          "q05": 2.0,
+          "q25": 3.0,
+          "q75": 6.0,
+          "q95": 8.0,
+          "std": 1.9134797331558757
+        },
+        "density": {
+          "count": 20,
+          "max": 1.0,
+          "mean": 0.7704184704184704,
+          "median": 0.7638888888888888,
+          "min": 0.5333333333333333,
+          "q05": 0.6336111111111111,
+          "q25": 0.6848484848484848,
+          "q75": 0.8565476190476191,
+          "q95": 0.9366666666666668,
+          "std": 0.11322654979211959
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 38.0,
+          "mean": 17.3,
+          "median": 12.5,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 8.75,
+          "q75": 25.0,
+          "q95": 38.0,
+          "std": 10.43599540053559
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "tensor_invariants_by_seed": [
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        }
+      ]
+    },
+    "0.55": {
+      "all_tensor_invariants_pass": true,
+      "continuous_edge_score": {
+        "count": 458,
+        "max": 0.8520888090133667,
+        "mean": 0.5741232145236048,
+        "median": 0.5799410939216614,
+        "min": 0.18745841085910797,
+        "q05": 0.3729590803384781,
+        "q25": 0.5007743239402771,
+        "q75": 0.6513038128614426,
+        "q95": 0.7504131257534027,
+        "std": 0.11329602086749647
+      },
+      "per_seed": [
+        {
+          "output_density_mean": 0.6027777777777777,
+          "raw_density_mean": 0.6027777777777777,
+          "seed": 0
+        },
+        {
+          "output_density_mean": 0.5833333333333333,
+          "raw_density_mean": 0.5833333333333333,
+          "seed": 1
+        },
+        {
+          "output_density_mean": 0.5648809523809524,
+          "raw_density_mean": 0.5648809523809524,
+          "seed": 2
+        },
+        {
+          "output_density_mean": 0.6319444444444444,
+          "raw_density_mean": 0.6319444444444444,
+          "seed": 3
+        },
+        {
+          "output_density_mean": 0.6367604617604617,
+          "raw_density_mean": 0.6367604617604617,
+          "seed": 4
+        }
+      ],
+      "public_output_after_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 0.9,
+          "mean": 0.5375275974025974,
+          "median": 0.5416666666666667,
+          "min": 0.0,
+          "q05": 0.0,
+          "q25": 0.43240740740740735,
+          "q75": 0.7048280423280423,
+          "q95": 0.8102777777777778,
+          "std": 0.22742667246449366
+        },
+        "complete_fraction": 0.0,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 9.0,
+          "mean": 3.971223021582734,
+          "median": 4.0,
+          "min": 1.0,
+          "q05": 1.0,
+          "q25": 3.0,
+          "q75": 5.0,
+          "q95": 7.0,
+          "std": 1.7545109222118436
+        },
+        "density": {
+          "count": 20,
+          "max": 0.8,
+          "mean": 0.6039393939393939,
+          "median": 0.6035714285714285,
+          "min": 0.4666666666666667,
+          "q05": 0.49833333333333335,
+          "q25": 0.5277777777777778,
+          "q75": 0.673611111111111,
+          "q95": 0.7050000000000001,
+          "std": 0.08784547109518519
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 30.0,
+          "mean": 13.8,
+          "median": 11.0,
+          "min": 3.0,
+          "q05": 3.0,
+          "q25": 7.0,
+          "q75": 19.5,
+          "q95": 29.05,
+          "std": 8.500588214941365
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "raw_before_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 0.9,
+          "mean": 0.5375275974025974,
+          "median": 0.5416666666666667,
+          "min": 0.0,
+          "q05": 0.0,
+          "q25": 0.43240740740740735,
+          "q75": 0.7048280423280423,
+          "q95": 0.8102777777777778,
+          "std": 0.22742667246449366
+        },
+        "complete_fraction": 0.0,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 139,
+          "max": 9.0,
+          "mean": 3.971223021582734,
+          "median": 4.0,
+          "min": 1.0,
+          "q05": 1.0,
+          "q25": 3.0,
+          "q75": 5.0,
+          "q95": 7.0,
+          "std": 1.7545109222118436
+        },
+        "density": {
+          "count": 20,
+          "max": 0.8,
+          "mean": 0.6039393939393939,
+          "median": 0.6035714285714285,
+          "min": 0.4666666666666667,
+          "q05": 0.49833333333333335,
+          "q25": 0.5277777777777778,
+          "q75": 0.673611111111111,
+          "q95": 0.7050000000000001,
+          "std": 0.08784547109518519
+        },
+        "edgeless_fraction": 0.0,
+        "edges": {
+          "count": 20,
+          "max": 30.0,
+          "mean": 13.8,
+          "median": 11.0,
+          "min": 3.0,
+          "q05": 3.0,
+          "q25": 7.0,
+          "q75": 19.5,
+          "q95": 29.05,
+          "std": 8.500588214941365
+        },
+        "isolated_node_fraction": 0.0,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "tensor_invariants_by_seed": [
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        }
+      ]
+    },
+    "0.6": {
+      "all_tensor_invariants_pass": true,
+      "continuous_edge_score": {
+        "count": 458,
+        "max": 0.8520888090133667,
+        "mean": 0.5741232145236048,
+        "median": 0.5799410939216614,
+        "min": 0.18745841085910797,
+        "q05": 0.3729590803384781,
+        "q25": 0.5007743239402771,
+        "q75": 0.6513038128614426,
+        "q95": 0.7504131257534027,
+        "std": 0.11329602086749647
+      },
+      "per_seed": [
+        {
+          "output_density_mean": 0.5,
+          "raw_density_mean": 0.44166666666666665,
+          "seed": 0
+        },
+        {
+          "output_density_mean": 0.3222222222222222,
+          "raw_density_mean": 0.3222222222222222,
+          "seed": 1
+        },
+        {
+          "output_density_mean": 0.5287698412698413,
+          "raw_density_mean": 0.3621031746031746,
+          "seed": 2
+        },
+        {
+          "output_density_mean": 0.5277777777777778,
+          "raw_density_mean": 0.4444444444444444,
+          "seed": 3
+        },
+        {
+          "output_density_mean": 0.5203643578643579,
+          "raw_density_mean": 0.5203643578643579,
+          "seed": 4
+        }
+      ],
+      "public_output_after_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 0.8333333333333333,
+          "mean": 0.3646885521885522,
+          "median": 0.3666666666666667,
+          "min": 0.0,
+          "q05": 0.0,
+          "q25": 0.18749999999999997,
+          "q75": 0.5481060606060605,
+          "q95": 0.77,
+          "std": 0.2621987470177577
+        },
+        "complete_fraction": 0.0,
+        "connected_fraction": 1.0,
+        "degree": {
+          "count": 131,
+          "max": 8.0,
+          "mean": 2.9618320610687023,
+          "median": 3.0,
+          "min": 0.0,
+          "q05": 1.0,
+          "q25": 2.0,
+          "q75": 4.0,
+          "q95": 5.5,
+          "std": 1.4536323555946429
+        },
+        "density": {
+          "count": 20,
+          "max": 0.8333333333333334,
+          "mean": 0.4798268398268397,
+          "median": 0.4654761904761905,
+          "min": 0.0,
+          "q05": 0.2638888888888889,
+          "q25": 0.39821428571428574,
+          "q75": 0.5416666666666666,
+          "q95": 0.7066666666666668,
+          "std": 0.17491469145597985
+        },
+        "edgeless_fraction": 0.05,
+        "edges": {
+          "count": 20,
+          "max": 26.0,
+          "mean": 9.7,
+          "median": 7.0,
+          "min": 0.0,
+          "q05": 2.85,
+          "q25": 5.0,
+          "q75": 14.5,
+          "q95": 21.250000000000004,
+          "std": 6.573431371817918
+        },
+        "isolated_node_fraction": 0.007633587786259542,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.55,
+          "median": 6.0,
+          "min": 1.0,
+          "q05": 3.85,
+          "q25": 4.75,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.5782746168707473
+        },
+        "single_node_fraction": 0.05
+      },
+      "raw_before_lcc": {
+        "clustering": {
+          "count": 20,
+          "max": 0.7666666666666666,
+          "mean": 0.3344107744107744,
+          "median": 0.3666666666666667,
+          "min": 0.0,
+          "q05": 0.0,
+          "q25": 0.18749999999999997,
+          "q75": 0.45555555555555555,
+          "q95": 0.6716666666666667,
+          "std": 0.22990923910886765
+        },
+        "complete_fraction": 0.0,
+        "connected_fraction": 0.75,
+        "degree": {
+          "count": 139,
+          "max": 8.0,
+          "mean": 2.79136690647482,
+          "median": 3.0,
+          "min": 0.0,
+          "q05": 0.0,
+          "q25": 2.0,
+          "q75": 4.0,
+          "q95": 5.099999999999994,
+          "std": 1.570752558232069
+        },
+        "density": {
+          "count": 20,
+          "max": 0.7,
+          "mean": 0.4181601731601732,
+          "median": 0.4444444444444444,
+          "min": 0.0,
+          "q05": 0.25333333333333335,
+          "q25": 0.39186507936507936,
+          "q75": 0.47954545454545455,
+          "q95": 0.5100000000000001,
+          "std": 0.13133465980381648
+        },
+        "edgeless_fraction": 0.05,
+        "edges": {
+          "count": 20,
+          "max": 26.0,
+          "mean": 9.7,
+          "median": 7.0,
+          "min": 0.0,
+          "q05": 2.85,
+          "q25": 5.0,
+          "q75": 14.5,
+          "q95": 21.250000000000004,
+          "std": 6.573431371817918
+        },
+        "isolated_node_fraction": 0.06474820143884892,
+        "n_graphs": 20,
+        "nodes": {
+          "count": 20,
+          "max": 11.0,
+          "mean": 6.95,
+          "median": 6.0,
+          "min": 4.0,
+          "q05": 4.0,
+          "q25": 5.0,
+          "q75": 9.0,
+          "q95": 10.05,
+          "std": 2.108909670896314
+        },
+        "single_node_fraction": 0.0
+      },
+      "tensor_invariants_by_seed": [
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        },
+        {
+          "continuous_finite": true,
+          "diagonal_zero": true,
+          "padding_edges_zero": true,
+          "padding_nodes_minus_one": true,
+          "symmetric": true,
+          "valid_node_classes_in_range": true
+        }
+      ]
+    }
+  },
+  "threshold_selection_status": "Candidates are diagnostics only; select on validation data, never test MMD. No final threshold selected."
+}

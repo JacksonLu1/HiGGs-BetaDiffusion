@@ -1,0 +1,46 @@
+{
+  "os":  "Windows-10-10.0.22631-SP0",
+  "python":  "CPython 3.10.20",
+  "startedAt":  "2026-07-18T06:56:42.602085Z",
+  "args":  [
+    "general=sample_sbm",
+    "dataset=sbm_r1",
+    "general.root_path=E:/HiGGs-GBD/HiGGs-main/data",
+    "general.h2_model_family=beta_h2",
+    "general.h2_model=E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_beta_h2_r1_best.ckpt",
+    "general.h1_model=E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_h1.ckpt",
+    "general.glue_model=E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_glue.ckpt",
+    "general.samples_to_generate=40"
+  ],
+  "program":  "E:\\HiGGs-GBD\\HiGGs-main\\higgs\\sample_main.py",
+  "codePath":  "..\\..\\..\\sample_main.py",
+  "codePathLocal":  "..\\..\\..\\sample_main.py",
+  "email":  "jacksonlu888888@gmail.com",
+  "root":  "E:\\HiGGs-GBD\\HiGGs-main\\higgs\\outputs\\2026-07-18\\14-56-35",
+  "host":  "LAPTOP-PDC6D1VT",
+  "executable":  "E:\\ANACONDA\\envs\\higgs_env\\python.exe",
+  "cpu_count":  14,
+  "cpu_count_logical":  20,
+  "gpu":  "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "509721178112",
+      "used":  "403889938432"
+    }
+  },
+  "memory":  {
+    "total":  "25551560704"
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA GeForce RTX 4060 Laptop GPU",
+      "memoryTotal":  "8585740288",
+      "cudaCores":  3072,
+      "architecture":  "Ada",
+      "uuid":  "GPU-4b17f54f-a4d9-cf3f-6938-c2bb99a78d6d"
+    }
+  ],
+  "cudaVersion":  "13.0",
+  "writerId":  "y92s5kpzoukph0wwene7g3c26838epn8"
+}

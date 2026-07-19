@@ -1,0 +1,11 @@
+- dataset=sbm
+- dataset.h=2
+- dataset.resolution=2
+- dataset.max_size=500
+- dataset.regime=majority
+- model=beta_h2
+- model.diffusion_steps=100
+- model.eta_strategy=fixed
+- train.batch_size=8
+- train.n_epochs=10
+- general.name=sbm_beta_h2_fixed_T100_e10_ckpt_test

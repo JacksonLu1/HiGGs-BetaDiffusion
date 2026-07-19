@@ -1,0 +1,37 @@
+{
+  "mode": "tv",
+  "paper_compatible_mode": "tv",
+  "paper_mode_reason": "The active HiGGs SBM evaluation call chain constructs SBMSamplingMetrics and FullSampleMetrics with compute_emd=False. Nodes always use gaussian_tv; the active SBM radius call also keeps its default compute_emd=False. The unused PostProcessSampleMetrics class is not evidence for the reported SBM path.",
+  "metrics": [
+    {
+      "metric": "Nodes",
+      "generated_result": 0.43459090434000314,
+      "paper_higgs": 0.547,
+      "absolute_difference": 0.1124090956599969
+    },
+    {
+      "metric": "Degree",
+      "generated_result": 0.02998593045407616,
+      "paper_higgs": 0.286,
+      "absolute_difference": 0.2560140695459238
+    },
+    {
+      "metric": "Clustering",
+      "generated_result": 0.06941969464400453,
+      "paper_higgs": 0.411,
+      "absolute_difference": 0.34158030535599543
+    },
+    {
+      "metric": "Eccentricity",
+      "generated_result": 0.16381670514087232,
+      "paper_higgs": 0.0401,
+      "absolute_difference": 0.12371670514087232
+    },
+    {
+      "metric": "Spectre",
+      "generated_result": 0.011265547950223054,
+      "paper_higgs": 0.314,
+      "absolute_difference": 0.30273445204977695
+    }
+  ]
+}

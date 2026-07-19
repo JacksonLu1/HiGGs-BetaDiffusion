@@ -1,0 +1,9 @@
+﻿.idea/
+.vscode/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+Thumbs.db
+.DS_Store
+
+saved_models/facebook/facebook_glue.ckpt

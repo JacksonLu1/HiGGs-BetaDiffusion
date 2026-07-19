@@ -1,0 +1,9 @@
+defaults:
+    - general : sample_sbm
+    - model : discrete_small
+    - train : train_default
+    - dataset : sbm_hierarchies
+
+
+
+

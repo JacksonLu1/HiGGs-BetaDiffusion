@@ -1,0 +1,3134 @@
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 145: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:09<00:00,  9.93s/it]
+Saved H1 visualization [sample=0, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_000\h1\h1_sample_0_batch_0.png
+tensor(8)
+tensor(10)
+tensor(9)
+tensor(11)
+tensor(9)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 586.91it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:35<00:00, 17.52s/it]
+Saved Glue visualization [sample=0, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_000\glue\glue_sample_0_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=0, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_000\glue\glue_sample_0_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 351.39it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 336.11it/s]
+Before adding IC edges G is a Graph with 145 nodes and 704 edges
+After adding IC edges G is a Graph with 145 nodes and 714 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 145/145 [00:00<00:00, 287145.46it/s]
+HiGGs sampled Graph with 145 nodes and 714 edges, largest component is a Graph with 145 nodes and 714 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_000\final\sample_vs_real_graphviz_0.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 172: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:22<00:00, 22.27s/it]
+Saved H1 visualization [sample=1, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_001\h1\h1_sample_1_batch_0.png
+tensor(9)
+tensor(13)
+tensor(16)
+tensor(10)
+tensor(14)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1170.58it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:45<00:00, 22.76s/it]
+Saved Glue visualization [sample=1, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_001\glue\glue_sample_1_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=1, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_001\glue\glue_sample_1_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 406.86it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 226.43it/s]
+Before adding IC edges G is a Graph with 172 nodes and 1001 edges
+After adding IC edges G is a Graph with 172 nodes and 1017 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 172/172 [00:00<?, ?it/s]
+HiGGs sampled Graph with 172 nodes and 1017 edges, largest component is a Graph with 172 nodes and 1017 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_001\final\sample_vs_real_graphviz_1.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 4
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 4 long, using 1 batches
+N nodes added: 122: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.84s/it]
+Saved H1 visualization [sample=2, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_002\h1\h1_sample_2_batch_0.png
+tensor(10)
+tensor(8)
+tensor(9)
+tensor(12)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [00:00<00:00, 1526.31it/s]
+Batch size of 5, leaves remainder 1 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:24<00:00, 12.25s/it]
+Saved Glue visualization [sample=2, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_002\glue\glue_sample_2_batch_0.png
+Doing final batch with remainder 1
+Saved Glue visualization [sample=2, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_002\glue\glue_sample_2_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 757.85it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 447.02it/s]
+Before adding IC edges G is a Graph with 122 nodes and 656 edges
+After adding IC edges G is a Graph with 122 nodes and 664 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 122/122 [00:00<00:00, 241142.83it/s]
+HiGGs sampled Graph with 122 nodes and 664 edges, largest component is a Graph with 122 nodes and 664 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=2]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_002\final\sample_vs_real_graphviz_2.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 100: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.73s/it]
+Saved H1 visualization [sample=3, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_003\h1\h1_sample_3_batch_0.png
+tensor(11)
+tensor(10)
+tensor(16)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1174.38it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.53s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=3, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_003\glue\glue_sample_3_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 426.32it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 332.43it/s]
+Before adding IC edges G is a Graph with 100 nodes and 542 edges
+After adding IC edges G is a Graph with 100 nodes and 547 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 196730.96it/s]
+HiGGs sampled Graph with 100 nodes and 547 edges, largest component is a Graph with 100 nodes and 547 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=3]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_003\final\sample_vs_real_graphviz_3.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 174: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:15<00:00, 15.66s/it]
+Saved H1 visualization [sample=4, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_004\h1\h1_sample_4_batch_0.png
+tensor(9)
+tensor(5)
+tensor(12)
+tensor(10)
+tensor(13)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1598.74it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:29<00:00, 14.58s/it]
+Saved Glue visualization [sample=4, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_004\glue\glue_sample_4_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=4, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_004\glue\glue_sample_4_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 424.55it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 342.49it/s]
+Before adding IC edges G is a Graph with 174 nodes and 1025 edges
+After adding IC edges G is a Graph with 174 nodes and 1043 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 174/174 [00:00<00:00, 344087.17it/s]
+HiGGs sampled Graph with 174 nodes and 1043 edges, largest component is a Graph with 174 nodes and 1043 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=4]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_004\final\sample_vs_real_graphviz_4.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 72: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:11<00:00, 11.03s/it]
+Saved H1 visualization [sample=5, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_005\h1\h1_sample_5_batch_0.png
+tensor(9)
+tensor(14)
+tensor(7)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1683.11it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.28s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=5, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_005\glue\glue_sample_5_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 735.54it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 782.71it/s]
+Before adding IC edges G is a Graph with 72 nodes and 313 edges
+After adding IC edges G is a Graph with 72 nodes and 317 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 72/72 [00:00<00:00, 142246.77it/s]
+HiGGs sampled Graph with 72 nodes and 317 edges, largest component is a Graph with 72 nodes and 317 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=5]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_005\final\sample_vs_real_graphviz_5.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 152: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.46s/it]
+Saved H1 visualization [sample=6, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_006\h1\h1_sample_6_batch_0.png
+tensor(7)
+tensor(7)
+tensor(7)
+tensor(12)
+tensor(7)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1698.13it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:27<00:00, 13.65s/it]
+Saved Glue visualization [sample=6, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_006\glue\glue_sample_6_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=6, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_006\glue\glue_sample_6_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 620.97it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 469.52it/s]
+Before adding IC edges G is a Graph with 152 nodes and 797 edges
+After adding IC edges G is a Graph with 152 nodes and 810 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 152/152 [00:00<00:00, 300440.25it/s]
+HiGGs sampled Graph with 152 nodes and 810 edges, largest component is a Graph with 152 nodes and 810 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=6]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_006\final\sample_vs_real_graphviz_6.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 147: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.61s/it]
+Saved H1 visualization [sample=7, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_007\h1\h1_sample_7_batch_0.png
+tensor(13)
+tensor(12)
+tensor(12)
+tensor(7)
+tensor(8)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1811.32it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:27<00:00, 13.55s/it]
+Saved Glue visualization [sample=7, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_007\glue\glue_sample_7_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=7, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_007\glue\glue_sample_7_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 653.85it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 508.69it/s]
+Before adding IC edges G is a Graph with 147 nodes and 741 edges
+After adding IC edges G is a Graph with 147 nodes and 752 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 147/147 [00:00<00:00, 281022.19it/s]
+HiGGs sampled Graph with 147 nodes and 752 edges, largest component is a Graph with 147 nodes and 752 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=7]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_007\final\sample_vs_real_graphviz_7.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 4
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 4 long, using 1 batches
+N nodes added: 117: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:11<00:00, 11.12s/it]
+Saved H1 visualization [sample=8, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_008\h1\h1_sample_8_batch_0.png
+tensor(12)
+tensor(12)
+tensor(10)
+tensor(6)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [00:00<00:00, 1725.64it/s]
+Batch size of 5, leaves remainder 1 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:24<00:00, 12.04s/it]
+Saved Glue visualization [sample=8, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_008\glue\glue_sample_8_batch_0.png
+Doing final batch with remainder 1
+Saved Glue visualization [sample=8, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_008\glue\glue_sample_8_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 796.30it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 446.40it/s]
+Before adding IC edges G is a Graph with 117 nodes and 596 edges
+After adding IC edges G is a Graph with 117 nodes and 603 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 117/117 [00:00<?, ?it/s]
+HiGGs sampled Graph with 117 nodes and 603 edges, largest component is a Graph with 117 nodes and 603 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=8]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_008\final\sample_vs_real_graphviz_8.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 90: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.39s/it]
+Saved H1 visualization [sample=9, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_009\h1\h1_sample_9_batch_0.png
+tensor(14)
+tensor(10)
+tensor(4)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1987.66it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.65s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=9, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_009\glue\glue_sample_9_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 752.30it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 417.83it/s]
+Before adding IC edges G is a Graph with 90 nodes and 458 edges
+After adding IC edges G is a Graph with 90 nodes and 464 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 90/90 [00:00<?, ?it/s]
+HiGGs sampled Graph with 90 nodes and 464 edges, largest component is a Graph with 90 nodes and 464 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=9]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_009\final\sample_vs_real_graphviz_9.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 142: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.90s/it]
+Saved H1 visualization [sample=10, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_010\h1\h1_sample_10_batch_0.png
+tensor(11)
+tensor(3)
+tensor(12)
+tensor(6)
+tensor(7)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1742.07it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:27<00:00, 13.64s/it]
+Saved Glue visualization [sample=10, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_010\glue\glue_sample_10_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=10, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_010\glue\glue_sample_10_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 790.93it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 539.52it/s]
+Before adding IC edges G is a Graph with 142 nodes and 711 edges
+After adding IC edges G is a Graph with 142 nodes and 728 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 142/142 [00:00<00:00, 281603.39it/s]
+HiGGs sampled Graph with 142 nodes and 728 edges, largest component is a Graph with 142 nodes and 728 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=10]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_010\final\sample_vs_real_graphviz_10.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 87: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.17s/it]
+Saved H1 visualization [sample=11, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_011\h1\h1_sample_11_batch_0.png
+tensor(9)
+tensor(9)
+tensor(15)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1219.98it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.87s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=11, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_011\glue\glue_sample_11_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 680.45it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 473.31it/s]
+Before adding IC edges G is a Graph with 87 nodes and 493 edges
+After adding IC edges G is a Graph with 87 nodes and 499 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 87/87 [00:00<?, ?it/s]
+HiGGs sampled Graph with 87 nodes and 499 edges, largest component is a Graph with 87 nodes and 499 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=11]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_011\final\sample_vs_real_graphviz_11.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 92: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.29s/it]
+Saved H1 visualization [sample=12, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_012\h1\h1_sample_12_batch_0.png
+tensor(11)
+tensor(13)
+tensor(8)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1532.82it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.70s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=12, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_012\glue\glue_sample_12_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 500.04it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 346.92it/s]
+Before adding IC edges G is a Graph with 92 nodes and 512 edges
+After adding IC edges G is a Graph with 92 nodes and 516 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 92/92 [00:00<00:00, 234148.04it/s]
+HiGGs sampled Graph with 92 nodes and 516 edges, largest component is a Graph with 92 nodes and 516 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=12]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_012\final\sample_vs_real_graphviz_12.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 4
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 4 long, using 1 batches
+N nodes added: 124: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.58s/it]
+Saved H1 visualization [sample=13, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_013\h1\h1_sample_13_batch_0.png
+tensor(16)
+tensor(5)
+tensor(11)
+tensor(14)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [00:00<00:00, 1737.67it/s]
+Batch size of 5, leaves remainder 1 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:24<00:00, 12.33s/it]
+Saved Glue visualization [sample=13, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_013\glue\glue_sample_13_batch_0.png
+Doing final batch with remainder 1
+Saved Glue visualization [sample=13, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_013\glue\glue_sample_13_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 695.86it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 426.78it/s]
+Before adding IC edges G is a Graph with 124 nodes and 675 edges
+After adding IC edges G is a Graph with 124 nodes and 682 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 124/124 [00:00<00:00, 244519.84it/s]
+HiGGs sampled Graph with 124 nodes and 682 edges, largest component is a Graph with 124 nodes and 682 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=13]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_013\final\sample_vs_real_graphviz_13.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 156: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.42s/it]
+Saved H1 visualization [sample=14, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_014\h1\h1_sample_14_batch_0.png
+tensor(6)
+tensor(14)
+tensor(10)
+tensor(7)
+tensor(12)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1848.04it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:27<00:00, 13.82s/it]
+Saved Glue visualization [sample=14, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_014\glue\glue_sample_14_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=14, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_014\glue\glue_sample_14_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 575.41it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 412.27it/s]
+Before adding IC edges G is a Graph with 156 nodes and 866 edges
+After adding IC edges G is a Graph with 156 nodes and 882 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 156/156 [00:00<?, ?it/s]
+HiGGs sampled Graph with 156 nodes and 882 edges, largest component is a Graph with 156 nodes and 882 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=14]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_014\final\sample_vs_real_graphviz_14.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 4
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 4 long, using 1 batches
+N nodes added: 129: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.64s/it]
+Saved H1 visualization [sample=15, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_015\h1\h1_sample_15_batch_0.png
+tensor(11)
+tensor(7)
+tensor(17)
+tensor(12)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [00:00<00:00, 1599.91it/s]
+Batch size of 5, leaves remainder 1 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:25<00:00, 12.53s/it]
+Saved Glue visualization [sample=15, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_015\glue\glue_sample_15_batch_0.png
+Doing final batch with remainder 1
+Saved Glue visualization [sample=15, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_015\glue\glue_sample_15_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 647.79it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 380.67it/s]
+Before adding IC edges G is a Graph with 129 nodes and 712 edges
+After adding IC edges G is a Graph with 129 nodes and 721 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 129/129 [00:00<00:00, 254618.93it/s]
+HiGGs sampled Graph with 129 nodes and 721 edges, largest component is a Graph with 129 nodes and 721 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=15]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_015\final\sample_vs_real_graphviz_15.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 163: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.27s/it]
+Saved H1 visualization [sample=16, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_016\h1\h1_sample_16_batch_0.png
+tensor(6)
+tensor(13)
+tensor(9)
+tensor(11)
+tensor(14)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1914.33it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:27<00:00, 13.82s/it]
+Saved Glue visualization [sample=16, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_016\glue\glue_sample_16_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=16, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_016\glue\glue_sample_16_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 759.21it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 366.39it/s]
+Before adding IC edges G is a Graph with 163 nodes and 949 edges
+After adding IC edges G is a Graph with 163 nodes and 961 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 163/163 [00:00<00:00, 306304.46it/s]
+HiGGs sampled Graph with 163 nodes and 961 edges, largest component is a Graph with 163 nodes and 961 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=16]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_016\final\sample_vs_real_graphviz_16.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 84: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.20s/it]
+Saved H1 visualization [sample=17, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_017\h1\h1_sample_17_batch_0.png
+tensor(9)
+tensor(7)
+tensor(20)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1487.34it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.21s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=17, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_017\glue\glue_sample_17_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 658.03it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 471.27it/s]
+Before adding IC edges G is a Graph with 84 nodes and 428 edges
+After adding IC edges G is a Graph with 84 nodes and 435 edges
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 84/84 [00:00<00:00, 1024190.51it/s]
+HiGGs sampled Graph with 84 nodes and 435 edges, largest component is a Graph with 84 nodes and 435 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=17]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_017\final\sample_vs_real_graphviz_17.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 100: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.10s/it]
+Saved H1 visualization [sample=18, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_018\h1\h1_sample_18_batch_0.png
+tensor(9)
+tensor(13)
+tensor(7)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1643.64it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.02s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=18, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_018\glue\glue_sample_18_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 706.63it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 267.48it/s]
+Before adding IC edges G is a Graph with 100 nodes and 534 edges
+After adding IC edges G is a Graph with 100 nodes and 538 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:00<?, ?it/s]
+HiGGs sampled Graph with 100 nodes and 538 edges, largest component is a Graph with 100 nodes and 538 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=18]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_018\final\sample_vs_real_graphviz_18.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 4
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 4 long, using 1 batches
+N nodes added: 147: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.11s/it]
+Saved H1 visualization [sample=19, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_019\h1\h1_sample_19_batch_0.png
+tensor(13)
+tensor(14)
+tensor(12)
+tensor(9)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [00:00<00:00, 1599.05it/s]
+Batch size of 5, leaves remainder 1 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:25<00:00, 12.51s/it]
+Saved Glue visualization [sample=19, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_019\glue\glue_sample_19_batch_0.png
+Doing final batch with remainder 1
+Saved Glue visualization [sample=19, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_019\glue\glue_sample_19_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 586.25it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 310.31it/s]
+Before adding IC edges G is a Graph with 147 nodes and 890 edges
+After adding IC edges G is a Graph with 147 nodes and 901 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 147/147 [00:00<00:00, 252482.67it/s]
+HiGGs sampled Graph with 147 nodes and 901 edges, largest component is a Graph with 147 nodes and 901 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=19]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_019\final\sample_vs_real_graphviz_19.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 115: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.26s/it]
+Saved H1 visualization [sample=20, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_020\h1\h1_sample_20_batch_0.png
+tensor(7)
+tensor(12)
+tensor(13)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1167.84it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.07s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=20, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_020\glue\glue_sample_20_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 554.58it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 293.86it/s]
+Before adding IC edges G is a Graph with 115 nodes and 679 edges
+After adding IC edges G is a Graph with 115 nodes and 684 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 115/115 [00:00<?, ?it/s]
+HiGGs sampled Graph with 115 nodes and 684 edges, largest component is a Graph with 115 nodes and 684 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=20]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_020\final\sample_vs_real_graphviz_20.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 101: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:15<00:00, 15.68s/it]
+Saved H1 visualization [sample=21, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_021\h1\h1_sample_21_batch_0.png
+tensor(17)
+tensor(16)
+tensor(7)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1187.68it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:14<00:00, 14.25s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=21, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_021\glue\glue_sample_21_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 477.42it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 350.82it/s]
+Before adding IC edges G is a Graph with 101 nodes and 575 edges
+After adding IC edges G is a Graph with 101 nodes and 578 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 101/101 [00:00<?, ?it/s]
+HiGGs sampled Graph with 101 nodes and 578 edges, largest component is a Graph with 101 nodes and 578 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=21]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_021\final\sample_vs_real_graphviz_21.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 81: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:11<00:00, 11.06s/it]
+Saved H1 visualization [sample=22, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_022\h1\h1_sample_22_batch_0.png
+tensor(10)
+tensor(9)
+tensor(9)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1395.47it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.25s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=22, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_022\glue\glue_sample_22_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 823.76it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 569.34it/s]
+Before adding IC edges G is a Graph with 81 nodes and 385 edges
+After adding IC edges G is a Graph with 81 nodes and 388 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 81/81 [00:00<00:00, 189058.78it/s]
+HiGGs sampled Graph with 81 nodes and 388 edges, largest component is a Graph with 81 nodes and 388 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=22]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_022\final\sample_vs_real_graphviz_22.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 4
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 4 long, using 1 batches
+N nodes added: 140: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.29s/it]
+Saved H1 visualization [sample=23, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_023\h1\h1_sample_23_batch_0.png
+tensor(16)
+tensor(10)
+tensor(14)
+tensor(16)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [00:00<00:00, 1546.62it/s]
+Batch size of 5, leaves remainder 1 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:24<00:00, 12.42s/it]
+Saved Glue visualization [sample=23, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_023\glue\glue_sample_23_batch_0.png
+Doing final batch with remainder 1
+Saved Glue visualization [sample=23, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_023\glue\glue_sample_23_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 500.95it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 300.60it/s]
+Before adding IC edges G is a Graph with 140 nodes and 883 edges
+After adding IC edges G is a Graph with 140 nodes and 891 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 140/140 [00:00<00:00, 276070.79it/s]
+HiGGs sampled Graph with 140 nodes and 891 edges, largest component is a Graph with 140 nodes and 891 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=23]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_023\final\sample_vs_real_graphviz_23.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 76: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:11<00:00, 11.04s/it]
+Saved H1 visualization [sample=24, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_024\h1\h1_sample_24_batch_0.png
+tensor(13)
+tensor(9)
+tensor(9)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1211.53it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.21s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=24, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_024\glue\glue_sample_24_batch_0.png
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 1154.82it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 568.31it/s]
+Before adding IC edges G is a Graph with 76 nodes and 336 edges
+After adding IC edges G is a Graph with 76 nodes and 341 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 76/76 [00:00<?, ?it/s]
+HiGGs sampled Graph with 76 nodes and 341 edges, largest component is a Graph with 76 nodes and 341 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=24]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_024\final\sample_vs_real_graphviz_24.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 92: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.40s/it]
+Saved H1 visualization [sample=25, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_025\h1\h1_sample_25_batch_0.png
+tensor(5)
+tensor(14)
+tensor(7)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1276.42it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.06s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=25, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_025\glue\glue_sample_25_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 732.89it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 368.82it/s]
+Before adding IC edges G is a Graph with 92 nodes and 484 edges
+After adding IC edges G is a Graph with 92 nodes and 487 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 92/92 [00:00<?, ?it/s]
+HiGGs sampled Graph with 92 nodes and 487 edges, largest component is a Graph with 92 nodes and 487 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=25]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_025\final\sample_vs_real_graphviz_25.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 89: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.34s/it]
+Saved H1 visualization [sample=26, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_026\h1\h1_sample_26_batch_0.png
+tensor(12)
+tensor(8)
+tensor(11)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1425.42it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.61s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=26, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_026\glue\glue_sample_26_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 838.75it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 409.13it/s]
+Before adding IC edges G is a Graph with 89 nodes and 464 edges
+After adding IC edges G is a Graph with 89 nodes and 469 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 89/89 [00:00<00:00, 165760.68it/s]
+HiGGs sampled Graph with 89 nodes and 469 edges, largest component is a Graph with 89 nodes and 469 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=26]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_026\final\sample_vs_real_graphviz_26.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 154: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.92s/it]
+Saved H1 visualization [sample=27, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_027\h1\h1_sample_27_batch_0.png
+tensor(13)
+tensor(9)
+tensor(7)
+tensor(17)
+tensor(6)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 2020.72it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:27<00:00, 13.77s/it]
+Saved Glue visualization [sample=27, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_027\glue\glue_sample_27_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=27, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_027\glue\glue_sample_27_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 689.99it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 500.98it/s]
+Before adding IC edges G is a Graph with 154 nodes and 810 edges
+After adding IC edges G is a Graph with 154 nodes and 822 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 154/154 [00:00<00:00, 283299.48it/s]
+HiGGs sampled Graph with 154 nodes and 822 edges, largest component is a Graph with 154 nodes and 822 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=27]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_027\final\sample_vs_real_graphviz_27.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 167: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.34s/it]
+Saved H1 visualization [sample=28, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_028\h1\h1_sample_28_batch_0.png
+tensor(12)
+tensor(9)
+tensor(12)
+tensor(12)
+tensor(13)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1729.68it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:27<00:00, 13.87s/it]
+Saved Glue visualization [sample=28, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_028\glue\glue_sample_28_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=28, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_028\glue\glue_sample_28_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 560.83it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 366.47it/s]
+Before adding IC edges G is a Graph with 167 nodes and 956 edges
+After adding IC edges G is a Graph with 167 nodes and 974 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 167/167 [00:00<?, ?it/s]
+HiGGs sampled Graph with 167 nodes and 974 edges, largest component is a Graph with 167 nodes and 974 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=28]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_028\final\sample_vs_real_graphviz_28.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 113: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.36s/it]
+Saved H1 visualization [sample=29, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_029\h1\h1_sample_29_batch_0.png
+tensor(14)
+tensor(8)
+tensor(14)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1424.21it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.80s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=29, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_029\glue\glue_sample_29_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 483.60it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 265.32it/s]
+Before adding IC edges G is a Graph with 113 nodes and 722 edges
+After adding IC edges G is a Graph with 113 nodes and 726 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 113/113 [00:00<00:00, 223669.82it/s]
+HiGGs sampled Graph with 113 nodes and 726 edges, largest component is a Graph with 113 nodes and 726 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=29]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_029\final\sample_vs_real_graphviz_29.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 133: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:14<00:00, 14.03s/it]
+Saved H1 visualization [sample=30, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_030\h1\h1_sample_30_batch_0.png
+tensor(15)
+tensor(10)
+tensor(7)
+tensor(4)
+tensor(7)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1662.10it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:27<00:00, 13.52s/it]
+Saved Glue visualization [sample=30, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_030\glue\glue_sample_30_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=30, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_030\glue\glue_sample_30_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 777.33it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 591.67it/s]
+Before adding IC edges G is a Graph with 133 nodes and 647 edges
+After adding IC edges G is a Graph with 133 nodes and 663 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 133/133 [00:00<00:00, 261162.19it/s]
+HiGGs sampled Graph with 133 nodes and 663 edges, largest component is a Graph with 133 nodes and 663 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=30]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_030\final\sample_vs_real_graphviz_30.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 90: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.29s/it]
+Saved H1 visualization [sample=31, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_031\h1\h1_sample_31_batch_0.png
+tensor(8)
+tensor(16)
+tensor(4)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1708.94it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.84s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=31, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_031\glue\glue_sample_31_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 688.80it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 391.31it/s]
+Before adding IC edges G is a Graph with 90 nodes and 484 edges
+After adding IC edges G is a Graph with 90 nodes and 487 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 90/90 [00:00<?, ?it/s]
+HiGGs sampled Graph with 90 nodes and 487 edges, largest component is a Graph with 90 nodes and 487 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=31]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_031\final\sample_vs_real_graphviz_31.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 92: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.69s/it]
+Saved H1 visualization [sample=32, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_032\h1\h1_sample_32_batch_0.png
+tensor(10)
+tensor(9)
+tensor(17)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1213.40it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.09s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=32, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_032\glue\glue_sample_32_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 574.20it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 557.68it/s]
+Before adding IC edges G is a Graph with 92 nodes and 478 edges
+After adding IC edges G is a Graph with 92 nodes and 481 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 92/92 [00:00<?, ?it/s]
+HiGGs sampled Graph with 92 nodes and 481 edges, largest component is a Graph with 92 nodes and 481 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=32]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_032\final\sample_vs_real_graphviz_32.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 190: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.59s/it]
+Saved H1 visualization [sample=33, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_033\h1\h1_sample_33_batch_0.png
+tensor(13)
+tensor(12)
+tensor(11)
+tensor(11)
+tensor(16)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1592.49it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:28<00:00, 14.12s/it]
+Saved Glue visualization [sample=33, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_033\glue\glue_sample_33_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=33, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_033\glue\glue_sample_33_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 458.89it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 294.83it/s]
+Before adding IC edges G is a Graph with 190 nodes and 1171 edges
+After adding IC edges G is a Graph with 190 nodes and 1192 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 190/190 [00:00<00:00, 360433.18it/s]
+HiGGs sampled Graph with 190 nodes and 1192 edges, largest component is a Graph with 190 nodes and 1192 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=33]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_033\final\sample_vs_real_graphviz_33.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 139: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.26s/it]
+Saved H1 visualization [sample=34, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_034\h1\h1_sample_34_batch_0.png
+tensor(5)
+tensor(6)
+tensor(8)
+tensor(9)
+tensor(9)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1760.20it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:26<00:00, 13.40s/it]
+Saved Glue visualization [sample=34, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_034\glue\glue_sample_34_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=34, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_034\glue\glue_sample_34_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 781.88it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 523.14it/s]
+Before adding IC edges G is a Graph with 139 nodes and 713 edges
+After adding IC edges G is a Graph with 139 nodes and 726 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [00:00<?, ?it/s]
+HiGGs sampled Graph with 139 nodes and 726 edges, largest component is a Graph with 139 nodes and 726 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=34]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_034\final\sample_vs_real_graphviz_34.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 98: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.25s/it]
+Saved H1 visualization [sample=35, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_035\h1\h1_sample_35_batch_0.png
+tensor(12)
+tensor(12)
+tensor(7)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1366.07it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:13<00:00, 13.01s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=35, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_035\glue\glue_sample_35_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 422.43it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 296.85it/s]
+Before adding IC edges G is a Graph with 98 nodes and 586 edges
+After adding IC edges G is a Graph with 98 nodes and 591 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 98/98 [00:00<00:00, 169641.68it/s]
+HiGGs sampled Graph with 98 nodes and 591 edges, largest component is a Graph with 98 nodes and 591 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=35]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_035\final\sample_vs_real_graphviz_35.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 5
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 5 long, using 1 batches
+N nodes added: 183: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:14<00:00, 14.01s/it]
+Saved H1 visualization [sample=36, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_036\h1\h1_sample_36_batch_0.png
+tensor(12)
+tensor(8)
+tensor(10)
+tensor(17)
+tensor(12)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 1790.33it/s]
+Batch size of 5, leaves remainder 0 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:28<00:00, 14.14s/it]
+Saved Glue visualization [sample=36, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_036\glue\glue_sample_36_batch_0.png
+Doing final batch with remainder 0
+Saved Glue visualization [sample=36, batch=1]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_036\glue\glue_sample_36_batch_1.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 529.28it/s]
+Extracting inter h1 edges: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 310.94it/s]
+Before adding IC edges G is a Graph with 183 nodes and 1113 edges
+After adding IC edges G is a Graph with 183 nodes and 1124 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 183/183 [00:00<00:00, 361884.79it/s]
+HiGGs sampled Graph with 183 nodes and 1124 edges, largest component is a Graph with 183 nodes and 1124 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=36]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_036\final\sample_vs_real_graphviz_36.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 112: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.40s/it]
+Saved H1 visualization [sample=37, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_037\h1\h1_sample_37_batch_0.png
+tensor(13)
+tensor(10)
+tensor(14)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1259.68it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.86s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=37, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_037\glue\glue_sample_37_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 426.44it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 285.58it/s]
+Before adding IC edges G is a Graph with 112 nodes and 687 edges
+After adding IC edges G is a Graph with 112 nodes and 694 edges
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 112/112 [00:00<00:00, 286615.04it/s]
+HiGGs sampled Graph with 112 nodes and 694 edges, largest component is a Graph with 112 nodes and 694 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=37]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_037\final\sample_vs_real_graphviz_37.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 77: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:11<00:00, 11.86s/it]
+Saved H1 visualization [sample=38, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_038\h1\h1_sample_38_batch_0.png
+tensor(13)
+tensor(13)
+tensor(6)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1286.20it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.55s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=38, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_038\glue\glue_sample_38_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 824.46it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 569.11it/s]
+Before adding IC edges G is a Graph with 77 nodes and 356 edges
+After adding IC edges G is a Graph with 77 nodes and 361 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 77/77 [00:00<00:00, 229702.28it/s]
+HiGGs sampled Graph with 77 nodes and 361 edges, largest component is a Graph with 77 nodes and 361 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=38]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_038\final\sample_vs_real_graphviz_38.png
+Model stage: 2
+Model output dims:
+X: 2
+E: 1
+y: 2
+Model input dims:
+{'X': 2, 'E': 1, 'y': 3}
+[HiGGs] Stage h2 model: Conditional Graph Beta Diffusion
+Sampled h2 n_nodes: 3
+Model stage: 1
+[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7001, 0.2999]) for edges
+finished saving hyperparameters
+Data is 3 long, using 1 batches
+N nodes added: 81: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.07s/it]
+Saved H1 visualization [sample=39, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_039\h1\h1_sample_39_batch_0.png
+tensor(18)
+tensor(7)
+tensor(8)
+Model stage: 1.5
+[HiGGs] Stage glue model: edge-DiGress
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x000001C55DB1EB90>
+Traceback (most recent call last):
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1478, in __del__
+    self._shutdown_workers()
+  File "E:\ANACONDA\envs\higgs_env\lib\site-packages\torch\utils\data\dataloader.py", line 1409, in _shutdown_workers
+    if not self._shutdown:
+AttributeError: '_MultiProcessingDataLoaderIter' object has no attribute '_shutdown'
+Model output dims:
+X: 1
+E: 2
+y: 2
+Model input dims:
+{'X': 8, 'E': 2, 'y': 14}
+Marginal distribution of the classes: tensor([1.]) for nodes, tensor([0.7677, 0.2323]) for edges
+finished saving hyperparameters
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6/6 [00:00<00:00, 1338.32it/s]
+Batch size of 5, leaves remainder 3 as final batch
+Pair-pair community dataset is size 48 in memory
+Batch 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:12<00:00, 12.45s/it]
+Doing final batch with remainder 3
+Saved Glue visualization [sample=39, batch=0]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_039\glue\glue_sample_39_batch_0.png
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 717.96it/s]
+Extracting inter h1 edges: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00, 373.99it/s]
+Before adding IC edges G is a Graph with 81 nodes and 406 edges
+After adding IC edges G is a Graph with 81 nodes and 411 edges
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 81/81 [00:00<00:00, 159128.16it/s]
+HiGGs sampled Graph with 81 nodes and 411 edges, largest component is a Graph with 81 nodes and 411 edges
+Loading original sbm graph with data directory E:/HiGGs-GBD/HiGGs-main/data
+Saved final visualization [sample=39]: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sampling\visualizations\sample_039\final\sample_vs_real_graphviz_39.png

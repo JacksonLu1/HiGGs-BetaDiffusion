@@ -1,0 +1,124 @@
+2026-07-18 15:33:20,901 | INFO | Paper-compatible mode: tv
+2026-07-18 15:33:20,902 | INFO | Paper-compatible selection evidence: The active HiGGs SBM evaluation call chain constructs SBMSamplingMetrics and FullSampleMetrics with compute_emd=False. Nodes always use gaussian_tv; the active SBM radius call also keeps its default compute_emd=False. The unused PostProcessSampleMetrics class is not evidence for the reported SBM path.
+2026-07-18 15:33:20,902 | INFO | Metric function: Nodes           analysis.dist_helper.compute_mmd
+2026-07-18 15:33:20,903 | INFO | Metric function: Degree          analysis.spectre_utils.degree_stats
+2026-07-18 15:33:20,903 | INFO | Metric function: Clustering      analysis.spectre_utils.clustering_stats
+2026-07-18 15:33:20,903 | INFO | Metric function: Eccentricity    metrics.mmd.calculators.radius_stats
+2026-07-18 15:33:20,903 | INFO | Metric function: Spectre         analysis.spectre_utils.spectral_stats
+2026-07-18 15:33:20,903 | INFO | Metric parameters: {"common": {"histogram_normalization": "Each histogram is normalized by sum + 1e-6 inside the project's compute_mmd implementation.", "parallelism": "is_parallel=True, using the project's ThreadPoolExecutor paths. radius_stats must use this path because its serial branch does not implement the same shortest-path histogram."}, "Nodes": {"histogram": "one aggregate np.bincount histogram per graph set", "tv_kernel": "analysis.dist_helper.gaussian_tv", "emd_kernel": "analysis.dist_helper.gaussian_emd", "sigma": 1.0, "emd_distance_scaling": 1.0}, "Degree": {"histogram": "nx.degree_histogram for every graph", "tv_kernel": "analysis.dist_helper.gaussian_tv", "emd_kernel": "analysis.dist_helper.gaussian_emd", "sigma": 1.0, "emd_distance_scaling": 1.0}, "Clustering": {"histogram": "np.histogram(nx.clustering values, bins=100, range=(0, 1))", "bins": 100, "tv_kernel": "analysis.dist_helper.gaussian_tv", "emd_kernel": "analysis.dist_helper.gaussian_emd", "sigma": 0.1, "emd_distance_scaling": 100.0}, "Eccentricity": {"histogram": "50-bin histogram of all-pairs shortest-path lengths, including zero self-distances, after radius_worker selects the largest connected component", "bins": 50, "tv_kernel": "metrics.mmd.kernels.gaussian_tv", "emd_kernel": "metrics.mmd.kernels.gaussian (the project's actual radius_stats(compute_emd=True) implementation)", "sigma": 1.0}, "Spectre": {"histogram": "200-bin normalized-Laplacian eigenvalue histogram over range=(-1e-5, 2) with n_eigvals=-1", "bins": 200, "laplacian": "networkx.normalized_laplacian_matrix", "tv_kernel": "analysis.dist_helper.gaussian_tv", "emd_kernel": "analysis.dist_helper.gaussian_emd", "sigma": 1.0, "emd_distance_scaling": 1.0}}
+2026-07-18 15:33:20,904 | INFO | Preprocessing: nx.Graph conversion and self-loop removal only; preserve isolated nodes, labels, and disconnected components for every graph.
+2026-07-18 15:33:20,904 | INFO | Largest connected component policy: only radius_worker and the standalone diameter summary select the LCC; no graph passed to MMD is globally truncated.
+2026-07-18 15:33:21,001 | INFO | Generated graph 0: nodes=145 edges=714 components=1 (full graph retained)
+2026-07-18 15:33:21,036 | INFO | Generated graph 1: nodes=172 edges=1017 components=1 (full graph retained)
+2026-07-18 15:33:21,058 | INFO | Generated graph 2: nodes=122 edges=664 components=1 (full graph retained)
+2026-07-18 15:33:21,071 | INFO | Generated graph 3: nodes=100 edges=547 components=1 (full graph retained)
+2026-07-18 15:33:21,113 | INFO | Generated graph 4: nodes=174 edges=1043 components=1 (full graph retained)
+2026-07-18 15:33:21,124 | INFO | Generated graph 5: nodes=72 edges=317 components=1 (full graph retained)
+2026-07-18 15:33:21,155 | INFO | Generated graph 6: nodes=152 edges=810 components=1 (full graph retained)
+2026-07-18 15:33:21,181 | INFO | Generated graph 7: nodes=147 edges=752 components=1 (full graph retained)
+2026-07-18 15:33:21,203 | INFO | Generated graph 8: nodes=117 edges=603 components=1 (full graph retained)
+2026-07-18 15:33:21,218 | INFO | Generated graph 9: nodes=90 edges=464 components=1 (full graph retained)
+2026-07-18 15:33:21,244 | INFO | Generated graph 10: nodes=142 edges=728 components=1 (full graph retained)
+2026-07-18 15:33:21,258 | INFO | Generated graph 11: nodes=87 edges=499 components=1 (full graph retained)
+2026-07-18 15:33:21,270 | INFO | Generated graph 12: nodes=92 edges=516 components=1 (full graph retained)
+2026-07-18 15:33:21,294 | INFO | Generated graph 13: nodes=124 edges=682 components=1 (full graph retained)
+2026-07-18 15:33:21,328 | INFO | Generated graph 14: nodes=156 edges=882 components=1 (full graph retained)
+2026-07-18 15:33:21,355 | INFO | Generated graph 15: nodes=129 edges=721 components=1 (full graph retained)
+2026-07-18 15:33:21,397 | INFO | Generated graph 16: nodes=163 edges=961 components=1 (full graph retained)
+2026-07-18 15:33:21,412 | INFO | Generated graph 17: nodes=84 edges=435 components=1 (full graph retained)
+2026-07-18 15:33:21,431 | INFO | Generated graph 18: nodes=100 edges=538 components=1 (full graph retained)
+2026-07-18 15:33:21,461 | INFO | Generated graph 19: nodes=147 edges=901 components=1 (full graph retained)
+2026-07-18 15:33:21,479 | INFO | Generated graph 20: nodes=115 edges=684 components=1 (full graph retained)
+2026-07-18 15:33:21,498 | INFO | Generated graph 21: nodes=101 edges=578 components=1 (full graph retained)
+2026-07-18 15:33:21,511 | INFO | Generated graph 22: nodes=81 edges=388 components=1 (full graph retained)
+2026-07-18 15:33:21,542 | INFO | Generated graph 23: nodes=140 edges=891 components=1 (full graph retained)
+2026-07-18 15:33:21,553 | INFO | Generated graph 24: nodes=76 edges=341 components=1 (full graph retained)
+2026-07-18 15:33:21,569 | INFO | Generated graph 25: nodes=92 edges=487 components=1 (full graph retained)
+2026-07-18 15:33:21,584 | INFO | Generated graph 26: nodes=89 edges=469 components=1 (full graph retained)
+2026-07-18 15:33:21,617 | INFO | Generated graph 27: nodes=154 edges=822 components=1 (full graph retained)
+2026-07-18 15:33:21,653 | INFO | Generated graph 28: nodes=167 edges=974 components=1 (full graph retained)
+2026-07-18 15:33:21,676 | INFO | Generated graph 29: nodes=113 edges=726 components=1 (full graph retained)
+2026-07-18 15:33:21,700 | INFO | Generated graph 30: nodes=133 edges=663 components=1 (full graph retained)
+2026-07-18 15:33:21,712 | INFO | Generated graph 31: nodes=90 edges=487 components=1 (full graph retained)
+2026-07-18 15:33:21,724 | INFO | Generated graph 32: nodes=92 edges=481 components=1 (full graph retained)
+2026-07-18 15:33:21,771 | INFO | Generated graph 33: nodes=190 edges=1192 components=1 (full graph retained)
+2026-07-18 15:33:21,795 | INFO | Generated graph 34: nodes=139 edges=726 components=1 (full graph retained)
+2026-07-18 15:33:21,812 | INFO | Generated graph 35: nodes=98 edges=591 components=1 (full graph retained)
+2026-07-18 15:33:21,860 | INFO | Generated graph 36: nodes=183 edges=1124 components=1 (full graph retained)
+2026-07-18 15:33:21,879 | INFO | Generated graph 37: nodes=112 edges=694 components=1 (full graph retained)
+2026-07-18 15:33:21,892 | INFO | Generated graph 38: nodes=77 edges=361 components=1 (full graph retained)
+2026-07-18 15:33:21,907 | INFO | Generated graph 39: nodes=81 edges=411 components=1 (full graph retained)
+2026-07-18 15:33:22,059 | INFO | Real test graph index 195: nodes=119 edges=553 components=1 (full graph retained)
+2026-07-18 15:33:22,069 | INFO | Real test graph index 188: nodes=69 edges=325 components=1 (full graph retained)
+2026-07-18 15:33:22,092 | INFO | Real test graph index 101: nodes=125 edges=624 components=1 (full graph retained)
+2026-07-18 15:33:22,110 | INFO | Real test graph index 178: nodes=107 edges=544 components=1 (full graph retained)
+2026-07-18 15:33:22,122 | INFO | Real test graph index 16: nodes=77 edges=312 components=1 (full graph retained)
+2026-07-18 15:33:22,149 | INFO | Real test graph index 154: nodes=144 edges=665 components=1 (full graph retained)
+2026-07-18 15:33:22,160 | INFO | Real test graph index 133: nodes=80 edges=343 components=1 (full graph retained)
+2026-07-18 15:33:22,198 | INFO | Real test graph index 141: nodes=164 edges=846 components=1 (full graph retained)
+2026-07-18 15:33:22,223 | INFO | Real test graph index 155: nodes=132 edges=631 components=1 (full graph retained)
+2026-07-18 15:33:22,254 | INFO | Real test graph index 57: nodes=139 edges=757 components=1 (full graph retained)
+2026-07-18 15:33:22,268 | INFO | Real test graph index 20: nodes=89 edges=457 components=1 (full graph retained)
+2026-07-18 15:33:22,295 | INFO | Real test graph index 86: nodes=147 edges=735 components=1 (full graph retained)
+2026-07-18 15:33:22,327 | INFO | Real test graph index 115: nodes=161 edges=814 components=1 (full graph retained)
+2026-07-18 15:33:22,358 | INFO | Real test graph index 176: nodes=152 edges=753 components=1 (full graph retained)
+2026-07-18 15:33:22,371 | INFO | Real test graph index 143: nodes=92 edges=403 components=1 (full graph retained)
+2026-07-18 15:33:22,394 | INFO | Real test graph index 73: nodes=129 edges=690 components=1 (full graph retained)
+2026-07-18 15:33:22,414 | INFO | Real test graph index 183: nodes=109 edges=606 components=1 (full graph retained)
+2026-07-18 15:33:22,430 | INFO | Real test graph index 165: nodes=102 edges=407 components=1 (full graph retained)
+2026-07-18 15:33:22,445 | INFO | Real test graph index 168: nodes=94 edges=495 components=1 (full graph retained)
+2026-07-18 15:33:22,483 | INFO | Real test graph index 23: nodes=164 edges=894 components=1 (full graph retained)
+2026-07-18 15:33:22,490 | INFO | Real test graph index 13: nodes=58 edges=264 components=1 (full graph retained)
+2026-07-18 15:33:22,502 | INFO | Real test graph index 66: nodes=75 edges=406 components=1 (full graph retained)
+2026-07-18 15:33:22,517 | INFO | Real test graph index 198: nodes=85 edges=390 components=1 (full graph retained)
+2026-07-18 15:33:22,526 | INFO | Real test graph index 41: nodes=63 edges=287 components=1 (full graph retained)
+2026-07-18 15:33:22,535 | INFO | Real test graph index 128: nodes=64 edges=330 components=1 (full graph retained)
+2026-07-18 15:33:22,565 | INFO | Real test graph index 121: nodes=144 edges=665 components=1 (full graph retained)
+2026-07-18 15:33:22,573 | INFO | Real test graph index 43: nodes=54 edges=210 components=1 (full graph retained)
+2026-07-18 15:33:22,591 | INFO | Real test graph index 177: nodes=110 edges=451 components=1 (full graph retained)
+2026-07-18 15:33:22,598 | INFO | Real test graph index 147: nodes=62 edges=286 components=1 (full graph retained)
+2026-07-18 15:33:22,627 | INFO | Real test graph index 144: nodes=140 edges=633 components=1 (full graph retained)
+2026-07-18 15:33:22,641 | INFO | Real test graph index 105: nodes=81 edges=350 components=1 (full graph retained)
+2026-07-18 15:33:22,658 | INFO | Real test graph index 199: nodes=90 edges=415 components=1 (full graph retained)
+2026-07-18 15:33:22,689 | INFO | Real test graph index 85: nodes=167 edges=848 components=1 (full graph retained)
+2026-07-18 15:33:22,704 | INFO | Real test graph index 142: nodes=97 edges=500 components=1 (full graph retained)
+2026-07-18 15:33:22,711 | INFO | Real test graph index 157: nodes=56 edges=216 components=2 (full graph retained)
+2026-07-18 15:33:22,727 | INFO | Real test graph index 189: nodes=103 edges=402 components=1 (full graph retained)
+2026-07-18 15:33:22,738 | INFO | Real test graph index 103: nodes=79 edges=311 components=1 (full graph retained)
+2026-07-18 15:33:22,782 | INFO | Real test graph index 190: nodes=174 edges=972 components=1 (full graph retained)
+2026-07-18 15:33:22,825 | INFO | Real test graph index 98: nodes=157 edges=806 components=1 (full graph retained)
+2026-07-18 15:33:22,835 | INFO | Real test graph index 90: nodes=60 edges=279 components=1 (full graph retained)
+2026-07-18 15:33:22,838 | INFO | Real test graphs: 40
+2026-07-18 15:33:22,839 | INFO | Generated graphs: 40
+2026-07-18 15:33:22,840 | INFO | Split seed: 1234; lengths: train=128 validation=32 test=40
+2026-07-18 15:33:22,841 | INFO | Exact test indices: [195, 188, 101, 178, 16, 154, 133, 141, 155, 57, 20, 86, 115, 176, 143, 73, 183, 165, 168, 23, 13, 66, 198, 41, 128, 121, 43, 177, 147, 144, 105, 199, 85, 142, 157, 189, 103, 190, 98, 90]
+2026-07-18 15:33:22,843 | INFO | Real SBM test means compared with the paper's real-data statistics:
+2026-07-18 15:33:22,843 | INFO |   Nodes          current=107.850000 paper=107.000000 difference= +0.850000
+2026-07-18 15:33:22,843 | INFO |   Edges          current=521.875000 paper=522.000000 difference= -0.125000
+2026-07-18 15:33:22,843 | INFO |   Diameter       current=  5.400000 paper=  5.460000 difference= -0.060000
+2026-07-18 15:33:22,845 | INFO |   Clustering     current=  0.276489 paper=  0.276000 difference= +0.000489
+2026-07-18 15:33:22,845 | INFO |   Density        current=  0.098985 paper=  0.099000 difference= -0.000015
+2026-07-18 15:33:22,845 | INFO |   Transitivity   current=  0.275986 paper=  0.276000 difference= -0.000014
+2026-07-18 15:33:22,846 | INFO | Computing complete five-metric TV result set
+2026-07-18 15:33:22,847 | INFO | Nodes/tv via analysis.dist_helper.compute_mmd: real_counts=[119, 69, 125, 107, 77, 144, 80, 164, 132, 139, 89, 147, 161, 152, 92, 129, 109, 102, 94, 164, 58, 75, 85, 63, 64, 144, 54, 110, 62, 140, 81, 90, 167, 97, 56, 103, 79, 174, 157, 60] generated_counts=[145, 172, 122, 100, 174, 72, 152, 147, 117, 90, 142, 87, 92, 124, 156, 129, 163, 84, 100, 147, 115, 101, 81, 140, 76, 92, 89, 154, 167, 113, 133, 90, 92, 190, 139, 98, 183, 112, 77, 81]
+2026-07-18 15:33:22,848 | INFO | Nodes/tv aggregate histogram lengths: real=175 generated=191; kernel=analysis.dist_helper.gaussian_tv
+2026-07-18 15:33:32,711 | INFO | Computing complete five-metric EMD result set
+2026-07-18 15:33:32,712 | INFO | Nodes/emd via analysis.dist_helper.compute_mmd: real_counts=[119, 69, 125, 107, 77, 144, 80, 164, 132, 139, 89, 147, 161, 152, 92, 129, 109, 102, 94, 164, 58, 75, 85, 63, 64, 144, 54, 110, 62, 140, 81, 90, 167, 97, 56, 103, 79, 174, 157, 60] generated_counts=[145, 172, 122, 100, 174, 72, 152, 147, 117, 90, 142, 87, 92, 124, 156, 129, 163, 84, 100, 147, 115, 101, 81, 140, 76, 92, 89, 154, 167, 113, 133, 90, 92, 190, 139, 98, 183, 112, 77, 81]
+2026-07-18 15:33:32,712 | INFO | Nodes/emd aggregate histogram lengths: real=175 generated=191; kernel=analysis.dist_helper.gaussian_emd
+2026-07-18 15:34:40,830 | INFO | TV MMD results
+2026-07-18 15:34:40,830 | INFO | Metric               Current     Paper HiGGs     Difference
+2026-07-18 15:34:40,830 | INFO | Nodes               0.434591        0.547000       0.112409
+2026-07-18 15:34:40,830 | INFO | Degree              0.029986        0.286000       0.256014
+2026-07-18 15:34:40,830 | INFO | Clustering          0.069420        0.411000       0.341580
+2026-07-18 15:34:40,831 | INFO | Eccentricity        0.163817        0.040100       0.123717
+2026-07-18 15:34:40,831 | INFO | Spectre             0.011266        0.314000       0.302734
+2026-07-18 15:34:40,831 | INFO | EMD MMD results
+2026-07-18 15:34:40,832 | INFO | Metric               Current     Paper HiGGs     Difference
+2026-07-18 15:34:40,832 | INFO | Nodes               2.000000        0.547000       1.453000
+2026-07-18 15:34:40,832 | INFO | Degree              0.289290        0.286000       0.003290
+2026-07-18 15:34:40,832 | INFO | Clustering          0.338724        0.411000       0.072276
+2026-07-18 15:34:40,832 | INFO | Eccentricity        0.098012        0.040100       0.057912
+2026-07-18 15:34:40,833 | INFO | Spectre             0.314749        0.314000       0.000749
+2026-07-18 15:34:40,833 | INFO | New result files: ['E:\\HiGGs-GBD\\HiGGs-main\\higgs\\outputs\\2026-07-18\\14-56-35\\sbm_mmd_evaluation\\sbm_mmd_results_tv.csv', 'E:\\HiGGs-GBD\\HiGGs-main\\higgs\\outputs\\2026-07-18\\14-56-35\\sbm_mmd_evaluation\\sbm_mmd_results_tv.json', 'E:\\HiGGs-GBD\\HiGGs-main\\higgs\\outputs\\2026-07-18\\14-56-35\\sbm_mmd_evaluation\\sbm_mmd_results_emd.csv', 'E:\\HiGGs-GBD\\HiGGs-main\\higgs\\outputs\\2026-07-18\\14-56-35\\sbm_mmd_evaluation\\sbm_mmd_results_emd.json', 'E:\\HiGGs-GBD\\HiGGs-main\\higgs\\outputs\\2026-07-18\\14-56-35\\sbm_mmd_evaluation\\sbm_mmd_results_paper_compatible.csv', 'E:\\HiGGs-GBD\\HiGGs-main\\higgs\\outputs\\2026-07-18\\14-56-35\\sbm_mmd_evaluation\\sbm_mmd_results_paper_compatible.json']
+2026-07-18 15:34:40,833 | INFO | Audit saved to: E:\HiGGs-GBD\HiGGs-main\higgs\outputs\2026-07-18\14-56-35\sbm_mmd_evaluation\sbm_mmd_audit.json
+2026-07-18 15:34:40,833 | INFO | Final selected paper-compatible mode=tv; reason=The active HiGGs SBM evaluation call chain constructs SBMSamplingMetrics and FullSampleMetrics with compute_emd=False. Nodes always use gaussian_tv; the active SBM radius call also keeps its default compute_emd=False. The unused PostProcessSampleMetrics class is not evidence for the reported SBM path.

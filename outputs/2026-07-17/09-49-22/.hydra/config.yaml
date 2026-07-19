@@ -1,0 +1,93 @@
+general:
+  name: beta_h2_smoke_train
+  wandb: disabled
+  gpus: 0
+  resume: null
+  test_only: null
+  check_val_every_n_epochs: 1
+  sample_every_val: 2
+  val_check_interval: null
+  samples_to_generate: 4
+  samples_to_save: 4
+  chains_to_save: 0
+  log_every_steps: 1
+  number_chain_steps: 50
+  final_model_samples_to_generate: 40
+  final_model_samples_to_save: 40
+  final_model_chains_to_save: 4
+  evaluate_all_checkpoints: false
+model:
+  family: beta_h2
+  type: beta
+  model: graph_tf
+  diffusion_steps: 5
+  input_space: logit
+  pre_condition: false
+  sigmoid_start: 10
+  sigmoid_end: -13
+  sigmoid_power: 1.0
+  eta:
+    node: 100
+    edge: 100
+  eta_strategy: fixed
+  degree_thresholds:
+  - 0.33
+  - 0.66
+  degree_eta_multipliers:
+  - 0.5
+  - 1.0
+  - 2.0
+  scale_shift:
+    node:
+    - 0.9
+    - 0.09
+    edge:
+    - 0.9
+    - 0.09
+  beta_loss:
+    sampling_weight: 0.99
+    correction_weight: 0.01
+  edge_threshold: 0.5
+  beta_eps: 1.0e-06
+  n_layers: 4
+  extra_features: null
+  hidden_mlp_dims:
+    X: 64
+    E: 64
+    'y': 64
+  hidden_dims:
+    dx: 64
+    de: 64
+    dy: 64
+    n_head: 8
+    dim_ffX: 64
+    dim_ffE: 64
+    dim_ffy: 64
+  lambda_train:
+  - 5
+  - 0
+train:
+  n_epochs: 1
+  batch_size: 8
+  lr: 0.0002
+  clip_grad: null
+  save_model: true
+  num_workers: 0
+  ema_decay: 0
+  progress_bar: false
+  weight_decay: 1.0e-12
+  optimizer: adamw
+  amsgrad: true
+  overfit: false
+  seed: 0
+dataset:
+  name: sbm
+  datadir: E:\HiGGs-main1\HiGGs-main\data\sbm\
+  h: 2
+  random_subset: null
+  pin_memory: false
+  subsample: false
+  resolution: 2
+  max_size: 500
+  regime: majority
+  dataset_testing: false

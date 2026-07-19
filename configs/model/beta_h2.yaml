@@ -1,0 +1,38 @@
+# Conditional Graph Beta Diffusion used exclusively for HiGGs stage h2.
+family: beta_h2
+type: beta
+model: graph_tf
+
+diffusion_steps: 100
+input_space: logit                 # logit | original
+pre_condition: false
+
+sigmoid_start: 10
+sigmoid_end: -13
+sigmoid_power: 1.0
+
+eta:
+  node: 100
+  edge: 100
+eta_strategy: fixed                # fixed: formally supported | degree: experimental only
+degree_thresholds: [0.33, 0.66]
+degree_eta_multipliers: [0.5, 1.0, 2.0]
+
+scale_shift:
+  node: [0.9, 0.09]
+  edge: [0.9, 0.09]
+
+beta_loss:
+  sampling_weight: 0.99
+  correction_weight: 0.01
+
+edge_threshold: 0.5
+beta_eps: 1.0e-6
+
+n_layers: 4
+extra_features: null
+hidden_mlp_dims: {X: 64, E: 64, y: 64}
+hidden_dims: {dx: 64, de: 64, dy: 64, n_head: 8, dim_ffX: 64, dim_ffE: 64, dim_ffy: 64}
+
+# Preserve the HiGGs convention L = L_X + 5 L_E; y is a condition, not a target.
+lambda_train: [5, 0]

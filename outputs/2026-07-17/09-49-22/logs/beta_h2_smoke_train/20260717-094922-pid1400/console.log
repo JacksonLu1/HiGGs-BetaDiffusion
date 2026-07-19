@@ -1,0 +1,16 @@
+Console log saved to: E:\HiGGs-GBD\HiGGs-main\outputs\2026-07-17\09-49-22\logs\beta_h2_smoke_train\20260717-094922-pid1400\console.log
+Get past imports
+Entered SBM datamodule __init__
+Finished SBM datamodule __init__
+{'name': 'sbm', 'datadir': 'E:\\HiGGs-main1\\HiGGs-main\\data\\sbm\\', 'h': 2, 'random_subset': None, 'pin_memory': False, 'subsample': False, 'resolution': 2, 'max_size': 500, 'regime': 'majority', 'dataset_testing': False}
+Initialising extra features
+Computing in/out dims
+Error executing job with overrides: ['dataset=sbm', 'dataset.datadir=E:\\HiGGs-main1\\HiGGs-main\\data\\sbm\\', 'dataset.h=2', 'model=beta_h2', 'model.diffusion_steps=5', 'general.name=beta_h2_smoke_train', 'general.wandb=disabled', 'general.gpus=0', 'general.check_val_every_n_epochs=1', 'general.log_every_steps=1', 'train.n_epochs=1', 'train.num_workers=0', 'train.progress_bar=false']
+Traceback (most recent call last):
+  File "E:\HiGGs-GBD\HiGGs-main\dgd\main.py", line 292, in main
+    dataset_infos.compute_input_output_dims(datamodule=datamodule, extra_features=extra_features,
+  File "E:\HiGGs-GBD\HiGGs-main\dgd\datasets\abstract_dataset.py", line 136, in compute_input_output_dims
+    ex_extra_feat = extra_features(example_data, example_batch.pos)
+TypeError: DummyExtraFeatures.__call__() takes 2 positional arguments but 3 were given
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

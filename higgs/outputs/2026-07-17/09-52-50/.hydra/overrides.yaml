@@ -1,0 +1,13 @@
+- general=sample_sbm
+- general.h2_model=E:\HiGGs-GBD\HiGGs-main\outputs\2026-07-17\09-50-49\checkpoints\beta_h2_smoke_train\last.ckpt
+- general.h2_model_family=beta_h2
+- general.h1_model=E:\HiGGs-main1\HiGGs-main\saved_models\sbm\sbm_h1.ckpt
+- general.glue_model=E:\HiGGs-main1\HiGGs-main\saved_models\sbm\sbm_glue.ckpt
+- general.root_path=E:\HiGGs-main1\HiGGs-main\data
+- general.samples_to_generate=1
+- general.h1_batch_size=8
+- general.glue_batch_size=8
+- general.visualize=false
+- general.intermediate_figures=false
+- general.wandb=disabled
+- general.gpus=1

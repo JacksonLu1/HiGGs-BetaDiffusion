@@ -1,0 +1,19 @@
+﻿# General settings
+name: 'sbm'      # Warning: 'debug' and 'test' are reserved name that have a special behavior
+
+wandb: 'online'             # online | offline | disabled
+gpus: 1                     # Multi-gpu is not implemented on this branch
+
+root_path: 'E:/HiGGs-GBD/HiGGs-main/data'
+
+h1_model: E:\HiGGs-main1\HiGGs-main\saved_models\sbm\sbm_h1.ckpt # Use absolute paths
+glue_model: E:\HiGGs-main1\HiGGs-main\saved_models\sbm\sbm_glue.ckpt # Use absolute paths
+h2_model: E:\HiGGs-main1\HiGGs-main\saved_models\sbm\sbm_h2.ckpt # Use absolute paths
+h2_model_family: digress  # set beta_h2 only when h2_model is a ConditionalGraphBetaDiffusionH2 checkpoint
+
+samples_to_generate: 40
+h1_batch_size: 16
+glue_batch_size: 5
+
+visualize: true
+intermediate_figures: true

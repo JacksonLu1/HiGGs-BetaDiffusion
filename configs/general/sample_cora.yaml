@@ -1,0 +1,16 @@
+# General settings
+name: 'cora'      # Warning: 'debug' and 'test' are reserved name that have a special behavior
+
+wandb: 'online'             # online | offline | disabled
+gpus: 1                     # Multi-gpu is not implemented on this branch
+
+root_path: E:\HiGGs-main1\HiGGs-main\data # Should be absolute path to data directory
+
+h1_model: E:\HiGGs-main1\HiGGs-main\saved_models\cora\cora_h1.ckpt # Use absolute path
+glue_model: E:\HiGGs-main1\HiGGs-main\saved_models\cora\cora_glue.ckpt # Use absolute path
+h2_model:  E:\HiGGs-main1\HiGGs-main\saved_models\cora\cora_h2.ckpt # Use absolute path
+h2_model_family: digress  # set beta_h2 only when h2_model is a ConditionalGraphBetaDiffusionH2 checkpoint
+
+samples_to_generate: 1
+h1_batch_size: 1
+glue_batch_size: 1

@@ -1,0 +1,36 @@
+# Conditional Graph Beta Diffusion for HiGGs Stage Two.
+family: beta_h1
+type: beta
+model: graph_tf
+
+diffusion_steps: 100
+input_space: logit
+pre_condition: false
+
+sigmoid_start: 10
+sigmoid_end: -13
+sigmoid_power: 1.0
+
+eta:
+  node: 100
+  edge: 100
+eta_strategy: fixed
+
+scale_shift:
+  node: [0.9, 0.09]
+  edge: [0.9, 0.09]
+
+beta_loss:
+  sampling_weight: 0.99
+  correction_weight: 0.01
+
+edge_threshold: 0.5
+beta_eps: 1.0e-6
+
+n_layers: 4
+extra_features: all
+hidden_mlp_dims: {X: 64, E: 64, y: 64}
+hidden_dims: {dx: 64, de: 64, dy: 64, n_head: 8, dim_ffX: 64, dim_ffE: 64, dim_ffy: 64}
+
+# SBM H1 has fixed X and fixed y, so only lambda_train[0] * E_KLUB is active.
+lambda_train: [5, 0]

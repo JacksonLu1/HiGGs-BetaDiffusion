@@ -1,0 +1,18 @@
+name: sbm
+wandb: disabled
+gpus: 1
+
+root_path: E:/HiGGs-GBD/HiGGs-main/data
+
+h2_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_beta_h2_r1_v2_paper_allprior_e10_best.ckpt
+h2_model_family: beta_h2
+h1_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_beta_h1_r1_best.ckpt
+h1_model_family: beta_h1
+glue_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_glue.ckpt
+glue_model_family: original_glue
+
+samples_to_generate: 40
+h1_batch_size: 16
+glue_batch_size: 5
+visualize: true
+intermediate_figures: false

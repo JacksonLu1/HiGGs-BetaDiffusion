@@ -8,7 +8,6 @@ import warnings
 from pathlib import Path
 from typing import Optional, Tuple
 
-import networkx as nx
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
@@ -20,10 +19,11 @@ from diffusion.beta_diffusion_utils import (
     discretize_graph,
     forward_beta_sample,
     fixed_h2_condition,
-    inverse_scale_shift,
+    logits_to_unit_probability,
     reverse_beta_step,
-    scale_shift,
+    shifted_clean_to_unit_probability,
     sigmoid_alpha,
+    unit_probability_to_shifted_state,
 )
 from metrics.beta_train_metrics import BetaH2Loss
 from models.transformer_model import GraphTransformer
@@ -138,6 +138,8 @@ class ConditionalGraphBetaDiffusionH2(pl.LightningModule):
                 "visualization_tools": visualization_tools,
                 "extra_features": extra_features,
                 "domain_features": domain_features,
+                "model_family": "beta_h2",
+                "stage": "h2",
             })
         except Exception as error:
             print(f"[HiGGs] beta_h2 hyperparameter serialization skipped: {error}")
@@ -211,10 +213,12 @@ class ConditionalGraphBetaDiffusionH2(pl.LightningModule):
         global_condition = torch.cat((condition_y.float(), t.float()), dim=-1)
         prediction = self.model(model_X.float(), model_E.float(),
                                 global_condition, node_mask)
-        pred_X0 = scale_shift(torch.sigmoid(prediction.X),
-                              self.node_scale, self.node_shift)
-        pred_E0 = scale_shift(torch.sigmoid(prediction.E),
-                              self.edge_scale, self.edge_shift)
+        pred_X0 = unit_probability_to_shifted_state(
+            logits_to_unit_probability(prediction.X),
+            self.node_scale, self.node_shift)
+        pred_E0 = unit_probability_to_shifted_state(
+            logits_to_unit_probability(prediction.E),
+            self.edge_scale, self.edge_shift)
         return apply_graph_masks(pred_X0, pred_E0, node_mask)
 
     def _forward_noise(self, X0: torch.Tensor, E0: torch.Tensor,
@@ -244,8 +248,10 @@ class ConditionalGraphBetaDiffusionH2(pl.LightningModule):
         dense_data = dense_data.mask(node_mask)
         X_discrete = dense_data.X.float()
         E_discrete = dense_data.E.float()
-        X0 = scale_shift(X_discrete, self.node_scale, self.node_shift)
-        E0 = scale_shift(E_discrete[..., 1:], self.edge_scale, self.edge_shift)
+        X0 = unit_probability_to_shifted_state(
+            X_discrete, self.node_scale, self.node_shift)
+        E0 = unit_probability_to_shifted_state(
+            E_discrete[..., 1:], self.edge_scale, self.edge_shift)
         X0, E0 = apply_graph_masks(X0, E0, node_mask)
 
         eta_X, eta_E = self._eta_tensors(E_discrete[..., 1:], node_mask)
@@ -370,8 +376,8 @@ class ConditionalGraphBetaDiffusionH2(pl.LightningModule):
                 eta_X, eta_E, node_mask)
 
             if self.eta_strategy == "degree":
-                predicted_edges = inverse_scale_shift(
-                    pred_E0, self.edge_scale, self.edge_shift).clamp(0.0, 1.0)
+                predicted_edges = shifted_clean_to_unit_probability(
+                    pred_E0, self.edge_scale, self.edge_shift)
                 eta_X, eta_E = self._eta_tensors(predicted_edges, node_mask)
             X_state, _ = reverse_beta_step(
                 X_state, pred_X0, alpha_t.view(-1, 1, 1),
@@ -383,10 +389,10 @@ class ConditionalGraphBetaDiffusionH2(pl.LightningModule):
                 self.input_space)
             X_state, E_state = apply_graph_masks(X_state, E_state, node_mask)
 
-        node_values = inverse_scale_shift(
-            pred_X0, self.node_scale, self.node_shift).clamp(0.0, 1.0)
-        edge_values = inverse_scale_shift(
-            pred_E0, self.edge_scale, self.edge_shift).clamp(0.0, 1.0)
+        node_values = shifted_clean_to_unit_probability(
+            pred_X0, self.node_scale, self.node_shift)
+        edge_values = shifted_clean_to_unit_probability(
+            pred_E0, self.edge_scale, self.edge_shift)
         node_types, edge_types = discretize_graph(
             node_values, edge_values, node_mask, self.edge_threshold)
 
@@ -397,13 +403,6 @@ class ConditionalGraphBetaDiffusionH2(pl.LightningModule):
             nodes = node_types[index, :n].cpu()
             edges = edge_types[index, :n, :n].cpu()
             graph = utils.to_networkx(nodes.numpy(), edges.numpy())
-            if graph.number_of_nodes() > 0:
-                components = list(nx.connected_components(graph))
-                largest = max(components, key=len)
-                keep = torch.tensor(sorted(largest), dtype=torch.long)
-                nodes = nodes[keep]
-                edges = edges[keep][:, keep]
-                graph = utils.to_networkx(nodes.numpy(), edges.numpy())
             predicted_graph_list.append([nodes, edges])
             networkx_graphs.append(graph)
 

@@ -97,6 +97,7 @@ from analysis.spectre_utils import FBSamplingMetrics, ShetlandSamplingMetrics, C
 
 from diffusion_model_discrete import DiscreteDenoisingDiffusion
 from diffusion_model_beta_h2 import ConditionalGraphBetaDiffusionH2
+from diffusion_model_beta_h1 import ConditionalGraphBetaDiffusionH1
 from analysis.visualization import DiscreteNodeTypeVisualization
 from diffusion.extra_features import DummyExtraFeatures, ExtraFeatures
 from tqdm import tqdm
@@ -106,10 +107,22 @@ warnings.filterwarnings('ignore', category=UserWarning)
 
 
 def get_model_class(cfg):
-    """Select beta diffusion only for h2; missing family stays backward compatible."""
+    """Route explicit H2/H1 Beta families; legacy configs stay discrete."""
     family = cfg.model.get('family', 'digress')
-    if float(cfg.dataset.h) == 2.0 and family == 'beta_h2':
-        return ConditionalGraphBetaDiffusionH2
+    stage = float(cfg.dataset.h)
+    routes = {
+        'beta_h2': (2.0, ConditionalGraphBetaDiffusionH2),
+        'beta_h1': (1.0, ConditionalGraphBetaDiffusionH1),
+    }
+    if family in routes:
+        expected_stage, model_class = routes[family]
+        if stage != expected_stage:
+            raise ValueError(
+                f"model.family={family} requires dataset.h={expected_stage}, "
+                f"got {stage}")
+        return model_class
+    if cfg.model.get('type') == 'beta':
+        raise ValueError(f"Unsupported Beta model family: {family}")
     return DiscreteDenoisingDiffusion
 
 
@@ -260,7 +273,9 @@ def main(cfg: DictConfig):
         visualization_tools = DiscreteNodeTypeVisualization()
 
         print(f"Extra features")
-        if cfg.model.type == 'discrete' and cfg.model.extra_features is not None:
+        if (cfg.model.type == 'discrete'
+                or cfg.model.get('family') == 'beta_h1') \
+                and cfg.model.extra_features is not None:
             extra_features = ExtraFeatures(cfg.model.extra_features, dataset_info=dataset_infos)
         else:
             extra_features = DummyExtraFeatures()
@@ -313,7 +328,9 @@ def main(cfg: DictConfig):
         visualization_tools = DiscreteNodeTypeVisualization()
 
         print(f"Initialising extra features")
-        if cfg.model.type == 'discrete' and cfg.model.extra_features is not None:
+        if (cfg.model.type == 'discrete'
+                or cfg.model.get('family') == 'beta_h1') \
+                and cfg.model.extra_features is not None:
             extra_features = ExtraFeatures(cfg.model.extra_features, dataset_info=dataset_infos)
         else:
             extra_features = DummyExtraFeatures()
@@ -360,15 +377,21 @@ def main(cfg: DictConfig):
 
     callbacks = []
     if cfg.train.save_model:
-        checkpoint_monitor = ('val/beta_h2_loss' if model_class is ConditionalGraphBetaDiffusionH2
-                              else 'val/epoch_NLL_stable')
+        if model_class is ConditionalGraphBetaDiffusionH2:
+            checkpoint_monitor = 'val/beta_h2_loss'
+        elif model_class is ConditionalGraphBetaDiffusionH1:
+            checkpoint_monitor = 'val/h1_total'
+        else:
+            checkpoint_monitor = 'val/epoch_NLL_stable'
         checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{cfg.general.name}",
                                               filename='{epoch}',
                                               monitor=checkpoint_monitor,
                                               save_top_k=2,
                                               save_last=True,
                                               mode='min',
-                                              every_n_epochs=10)
+                                              every_n_epochs=(
+                                                  1 if model_class is ConditionalGraphBetaDiffusionH1
+                                                  else 10))
         callbacks.append(checkpoint_callback)
 
     if cfg.train.ema_decay > 0:
@@ -380,9 +403,12 @@ def main(cfg: DictConfig):
     trainer = Trainer(gradient_clip_val=cfg.train.clip_grad,
                       accelerator='gpu' if torch.cuda.is_available() and cfg.general.gpus > 0 else 'cpu',
                       devices=cfg.general.gpus if torch.cuda.is_available() and cfg.general.gpus > 0 else None,
-                      limit_train_batches=20 if name == 'test' else None,
-                      limit_val_batches=20 if name == 'test' else None,
-                      limit_test_batches=20 if name == 'test' else None,
+                      limit_train_batches=cfg.general.get(
+                          'limit_train_batches', 20 if name == 'test' else None),
+                      limit_val_batches=cfg.general.get(
+                          'limit_val_batches', 20 if name == 'test' else None),
+                      limit_test_batches=cfg.general.get(
+                          'limit_test_batches', 20 if name == 'test' else None),
                       val_check_interval=cfg.general.val_check_interval,
                       max_epochs=cfg.train.n_epochs,
                       check_val_every_n_epoch=cfg.general.check_val_every_n_epochs,

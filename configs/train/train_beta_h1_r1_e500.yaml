@@ -1,0 +1,14 @@
+# Fair SBM r=1 Beta-H1 run; model and data semantics come from their own groups.
+n_epochs: 500
+batch_size: 8
+lr: 0.0002
+clip_grad: null
+save_model: true
+num_workers: 0
+ema_decay: 0
+progress_bar: true
+weight_decay: 1.0e-12
+optimizer: adamw
+amsgrad: true
+overfit: false
+seed: 0

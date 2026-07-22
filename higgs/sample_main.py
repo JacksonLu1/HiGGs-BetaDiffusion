@@ -10,6 +10,7 @@ matplotlib.use("Agg", force=True)
 
 import warnings
 import torch
+import networkx as nx
 torch.multiprocessing.set_sharing_strategy('file_system')
 
 import wandb
@@ -67,9 +68,26 @@ def sample_large_graph(cfg, dataset, h1_batch_size=1, glue_batch_size=1,
     # Get h1 graphs for each node in h2 (Stage Two)
     # h1_label_mapping gives keys for relabelling later - in order that they were generated
     h1_adjs, h1_node_types, h1_label_mapping, node_to_class, n_nodes_counter = get_h1_graphs(
-        cfg, h1_graph_types, h1_batch_size,
-        intermediate_figures=intermediate_figures,
-        graph_number=graph_number)
+        cfg, h1_graph_types, h1_batch_size)
+
+    sampled_h2_node_count = int(h1_graph_types.shape[0])
+    sampled_h1_count = len(h1_adjs)
+    if sampled_h1_count != sampled_h2_node_count:
+        raise RuntimeError(
+            "H2-to-H1 mapping mismatch: "
+            f"sampled_h1_count={sampled_h1_count}, "
+            f"sampled_h2_node_count={sampled_h2_node_count}")
+    if len(h1_node_types) != sampled_h1_count:
+        raise RuntimeError("H1 adjacency/node-type counts do not match")
+    if len(h1_label_mapping) != sampled_h1_count:
+        raise RuntimeError("H1 community mapping count does not match H2 nodes")
+    expected_community_ids = set(range(sampled_h2_node_count))
+    actual_community_ids = set(range(len(h1_label_mapping)))
+    if actual_community_ids != expected_community_ids:
+        raise RuntimeError("H2-to-H1 community IDs are missing or duplicated")
+    assembled_h1_nodes = sum(int(nodes.shape[0]) for nodes in h1_node_types)
+    if assembled_h1_nodes != len(node_to_class):
+        raise RuntimeError("H1 local/global node mapping is incomplete")
 
 
     # Get edges from h2 into a more useful [n1, n2] form
@@ -79,14 +97,39 @@ def sample_large_graph(cfg, dataset, h1_batch_size=1, glue_batch_size=1,
     # Sample inter-h1 edges (Stage Three), this outputs a big set of networkx.Graphs
     glue_cfg, glue_model = get_glue_model(cfg)
     datalist, loader, batch_size, n_batches, remainder, pair_ids = prepare_glue_dataset(cfg, glue_model, h1_adjs, h1_node_types, h2_edge_index, h2_edge_type, glue_batch_size)
+    routed_pairs = [tuple(sorted((int(left), int(right))))
+                    for left, right in pair_ids]
+    if len(routed_pairs) != len(set(routed_pairs)):
+        raise RuntimeError("Original Glue received a duplicate community pair")
+    expected_pairs = {
+        (left, right)
+        for left in range(sampled_h2_node_count)
+        for right in range(left + 1, sampled_h2_node_count)
+        if int(h2_graph_adj[left, right]) != 0
+    }
+    if set(routed_pairs) != expected_pairs:
+        raise RuntimeError(
+            "Original Glue pair routing differs from H2 present meta-edges: "
+            f"expected={sorted(expected_pairs)}, actual={sorted(routed_pairs)}")
     out_nx = get_inter_edges(
-        cfg, glue_model, loader, n_batches, batch_size, remainder,
-        intermediate_figures=intermediate_figures,
-        graph_number=graph_number)
+        cfg, glue_model, loader, n_batches, batch_size, remainder)
 
 
     # Use the pairs of connected graphs to produce one large sampled networkx.Graph
     G, cg = build_from_components(h1_node_types, h1_adjs, out_nx, h1_label_mapping, node_to_class, pair_ids)
+    if G.number_of_nodes() != assembled_h1_nodes:
+        raise RuntimeError(
+            "Glue changed the assembled node count: "
+            f"before={assembled_h1_nodes}, after={G.number_of_nodes()}")
+    if nx.number_of_selfloops(G) != 0:
+        raise RuntimeError("Final HiGGs graph contains self-loops")
+    for community_id, adjacency in enumerate(h1_adjs):
+        start = h1_label_mapping[community_id]["start_ind"]
+        edge_index = torch.triu(adjacency, diagonal=1).nonzero()
+        for local_left, local_right in edge_index.tolist():
+            if not G.has_edge(start + local_left, start + local_right):
+                raise RuntimeError(
+                    "Original Glue modified an H1 intra-community edge")
 
     # Dump graph into .pkl - loading back for your own purposes just pickle.load("path/to/filename.pkl")
     with open(f"sampled_graph_{graph_number}.pkl", "wb") as handle:

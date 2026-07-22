@@ -33,6 +33,7 @@ import utils
 
 from diffusion_model_discrete import DiscreteDenoisingDiffusion
 from diffusion_model_beta_h2 import ConditionalGraphBetaDiffusionH2
+from diffusion_model_beta_h1 import ConditionalGraphBetaDiffusionH1
 from analysis.spectre_utils import PlanarSamplingMetrics, SBMSamplingMetrics, Comm20SamplingMetrics, EGOSamplingMetrics, FBSamplingMetrics, GITSamplingMetrics, FullSampleMetrics, ByClassSampleMetrics
 
 class TooManyNodesError(Exception):
@@ -104,6 +105,60 @@ def audit_checkpoint_resolutions(h2_checkpoint, h1_checkpoint, glue_checkpoint):
     return resolutions
 
 
+def _checkpoint_identity(checkpoint_path):
+    """Read family/stage metadata without inferring either from a filename."""
+    try:
+        checkpoint = torch.load(
+            checkpoint_path, map_location="cpu", weights_only=False)
+    except TypeError:
+        checkpoint = torch.load(checkpoint_path, map_location="cpu")
+    hyper_parameters = checkpoint.get("hyper_parameters", {})
+    checkpoint_cfg = (hyper_parameters.get("cfg")
+                      if hasattr(hyper_parameters, "get") else None)
+    family = checkpoint.get("model_family")
+    stage = checkpoint.get("stage")
+    if family is None and hasattr(hyper_parameters, "get"):
+        family = hyper_parameters.get("model_family")
+    if stage is None and hasattr(hyper_parameters, "get"):
+        stage = hyper_parameters.get("stage")
+    if checkpoint_cfg is not None:
+        if family is None:
+            family = omegaconf.OmegaConf.select(
+                checkpoint_cfg, "model.family", default=None)
+        if stage is None:
+            stage = omegaconf.OmegaConf.select(
+                checkpoint_cfg, "dataset.h", default=None)
+        if family is None and omegaconf.OmegaConf.select(
+                checkpoint_cfg, "model.type", default=None) == "discrete":
+            family = "digress"
+    del checkpoint
+    return family, stage
+
+
+def _require_checkpoint_identity(checkpoint_path, expected_family,
+                                 expected_stage, label, allowed_families=None):
+    family, stage = _checkpoint_identity(checkpoint_path)
+    allowed = ({expected_family} if allowed_families is None
+               else set(allowed_families))
+    print(f"[HiGGs] {label} checkpoint family: {family}")
+    print(f"[HiGGs] {label} checkpoint stage: {stage}")
+    if family not in allowed:
+        raise ValueError(
+            f"{label} checkpoint family mismatch: expected one of "
+            f"{sorted(allowed)}, got {family}")
+    stage_aliases = {"h1": 1.0, "h2": 2.0, "glue": 1.5, "h1.5": 1.5}
+    normalized_stage = stage_aliases.get(str(stage).lower(), stage)
+    try:
+        stage_matches = float(normalized_stage) == float(expected_stage)
+    except (TypeError, ValueError):
+        stage_matches = False
+    if not stage_matches:
+        raise ValueError(
+            f"{label} checkpoint stage mismatch: expected "
+            f"{expected_stage}, got {stage}")
+    return family, stage
+
+
 def get_samplers(cfg):
     """
     Loads a model for sampling using a given config.
@@ -122,8 +177,17 @@ def get_samplers(cfg):
     print(f"Model stage: {stage}")
     if stage == 1:
         resume = cfg.general.h1_model
-        model_class = DiscreteDenoisingDiffusion
-        print("[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion")
+        h1_family = omegaconf.OmegaConf.select(
+            cfg, "general.h1_model_family", default="digress")
+        if h1_family == "beta_h1":
+            _require_checkpoint_identity(resume, "beta_h1", 1.0, "H1")
+            model_class = ConditionalGraphBetaDiffusionH1
+        else:
+            _require_checkpoint_identity(
+                resume, "digress", 1.0, "H1",
+                allowed_families={"digress", "original_h1"})
+            model_class = DiscreteDenoisingDiffusion
+            print("[HiGGs] Stage h1 model: DiscreteDenoisingDiffusion")
     elif stage == 2:
         resume = cfg.general.h2_model
         h2_family = omegaconf.OmegaConf.select(
@@ -132,10 +196,16 @@ def get_samplers(cfg):
         model_class = (ConditionalGraphBetaDiffusionH2
                        if h2_family == "beta_h2"
                        else DiscreteDenoisingDiffusion)
+        _require_checkpoint_identity(
+            resume, h2_family, 2.0, "H2",
+            allowed_families={h2_family})
         if model_class is DiscreteDenoisingDiffusion:
             print("[HiGGs] Stage h2 model: DiscreteDenoisingDiffusion")
     elif stage == 1.5:
         resume = cfg.general.glue_model
+        _require_checkpoint_identity(
+            resume, "original_glue", 1.5, "Glue",
+            allowed_families={"digress", "original_glue"})
         model_class = DiscreteDenoisingDiffusion
         print("[HiGGs] Stage glue model: edge-DiGress")
     elif stage not in (1, 2):

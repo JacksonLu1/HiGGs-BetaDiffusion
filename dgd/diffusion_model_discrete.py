@@ -5,8 +5,6 @@ import pytorch_lightning as pl
 import time
 import wandb
 import os
-import copy
-from pathlib import Path
 
 from models.transformer_model import GraphTransformer
 from diffusion.noise_schedule import DiscreteUniformTransition, PredefinedNoiseScheduleDiscrete, MarginalUniformTransition
@@ -18,11 +16,6 @@ import scipy.sparse as sp
 import numpy as np
 
 
-def safe_probability_log(probabilities):
-    """Return finite log-probabilities for exact zeros in discrete distributions."""
-    return torch.log(probabilities + 1e-12)
-
-
 class DiscreteDenoisingDiffusion(pl.LightningModule):
     """
 
@@ -30,8 +23,8 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
     Edge Predictive Discrete Denoising Diffusion (edge-DiGress from HiGGs, anonymous authors)
 
     """
-    def __init__(self, cfg, dataset_infos, train_metrics=None, sampling_metrics=None, visualization_tools=None,
-                 extra_features=None, domain_features=None):
+    def __init__(self, cfg, dataset_infos, train_metrics, sampling_metrics, visualization_tools, extra_features,
+                 domain_features):
         super().__init__()
 
         input_dims = dataset_infos.input_dims
@@ -110,16 +103,8 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
 
 
         try:
-            checkpoint_dataset_infos = copy.copy(dataset_infos)
-            if hasattr(checkpoint_dataset_infos, 'datamodule'):
-                checkpoint_dataset_infos.datamodule = None
-            self.save_hyperparameters({
-                'cfg': cfg,
-                'dataset_infos': checkpoint_dataset_infos,
-                'visualization_tools': visualization_tools,
-                'extra_features': extra_features,
-                'domain_features': domain_features,
-            })
+            # During sampling we can't load the hyperparameters, but don't need them, so just pass the exception
+            self.save_hyperparameters(ignore=[train_metrics, sampling_metrics])
             print(f"finished saving hyperparameters")
         except:
             print("="*100+f"\nFailed to save hyperparams, assuming this is for sampling\n" +"="*100)
@@ -181,8 +166,6 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
             self.train_metrics(masked_pred_X=X, masked_pred_E=pred.E, true_X=X, true_E=E,
                                log=i % self.log_every_steps == 0)
 
-        self.log("train/loss", loss, on_step=True, on_epoch=True,
-                 prog_bar=False, logger=True, batch_size=data.num_graphs)
         return {'loss': loss}
 
     def configure_optimizers(self):
@@ -257,21 +240,20 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
         metrics = [self.val_nll.compute(), self.val_X_kl.compute(), self.val_E_kl.compute(),
                    self.val_y_kl.compute(), self.val_X_logp.compute(), self.val_E_logp.compute(),
                    self.val_y_logp.compute()]
-        self.log_dict({"val/epoch_NLL": metrics[0],
-                       "val/epoch_NLL_stable": metrics[0],
-                       "val/X_kl": metrics[1],
-                       "val/E_kl": metrics[2],
-                       "val/y_kl": metrics[3],
-                       "val/X_logp": metrics[4],
-                       "val/E_logp": metrics[5],
-                       "val/y_logp": metrics[6]},
-                      on_step=False, on_epoch=True, logger=True)
+        wandb.log({"val/epoch_NLL": metrics[0],
+                   "val/X_kl": metrics[1],
+                   "val/E_kl": metrics[2],
+                   "val/y_kl": metrics[3],
+                   "val/X_logp": metrics[4],
+                   "val/E_logp": metrics[5],
+                   "val/y_logp": metrics[6]}, commit=False)
 
         print(f"Epoch {self.current_epoch}: Val NLL {metrics[0] :.2f} -- Val Atom type KL {metrics[1] :.2f} -- ",
               f"Val Edge type KL: {metrics[2] :.2f} -- Val Global feat. KL {metrics[3] :.2f}\n")
 
-        # Keep the scalar available for best-value tracking and checkpoint monitoring.
+        # Log val nll with default Lightning logger, so it can be monitored by checkpoint callback
         val_nll = metrics[0]
+        self.log("val/epoch_NLL", val_nll)
 
         if val_nll < self.best_val_nll:
             self.best_val_nll = val_nll
@@ -358,10 +340,10 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
             pred.y = data.y
 
         if self.cfg.dataset.h != 1.5:
-            nll = self.compute_val_loss(pred, noisy_data, dense_data.X, dense_data.E, data.y, node_mask, test=True)
+            nll = self.compute_val_loss(pred, noisy_data, dense_data.X, dense_data.E, data.y, node_mask, test=False)
             return {'loss': nll, 'data':None}
         else:
-            nll = self.compute_val_loss(pred, noisy_data, dense_data.X, dense_data.E, data.y, node_mask, test=True, pos=data.pos)
+            nll = self.compute_val_loss(pred, noisy_data, dense_data.X, dense_data.E, data.y, node_mask, test=False, pos=data.pos)
             return {'loss': nll, 'data': data, 'bs':dense_data.X.shape[0]}
 
     def test_epoch_end(self, outs) -> None:
@@ -372,19 +354,19 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
         metrics = [self.test_nll.compute(), self.test_X_kl.compute(), self.test_E_kl.compute(),
                    self.test_y_kl.compute(), self.test_X_logp.compute(), self.test_E_logp.compute(),
                    self.test_y_logp.compute()]
-        self.log_dict({"test/epoch_NLL": metrics[0],
-                       "test/X_mse": metrics[1],
-                       "test/E_mse": metrics[2],
-                       "test/y_mse": metrics[3],
-                       "test/X_logp": metrics[4],
-                       "test/E_logp": metrics[5],
-                       "test/y_logp": metrics[6]},
-                      on_step=False, on_epoch=True, logger=True)
+        wandb.log({"test/epoch_NLL": metrics[0],
+                   "test/X_mse": metrics[1],
+                   "test/E_mse": metrics[2],
+                   "test/y_mse": metrics[3],
+                   "test/X_logp": metrics[4],
+                   "test/E_logp": metrics[5],
+                   "test/y_logp": metrics[6]}, commit=False)
 
         print(f"Epoch {self.current_epoch}: Test NLL {metrics[0] :.2f} -- Test Atom type KL {metrics[1] :.2f} -- ",
               f"Test Edge type KL: {metrics[2] :.2f} -- Test Global feat. KL {metrics[3] :.2f}\n")
 
         test_nll = metrics[0]
+        wandb.log({"test/epoch_NLL": test_nll}, commit=False)
 
         print(f'Test loss: {test_nll :.4f}')
 
@@ -460,9 +442,9 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
                                                                                       pred_E=probE,
                                                                                       node_mask=node_mask)
 
-        kl_distance_X = F.kl_div(input=safe_probability_log(probX), target=limit_dist_X, reduction='none')
-        kl_distance_E = F.kl_div(input=safe_probability_log(probE), target=limit_dist_E, reduction='none')
-        kl_distance_y = F.kl_div(input=safe_probability_log(proby), target=uniform_dist_y, reduction='none')
+        kl_distance_X = F.kl_div(input=probX.log(), target=limit_dist_X, reduction='none')
+        kl_distance_E = F.kl_div(input=probE.log(), target=limit_dist_E, reduction='none')
+        kl_distance_y = F.kl_div(input=proby.log(), target=uniform_dist_y, reduction='none')
 
         return diffusion_utils.sum_except_batch(kl_distance_X) + \
                diffusion_utils.sum_except_batch(kl_distance_E) + \
@@ -493,9 +475,9 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
                                                                                                 pred_X=prob_pred.X,
                                                                                                 pred_E=prob_pred.E,
                                                                                                 node_mask=node_mask)
-        kl_x = (self.test_X_kl if test else self.val_X_kl)(prob_true.X, safe_probability_log(prob_pred.X))
-        kl_e = (self.test_E_kl if test else self.val_E_kl)(prob_true.E, safe_probability_log(prob_pred.E))
-        kl_y = (self.test_y_kl if test else self.val_y_kl)(prob_true.y, safe_probability_log(prob_pred.y)) if pred_probs_y.numel() != 0 else 0
+        kl_x = (self.test_X_kl if test else self.val_X_kl)(prob_true.X, torch.log(prob_pred.X))
+        kl_e = (self.test_E_kl if test else self.val_E_kl)(prob_true.E, torch.log(prob_pred.E))
+        kl_y = (self.test_y_kl if test else self.val_y_kl)(prob_true.y, torch.log(prob_pred.y)) if pred_probs_y.numel() != 0 else 0
         return kl_x + kl_e + kl_y
 
     def reconstruction_logp(self, t, X, E, y, node_mask, pos = None):
@@ -664,12 +646,8 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
         else:
             prob0 = self.reconstruction_logp(t, X, E, y, node_mask, pos=pos)
 
-        X_logp = self.test_X_logp if test else self.val_X_logp
-        E_logp = self.test_E_logp if test else self.val_E_logp
-        y_logp = self.test_y_logp if test else self.val_y_logp
-        loss_term_0 = X_logp(X * safe_probability_log(prob0.X)) + \
-                      E_logp(E * safe_probability_log(prob0.E)) + \
-                      y_logp(y * safe_probability_log(prob0.y))
+        loss_term_0 = self.val_X_logp(X * prob0.X.log()) + self.val_E_logp(E * prob0.E.log()) + \
+                      self.val_y_logp(y * prob0.y.log())
 
         # Combine terms
         nlls = - log_pN + kl_prior + loss_all_t - loss_term_0
@@ -955,8 +933,7 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
 
     def sampling_batch_h1(self, batch_id: int, batch_size: int,
                         keep_chain: int, number_chain_steps: int,
-                        num_nodes=None, y=None, figures=False,
-                        graph_number: int = 0):
+                        num_nodes=None, y = None, figures = False):
         """
         Sample a batch of h1 graphs
         If y is passed, uses it to condition that generation
@@ -1079,32 +1056,20 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
                                                                      chain_X[:, i, :].numpy(),
                                                                      chain_E[:, i, :].numpy())
                 # Visualize the final graphs
-                result_path = (Path.cwd() / "visualizations" /
-                               f"sample_{graph_number:03d}" / "h1")
-                output_filename = (
-                    f"h1_sample_{graph_number}_batch_{batch_id}.png")
-                wandb_key = (
-                    f"Sampled H1/sample_{graph_number:03d}/batch_{batch_id:03d}")
-                save_message = (
-                    f"Saved H1 visualization [sample={graph_number}, "
-                    f"batch={batch_id}]")
+                current_path = os.getcwd()
+                result_path = os.path.join(current_path,
+                                           f'graphs/{self.name}/epoch{self.current_epoch}_b{batch_id}/')
                 try:
-                    self.visualization_tools.visualize_grid(
-                        result_path, predicted_graph_list,
-                        min(len(predicted_graph_list), 15),
-                        log='Sampled Grid H1', labels=y_labels,
-                        largest_component=False,
-                        output_filename=output_filename,
-                        wandb_key=wandb_key,
-                        save_message=save_message)
+                    self.visualization_tools.visualize_grid(result_path, predicted_graph_list,
+                                                        min(len(predicted_graph_list), 15), log='Sampled Grid H1',
+                                                        labels = y_labels, largest_component=False)
                 except:
                     pass
 
         return predicted_graph_list, networkx_graphs
 
     def sampling_batch_glue(self, batch_id: int, batch_size: int, keep_chain: int,
-                            number_chain_steps: int, data=None, figures=False,
-                            graph_number: int = 0):
+                            number_chain_steps: int, data=None, figures = False):
         """
         Sample a batch of edge predictions between h1 graphs
 
@@ -1259,28 +1224,16 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
                                                                      chain_E[:, i, :].numpy())
 
                 # Visualize the final graphs
-                result_path = (Path.cwd() / "visualizations" /
-                               f"sample_{graph_number:03d}" / "glue")
-                output_filename = (
-                    f"glue_sample_{graph_number}_batch_{batch_id}.png")
-                wandb_key = (
-                    f"Sampled Glue/sample_{graph_number:03d}/batch_{batch_id:03d}")
-                save_message = (
-                    f"Saved Glue visualization [sample={graph_number}, "
-                    f"batch={batch_id}]")
-                self.visualization_tools.visualize_grid(
-                    result_path, predicted_graph_list,
-                    min(len(predicted_graph_list), 15),
-                    log='Sampled Glue Grid', largest_component=True,
-                    output_filename=output_filename,
-                    wandb_key=wandb_key,
-                    save_message=save_message)
+                current_path = os.getcwd()
+                result_path = os.path.join(current_path,
+                                           f'graphs/{self.name}/epoch{self.current_epoch}_b{batch_id}/')
+                self.visualization_tools.visualize_grid(result_path, predicted_graph_list, min(len(predicted_graph_list), 15),
+                                                        log='Sampled Glue Grid', largest_component=True)
 
         return predicted_graph_list, networkx_graphs
 
     def sampling_batch_h2(self, batch_id: int, batch_size: int, keep_chain: int,
-                          number_chain_steps: int, num_nodes=None, figures=False,
-                          graph_number: int = 0):
+                          number_chain_steps: int, num_nodes=None, figures = False):
         """
         Sample a batch of h2 graphs (generally only one is sampled at once, bs=1)
 
@@ -1384,21 +1337,11 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
                                                                      chain_E[:, i, :].numpy())
 
                 # Visualize the final graphs
-                result_path = (Path.cwd() / "visualizations" /
-                               f"sample_{graph_number:03d}" / "h2")
-                output_filename = (
-                    f"h2_sample_{graph_number}_batch_{batch_id}.png")
-                wandb_key = (
-                    f"Sampled H2/sample_{graph_number:03d}/batch_{batch_id:03d}")
-                save_message = (
-                    f"Saved H2 visualization [sample={graph_number}, "
-                    f"batch={batch_id}]")
-                self.visualization_tools.visualize(
-                    result_path, predicted_graph_list,
-                    min(len(predicted_graph_list), 15), log='Sampled H2',
-                    output_filename=output_filename,
-                    wandb_key=wandb_key,
-                    save_message=save_message)
+                current_path = os.getcwd()
+                result_path = os.path.join(current_path,
+                                           f'graphs/{self.name}/epoch{self.current_epoch}_b{batch_id}/')
+                self.visualization_tools.visualize(result_path, predicted_graph_list,
+                                                   min(len(predicted_graph_list), 15), log='Sampled H2')
 
         return predicted_graph_list, networkx_graphs
 

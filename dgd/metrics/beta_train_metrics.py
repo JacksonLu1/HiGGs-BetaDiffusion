@@ -176,3 +176,54 @@ class BetaH2Loss(nn.Module):
             "mean_valid_kl": mean_valid_kl,
         }
         return loss, metrics
+
+
+class BetaH1Loss(BetaH2Loss):
+    """H1 KLUB: optional node channels plus valid strict-upper edges."""
+
+    def forward(self, predicted_X: torch.Tensor, predicted_E: torch.Tensor,
+                true_X: torch.Tensor, true_E: torch.Tensor,
+                eta_X: torch.Tensor, eta_E: torch.Tensor,
+                alpha_t: torch.Tensor, alpha_s: torch.Tensor,
+                node_mask: torch.Tensor, diffuse_X: bool):
+        edge_mask = node_mask.unsqueeze(1) & node_mask.unsqueeze(2)
+        edge_mask &= torch.triu(torch.ones_like(edge_mask), diagonal=1).bool()
+        alpha_X_t = alpha_t.view(-1, 1, 1)
+        alpha_X_s = alpha_s.view(-1, 1, 1)
+        alpha_E_t = alpha_t.view(-1, 1, 1, 1)
+        alpha_E_s = alpha_s.view(-1, 1, 1, 1)
+
+        E_sampling, E_correction, E_min, E_max, E_diag = self._component(
+            predicted_E, true_E, eta_E, alpha_E_t, alpha_E_s, edge_mask)
+        E_loss = (self.sampling_weight * E_sampling
+                  + self.correction_weight * E_correction)
+
+        if diffuse_X:
+            X_sampling, X_correction, X_min, X_max, X_diag = self._component(
+                predicted_X, true_X, eta_X, alpha_X_t, alpha_X_s, node_mask)
+            X_loss = (self.sampling_weight * X_sampling
+                      + self.correction_weight * X_correction)
+        else:
+            X_loss = predicted_X.double().sum() * 0.0
+            X_min, X_max = E_min.detach(), E_max.detach()
+            X_diag = {key: torch.zeros_like(value)
+                      for key, value in E_diag.items()}
+
+        loss = X_loss + self.lambda_edge * E_loss
+        return loss, {
+            "X_loss": X_loss,
+            "E_loss": E_loss,
+            "min_beta_parameter": torch.minimum(X_min, E_min),
+            "max_beta_parameter": torch.maximum(X_max, E_max),
+            "beta_kl_negative_count": (
+                X_diag["tiny_negative_count"]
+                + X_diag["materially_negative_count"]
+                + E_diag["tiny_negative_count"]
+                + E_diag["materially_negative_count"]),
+            "beta_kl_nonfinite_count": (
+                X_diag["nan_kl_count"] + X_diag["inf_kl_count"]
+                + E_diag["nan_kl_count"] + E_diag["inf_kl_count"]),
+            "valid_node_count": (
+                node_mask.sum() if diffuse_X else node_mask.sum() * 0),
+            "valid_edge_pair_count": edge_mask.sum(),
+        }

@@ -48,13 +48,13 @@ def get_h2_graph(cfg, intermediate_figures=False, graph_number=0):
         number_chain_steps=40,
         num_nodes=None,
         figures=intermediate_figures,
-        graph_number=graph_number,
     )
     if isinstance(model_h2, ConditionalGraphBetaDiffusionH2):
-        # Only beta_h2 uses the fixed pseudo-condition.  Legacy discrete h2,
-        # h1, and glue calls retain their original interfaces and semantics.
+        # Only Beta-H2 uses this fixed pseudo-condition. Original discrete
+        # H1 and Glue keep the upstream HiGGs interfaces unchanged.
         h2_sampling_kwargs["y"] = fixed_h2_condition(
             model_h2.ydim_output).to(device)
+        h2_sampling_kwargs["graph_number"] = graph_number
     with torch.inference_mode():
         h2_graph, h2_networkx = model_h2.sampling_batch_h2(
             **h2_sampling_kwargs)
@@ -68,8 +68,7 @@ def get_h2_graph(cfg, intermediate_figures=False, graph_number=0):
 
     return h2_graph
 
-def get_h1_graphs(cfg, h1_graph_types, h1_batch_size,
-                  intermediate_figures=False, graph_number=0):
+def get_h1_graphs(cfg, h1_graph_types, h1_batch_size):
     """
     Sample h1 graphs (HiGGs Stage Two)
 
@@ -92,7 +91,6 @@ def get_h1_graphs(cfg, h1_graph_types, h1_batch_size,
     cfg_h1, model_h1 = get_samplers(cfg_h1)#, model_kwargs_h1)
     device = 'cuda' if torch.cuda.is_available() and cfg.general.gpus > 0 else 'cpu'
     model_h1 = model_h1.to(device)
-    model_h1.eval()
 
     # Get dimensions of model outputs
     x_out, y_out, e_out = model_h1.Xdim_output, model_h1.ydim_output, model_h1.Edim_output
@@ -139,18 +137,12 @@ def get_h1_graphs(cfg, h1_graph_types, h1_batch_size,
             y_batch = h1_y[batch_ind_low:,:]
         y_batch = y_batch.to(device)
 
-        figures = intermediate_figures
+        if n % 10 == 0:
+            figures = True
+        else:
+            figures = False
 
-        with torch.inference_mode():
-            graphs, networkx_graphs = model_h1.sampling_batch_h1(
-                batch_id=n,
-                batch_size=batch_sizes[n],
-                keep_chain=0,
-                number_chain_steps=40,
-                y=y_batch,
-                figures=figures,
-                graph_number=graph_number,
-            )
+        graphs, networkx_graphs = model_h1.sampling_batch_h1(n, batch_sizes[n], 0, 40, y = y_batch, figures=figures)
         for i in range(len(graphs)):
             adj, nodes = graphs[i][1], graphs[i][0]
 
@@ -312,8 +304,7 @@ def get_glue_model(cfg):
 
     return cfg_glue, model_glue
 
-def get_inter_edges(cfg, model_glue, loader, n_batches, batch_size, remainder,
-                    intermediate_figures=False, graph_number=0):
+def get_inter_edges(cfg, model_glue, loader, n_batches, batch_size, remainder):
     """
     Sample inter-h1 edges (HiGGs Stage Three) using a loaded model and prepared dataset
 
@@ -332,7 +323,6 @@ def get_inter_edges(cfg, model_glue, loader, n_batches, batch_size, remainder,
     # Send model to GPU if available
     device = 'cuda' if torch.cuda.is_available() and cfg.general.gpus > 0 else 'cpu'
     model_glue = model_glue.to(device)
-    model_glue.eval()
     out_nx = []
 
     pbar_glue = tqdm(loader)
@@ -345,19 +335,15 @@ def get_inter_edges(cfg, model_glue, loader, n_batches, batch_size, remainder,
             bs = remainder if remainder != 0 else batch_size
             print(f"Doing final batch with remainder {remainder}")
 
-        figures = intermediate_figures
+        # Often too many batches to visualise all
+        if n % 50 == 0:
+            figures = True
+        else:
+            figures = False
 
         # Predict edges
-        with torch.inference_mode():
-            pair_graphs, pair_nx = model_glue.sampling_batch_glue(
-                batch_id=n,
-                batch_size=bs,
-                keep_chain=0,
-                number_chain_steps=40,
-                data=batch,
-                figures=figures,
-                graph_number=graph_number,
-            )
+        pair_graphs, pair_nx = model_glue.sampling_batch_glue(
+            n, bs, 0, 40, data=batch, figures=figures)
 
         # Send predicted graphs to aggregator
         for i in range(bs):

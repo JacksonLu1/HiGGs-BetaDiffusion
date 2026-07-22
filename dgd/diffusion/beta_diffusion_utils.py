@@ -1,4 +1,4 @@
-"""Numerically safe beta-diffusion primitives used by the HiGGs h2 model.
+"""Numerically safe beta-diffusion primitives shared by HiGGs Beta H2/H1.
 
 The forward and reverse transitions follow Graph Beta Diffusion (GBD):
 
@@ -37,6 +37,7 @@ class BetaDiagnostics:
     max_parameter: torch.Tensor
     nan_count: torch.Tensor
     inf_count: torch.Tensor
+    gamma_clamp_count: torch.Tensor
 
     def as_dict(self) -> Dict[str, torch.Tensor]:
         return {
@@ -44,6 +45,7 @@ class BetaDiagnostics:
             "max_beta_parameter": self.max_parameter,
             "nan_count": self.nan_count,
             "inf_count": self.inf_count,
+            "gamma_clamp_count": self.gamma_clamp_count,
         }
 
 
@@ -66,6 +68,25 @@ def inverse_scale_shift(value: torch.Tensor, scale: float,
     return (value - shift) / scale
 
 
+def logits_to_unit_probability(raw_logit: torch.Tensor) -> torch.Tensor:
+    """Convert a network raw logit to [0, 1] exactly once."""
+    return torch.sigmoid(raw_logit)
+
+
+def unit_probability_to_shifted_state(unit_probability: torch.Tensor,
+                                      scale: float,
+                                      shift: float) -> torch.Tensor:
+    """Map a clean unit probability into the Beta shifted state domain."""
+    return scale_shift(unit_probability, scale, shift)
+
+
+def shifted_clean_to_unit_probability(shifted_clean: torch.Tensor,
+                                      scale: float,
+                                      shift: float) -> torch.Tensor:
+    """Invert a shifted clean prediction without applying sigmoid again."""
+    return inverse_scale_shift(shifted_clean, scale, shift).clamp(0.0, 1.0)
+
+
 def safe_beta_parameters(a: torch.Tensor, b: torch.Tensor,
                          eps: float) -> Tuple[torch.Tensor, torch.Tensor, BetaDiagnostics]:
     """Clamp beta parameters and report diagnostics before sampling."""
@@ -80,22 +101,28 @@ def safe_beta_parameters(a: torch.Tensor, b: torch.Tensor,
         max_parameter=combined.max().detach(),
         nan_count=nan_count.detach(),
         inf_count=inf_count.detach(),
+        gamma_clamp_count=torch.zeros((), dtype=torch.long, device=a.device),
     )
     return a, b, diagnostics
 
 
-def positive_gamma_sample(shape: torch.Tensor) -> torch.Tensor:
+def positive_gamma_sample(shape: torch.Tensor,
+                          return_clamp_count: bool = False):
     """Sample Gamma(shape, 1) with only a dtype-level underflow guard."""
     sample = torch._standard_gamma(shape.float())
-    return sample.clamp_min(torch.finfo(sample.dtype).tiny)
+    tiny = torch.finfo(sample.dtype).tiny
+    clamp_count = (sample < tiny).sum().detach()
+    sample = sample.clamp_min(tiny)
+    return (sample, clamp_count) if return_clamp_count else sample
 
 
 def gamma_beta_sample(a: torch.Tensor, b: torch.Tensor, eps: float,
                       return_logit: bool) -> Tuple[torch.Tensor, BetaDiagnostics]:
     """Sample Beta(a, b) through two Gamma variables, as in GBD."""
     a, b, diagnostics = safe_beta_parameters(a, b, eps)
-    gamma_u = positive_gamma_sample(a)
-    gamma_v = positive_gamma_sample(b)
+    gamma_u, clamp_u = positive_gamma_sample(a, return_clamp_count=True)
+    gamma_v, clamp_v = positive_gamma_sample(b, return_clamp_count=True)
+    diagnostics.gamma_clamp_count = clamp_u + clamp_v
     # This is an underflow guard, not a distribution-level epsilon.  Using
     # beta_eps here biases nearly every draw when the Gamma shape is tiny.
     log_u = torch.log(gamma_u)
@@ -324,6 +351,13 @@ def apply_graph_masks(X: torch.Tensor, E: torch.Tensor,
     upper = E * upper_mask
     E = upper + upper.transpose(1, 2)
     return X, E
+
+
+def valid_upper_edge_mask(node_mask: torch.Tensor) -> torch.Tensor:
+    """Select each valid undirected, non-diagonal edge exactly once."""
+    valid_pair = node_mask.unsqueeze(1) & node_mask.unsqueeze(2)
+    upper = torch.triu(torch.ones_like(valid_pair), diagonal=1).bool()
+    return valid_pair & upper
 
 
 def discretize_graph(node_values: torch.Tensor, edge_values: torch.Tensor,

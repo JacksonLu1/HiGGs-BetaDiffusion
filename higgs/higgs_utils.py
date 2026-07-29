@@ -40,13 +40,64 @@ class TooManyNodesError(Exception):
     pass
 
 
-def _checkpoint_resolution(checkpoint_path, stage_name):
-    """Read a hierarchy resolution from checkpoint metadata without guessing."""
+_TRAINING_LOGGER_CLASS_NAMES = (
+    "ConfigCSVLogger",
+    "ConfigTensorBoardLogger",
+    "ConfigWandbLogger",
+)
+_checkpoint_pickle_compat_registered = False
+
+
+def register_checkpoint_pickle_compatibility():
+    """Expose training-only logger classes for checkpoints pickled by dgd/main.py."""
+    global _checkpoint_pickle_compat_registered
+    if _checkpoint_pickle_compat_registered:
+        return
+
+    main_module = sys.modules["__main__"]
     try:
-        checkpoint = torch.load(
+        from main import (
+            ConfigCSVLogger,
+            ConfigTensorBoardLogger,
+            ConfigWandbLogger,
+        )
+        logger_classes = {
+            "ConfigCSVLogger": ConfigCSVLogger,
+            "ConfigTensorBoardLogger": ConfigTensorBoardLogger,
+            "ConfigWandbLogger": ConfigWandbLogger,
+        }
+    except Exception as exc:
+        warnings.warn(
+            "[HiGGs] Could not safely import the training logger classes "
+            f"from dgd/main.py ({exc!r}); using pickle-only compatibility "
+            "placeholders.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+        logger_classes = {
+            name: type(name, (), {"__module__": "__main__"})
+            for name in _TRAINING_LOGGER_CLASS_NAMES
+        }
+
+    for name, logger_class in logger_classes.items():
+        if not hasattr(main_module, name):
+            setattr(main_module, name, logger_class)
+    _checkpoint_pickle_compat_registered = True
+
+
+def _load_checkpoint_cpu(checkpoint_path):
+    """Load checkpoint metadata after registering dgd/main.py pickle globals."""
+    register_checkpoint_pickle_compatibility()
+    try:
+        return torch.load(
             checkpoint_path, map_location="cpu", weights_only=False)
     except TypeError:
-        checkpoint = torch.load(checkpoint_path, map_location="cpu")
+        return torch.load(checkpoint_path, map_location="cpu")
+
+
+def _checkpoint_resolution(checkpoint_path, stage_name):
+    """Read a hierarchy resolution from checkpoint metadata without guessing."""
+    checkpoint = _load_checkpoint_cpu(checkpoint_path)
 
     hyper_parameters = checkpoint.get("hyper_parameters", {})
     checkpoint_cfg = (hyper_parameters.get("cfg")
@@ -107,11 +158,7 @@ def audit_checkpoint_resolutions(h2_checkpoint, h1_checkpoint, glue_checkpoint):
 
 def _checkpoint_identity(checkpoint_path):
     """Read family/stage metadata without inferring either from a filename."""
-    try:
-        checkpoint = torch.load(
-            checkpoint_path, map_location="cpu", weights_only=False)
-    except TypeError:
-        checkpoint = torch.load(checkpoint_path, map_location="cpu")
+    checkpoint = _load_checkpoint_cpu(checkpoint_path)
     hyper_parameters = checkpoint.get("hyper_parameters", {})
     checkpoint_cfg = (hyper_parameters.get("cfg")
                       if hasattr(hyper_parameters, "get") else None)
@@ -170,6 +217,7 @@ def get_samplers(cfg):
     param: cfg: the same config with updated keys from the loaded model
     param: model: the loaded sampling model
     """
+    register_checkpoint_pickle_compatibility()
     saved_cfg = cfg.copy()
     name = cfg.general.name + '_resume'
 

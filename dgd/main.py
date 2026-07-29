@@ -379,19 +379,25 @@ def main(cfg: DictConfig):
     if cfg.train.save_model:
         if model_class is ConditionalGraphBetaDiffusionH2:
             checkpoint_monitor = 'val/beta_h2_loss'
+            checkpoint_every_n_epochs = 10
         elif model_class is ConditionalGraphBetaDiffusionH1:
             checkpoint_monitor = 'val/h1_total'
+            checkpoint_every_n_epochs = 1
+        elif (model_class is DiscreteDenoisingDiffusion
+              and float(cfg.dataset.h) == 1.5):
+            checkpoint_monitor = 'val/epoch_NLL'
+            checkpoint_every_n_epochs = int(
+                cfg.general.get('checkpoint_every_n_epochs', 10))
         else:
             checkpoint_monitor = 'val/epoch_NLL_stable'
+            checkpoint_every_n_epochs = 10
         checkpoint_callback = ModelCheckpoint(dirpath=f"checkpoints/{cfg.general.name}",
                                               filename='{epoch}',
                                               monitor=checkpoint_monitor,
                                               save_top_k=2,
                                               save_last=True,
                                               mode='min',
-                                              every_n_epochs=(
-                                                  1 if model_class is ConditionalGraphBetaDiffusionH1
-                                                  else 10))
+                                              every_n_epochs=checkpoint_every_n_epochs)
         callbacks.append(checkpoint_callback)
 
     if cfg.train.ema_decay > 0:
@@ -423,7 +429,8 @@ def main(cfg: DictConfig):
     if not cfg.general.test_only:
         print("\nEntering trainer\n")
         trainer.fit(model, datamodule=datamodule, ckpt_path=cfg.general.resume)
-        if cfg.general.name not in ['debug', 'test']:
+        if (cfg.general.name not in ['debug', 'test']
+                and cfg.general.get('run_test_after_fit', True)):
             trainer.test(model, datamodule=datamodule)
     else:
         print("\nEntering tester\n")

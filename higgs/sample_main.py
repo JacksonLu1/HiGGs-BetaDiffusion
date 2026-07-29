@@ -11,6 +11,7 @@ matplotlib.use("Agg", force=True)
 import warnings
 import torch
 import networkx as nx
+from pathlib import Path
 torch.multiprocessing.set_sharing_strategy('file_system')
 
 import wandb
@@ -22,6 +23,18 @@ from pytorch_lightning.utilities.warnings import PossibleUserWarning
 from visualisation import *
 from sampling import *
 from higgs_utils import *
+try:
+    from .interface_ablation import (
+        interface_options,
+        seed_sampling,
+        write_json,
+    )
+except ImportError:
+    from interface_ablation import (
+        interface_options,
+        seed_sampling,
+        write_json,
+    )
 
 pwd = os.getcwd()
 dgd_dir = os.path.join(pwd, "dgd")
@@ -57,9 +70,10 @@ def sample_large_graph(cfg, dataset, h1_batch_size=1, glue_batch_size=1,
     """
 
     # Get the h2 template graph (Stage One)
-    h2_graph = get_h2_graph(
+    interface_cfg = interface_options(cfg)
+    h2_graph, h2_full_nx, h2_used_nx, h2_audit = get_h2_graph(
         cfg, intermediate_figures=intermediate_figures,
-        graph_number=graph_number)
+        graph_number=graph_number, return_audit=True)
 
     # Store the node categories and the edges between them
     h1_graph_types = h2_graph[0][0]
@@ -67,8 +81,9 @@ def sample_large_graph(cfg, dataset, h1_batch_size=1, glue_batch_size=1,
 
     # Get h1 graphs for each node in h2 (Stage Two)
     # h1_label_mapping gives keys for relabelling later - in order that they were generated
-    h1_adjs, h1_node_types, h1_label_mapping, node_to_class, n_nodes_counter = get_h1_graphs(
-        cfg, h1_graph_types, h1_batch_size)
+    (h1_adjs, h1_node_types, h1_label_mapping, node_to_class,
+     n_nodes_counter, h1_full_nx, h1_used_nx, h1_audit) = get_h1_graphs(
+        cfg, h1_graph_types, h1_batch_size, return_audit=True)
 
     sampled_h2_node_count = int(h1_graph_types.shape[0])
     sampled_h1_count = len(h1_adjs)
@@ -96,7 +111,10 @@ def sample_large_graph(cfg, dataset, h1_batch_size=1, glue_batch_size=1,
 
     # Sample inter-h1 edges (Stage Three), this outputs a big set of networkx.Graphs
     glue_cfg, glue_model = get_glue_model(cfg)
-    datalist, loader, batch_size, n_batches, remainder, pair_ids = prepare_glue_dataset(cfg, glue_model, h1_adjs, h1_node_types, h2_edge_index, h2_edge_type, glue_batch_size)
+    (datalist, loader, batch_size, n_batches, remainder, pair_ids,
+     glue_routing_audit) = prepare_glue_dataset(
+        cfg, glue_model, h1_adjs, h1_node_types, h2_edge_index,
+        h2_edge_type, glue_batch_size, return_audit=True)
     routed_pairs = [tuple(sorted((int(left), int(right))))
                     for left, right in pair_ids]
     if len(routed_pairs) != len(set(routed_pairs)):
@@ -111,12 +129,17 @@ def sample_large_graph(cfg, dataset, h1_batch_size=1, glue_batch_size=1,
         raise RuntimeError(
             "Original Glue pair routing differs from H2 present meta-edges: "
             f"expected={sorted(expected_pairs)}, actual={sorted(routed_pairs)}")
-    out_nx = get_inter_edges(
-        cfg, glue_model, loader, n_batches, batch_size, remainder)
+    out_nx, glue_model_audit = get_inter_edges(
+        cfg, glue_model, loader, n_batches, batch_size, remainder,
+        pair_ids=pair_ids, return_audit=True)
 
 
     # Use the pairs of connected graphs to produce one large sampled networkx.Graph
-    G, cg = build_from_components(h1_node_types, h1_adjs, out_nx, h1_label_mapping, node_to_class, pair_ids)
+    G, cg, assembly_audit = build_from_components(
+        h1_node_types, h1_adjs, out_nx, h1_label_mapping,
+        node_to_class, pair_ids,
+        strict_assertions=interface_cfg["strict_assertions"],
+        return_audit=True)
     if G.number_of_nodes() != assembled_h1_nodes:
         raise RuntimeError(
             "Glue changed the assembled node count: "
@@ -130,6 +153,78 @@ def sample_large_graph(cfg, dataset, h1_batch_size=1, glue_batch_size=1,
             if not G.has_edge(start + local_left, start + local_right):
                 raise RuntimeError(
                     "Original Glue modified an H1 intra-community edge")
+
+    if interface_cfg["save_intermediates"]:
+        intermediate_root = (
+            Path("intermediates") / f"sample_{graph_number:03d}")
+        (intermediate_root / "h1_full").mkdir(
+            parents=True, exist_ok=True)
+        (intermediate_root / "h1_used").mkdir(
+            parents=True, exist_ok=True)
+        with (intermediate_root / "h2_full.pkl").open("wb") as handle:
+            pickle.dump(
+                h2_full_nx, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        with (intermediate_root / "h2_used.pkl").open("wb") as handle:
+            pickle.dump(
+                h2_used_nx, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        for community_id, graph in enumerate(h1_full_nx):
+            with (
+                    intermediate_root / "h1_full"
+                    / f"community_{community_id:03d}.pkl").open(
+                        "wb") as handle:
+                pickle.dump(graph, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        for community_id, graph in enumerate(h1_used_nx):
+            with (
+                    intermediate_root / "h1_used"
+                    / f"community_{community_id:03d}.pkl").open(
+                        "wb") as handle:
+                pickle.dump(graph, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+        audit_payload = {
+            "sample_id": graph_number,
+            "sampling_seed": interface_cfg["sampling_seed"],
+            "model_checkpoints": {
+                "h2": str(cfg.general.h2_model),
+                "h1": str(cfg.general.h1_model),
+                "glue": str(cfg.general.glue_model),
+            },
+            "model_families": {
+                "h2": str(cfg.general.h2_model_family),
+                "h1": str(cfg.general.h1_model_family),
+                "glue": str(cfg.general.glue_model_family),
+            },
+            "model_stages": {"h2": 2, "h1": 1, "glue": 1.5},
+            "model_runtime": {
+                "h2": h2_audit["model"],
+                "h1": h1_audit["model"],
+                "glue": glue_model_audit["model"],
+            },
+            "interface_config": interface_cfg,
+            "h2_raw_class_histogram": h2_audit[
+                "raw_class_histogram"],
+            "h2": h2_audit,
+            "h1_condition_histogram": h1_audit[
+                "condition_histogram_after_adapter"],
+            "h1": h1_audit,
+            "h2_present_pairs": [
+                list(pair) for pair in sorted(expected_pairs)],
+            "pairs_sent_to_glue": [
+                list(pair) for pair in routed_pairs],
+            "raw_h2_edge_class_histogram": glue_routing_audit[
+                "raw_h2_edge_type_histogram"],
+            "glue_condition_histogram": glue_routing_audit[
+                "glue_condition_histogram_after_adapter"],
+            "glue_training_y_histogram": glue_routing_audit[
+                "verified_glue_training_y_histogram"],
+            "glue_training_cache": glue_routing_audit[
+                "glue_training_cache"],
+            "glue_routing": glue_routing_audit,
+            "glue_runtime": glue_model_audit,
+            "assembly": assembly_audit,
+            "all_assertions_passed": True,
+        }
+        write_json(
+            intermediate_root / "interface_audit.json", audit_payload)
 
     # Dump graph into .pkl - loading back for your own purposes just pickle.load("path/to/filename.pkl")
     with open(f"sampled_graph_{graph_number}.pkl", "wb") as handle:
@@ -213,6 +308,10 @@ def main(cfg: DictConfig):
     print(f"Matplotlib backend: {matplotlib.get_backend()}")
     print(f"Intermediate figures: {intermediate_figures}")
     print(f"Final visualization: {visualize}")
+
+    interface_cfg = interface_options(cfg)
+    print(f"[HiGGs interface] config={interface_cfg}")
+    seed_sampling(interface_cfg["sampling_seed"])
 
     audit_checkpoint_resolutions(
         cfg.general.h2_model,

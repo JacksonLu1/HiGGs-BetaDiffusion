@@ -442,9 +442,15 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
                                                                                       pred_E=probE,
                                                                                       node_mask=node_mask)
 
-        kl_distance_X = F.kl_div(input=probX.log(), target=limit_dist_X, reduction='none')
-        kl_distance_E = F.kl_div(input=probE.log(), target=limit_dist_E, reduction='none')
-        kl_distance_y = F.kl_div(input=proby.log(), target=uniform_dist_y, reduction='none')
+        kl_distance_X = F.kl_div(
+            input=diffusion_utils.log_probability(probX),
+            target=limit_dist_X, reduction='none')
+        kl_distance_E = F.kl_div(
+            input=diffusion_utils.log_probability(probE),
+            target=limit_dist_E, reduction='none')
+        kl_distance_y = F.kl_div(
+            input=diffusion_utils.log_probability(proby),
+            target=uniform_dist_y, reduction='none')
 
         return diffusion_utils.sum_except_batch(kl_distance_X) + \
                diffusion_utils.sum_except_batch(kl_distance_E) + \
@@ -475,9 +481,14 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
                                                                                                 pred_X=prob_pred.X,
                                                                                                 pred_E=prob_pred.E,
                                                                                                 node_mask=node_mask)
-        kl_x = (self.test_X_kl if test else self.val_X_kl)(prob_true.X, torch.log(prob_pred.X))
-        kl_e = (self.test_E_kl if test else self.val_E_kl)(prob_true.E, torch.log(prob_pred.E))
-        kl_y = (self.test_y_kl if test else self.val_y_kl)(prob_true.y, torch.log(prob_pred.y)) if pred_probs_y.numel() != 0 else 0
+        kl_x = (self.test_X_kl if test else self.val_X_kl)(
+            prob_true.X, diffusion_utils.log_probability(prob_pred.X))
+        kl_e = (self.test_E_kl if test else self.val_E_kl)(
+            prob_true.E, diffusion_utils.log_probability(prob_pred.E))
+        kl_y = (self.test_y_kl if test else self.val_y_kl)(
+            prob_true.y,
+            diffusion_utils.log_probability(prob_pred.y)
+        ) if pred_probs_y.numel() != 0 else 0
         return kl_x + kl_e + kl_y
 
     def reconstruction_logp(self, t, X, E, y, node_mask, pos = None):
@@ -646,8 +657,14 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
         else:
             prob0 = self.reconstruction_logp(t, X, E, y, node_mask, pos=pos)
 
-        loss_term_0 = self.val_X_logp(X * prob0.X.log()) + self.val_E_logp(E * prob0.E.log()) + \
-                      self.val_y_logp(y * prob0.y.log())
+        loss_term_0 = (
+            self.val_X_logp(
+                X * diffusion_utils.log_probability(prob0.X))
+            + self.val_E_logp(
+                E * diffusion_utils.log_probability(prob0.E))
+            + self.val_y_logp(
+                y * diffusion_utils.log_probability(prob0.y))
+        )
 
         # Combine terms
         nlls = - log_pN + kl_prior + loss_all_t - loss_term_0

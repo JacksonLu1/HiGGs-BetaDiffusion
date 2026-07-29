@@ -4,6 +4,7 @@ Sampling functions for HiGGs, for NeurIPS 23, by anonymous authors
 
 
 from tqdm import tqdm
+from collections import Counter
 
 from higgs_utils import *
 
@@ -18,9 +19,40 @@ dgd_dir = os.path.join(pwd, "dgd")
 sys.path.insert(0, dgd_dir)
 import utils
 from diffusion.beta_diffusion_utils import fixed_h2_condition
+try:
+    from .interface_ablation import (
+        adapt_h2_to_glue_class,
+        adapt_h2_to_h1_conditions,
+        apply_component_policy,
+        audit_glue_training_cache,
+        class_histogram,
+        inference_context,
+        interface_options,
+        model_sampling_state,
+        one_hot_histogram,
+        tensor_graph,
+        unique_undirected_pairs,
+        validate_discrete_graph,
+    )
+except ImportError:
+    from interface_ablation import (
+        adapt_h2_to_glue_class,
+        adapt_h2_to_h1_conditions,
+        apply_component_policy,
+        audit_glue_training_cache,
+        class_histogram,
+        inference_context,
+        interface_options,
+        model_sampling_state,
+        one_hot_histogram,
+        tensor_graph,
+        unique_undirected_pairs,
+        validate_discrete_graph,
+    )
 
 
-def get_h2_graph(cfg, intermediate_figures=False, graph_number=0):
+def get_h2_graph(cfg, intermediate_figures=False, graph_number=0,
+                 return_audit=False):
     """
     Samples an h2 graph using a pre-trained model (HiGGs Stage One)
 
@@ -38,7 +70,12 @@ def get_h2_graph(cfg, intermediate_figures=False, graph_number=0):
     cfg_h2, model_h2 = get_samplers(cfg_h2)
     device = 'cuda' if torch.cuda.is_available() and cfg.general.gpus > 0 else 'cpu'
     model_h2 = model_h2.to(device)
+    # H2 already used eval/inference mode before the interface ablation was
+    # introduced.  Keep that behavior in C0 as well as force_eval mode.
     model_h2.eval()
+    model_audit = model_sampling_state(
+        model_h2, omegaconf.OmegaConf.select(
+            cfg, "general.h2_model", default=""), stage="H2")
 
     # Sample the graph, and a networkx.Graph version
     h2_sampling_kwargs = dict(
@@ -59,16 +96,37 @@ def get_h2_graph(cfg, intermediate_figures=False, graph_number=0):
         h2_graph, h2_networkx = model_h2.sampling_batch_h2(
             **h2_sampling_kwargs)
 
-    print(f"Sampled h2 n_nodes: {h2_graph[0][0].shape[0]}")
+    options = interface_options(cfg)
+    full_nodes, full_adjacency = h2_graph[0][0], h2_graph[0][1]
+    used_nodes, used_adjacency, component_audit = apply_component_policy(
+        full_nodes, full_adjacency, options["h2_component_policy"],
+        label="H2")
+    h2_graph = [[used_nodes, used_adjacency]]
+    full_networkx = tensor_graph(full_nodes, full_adjacency)
+    used_networkx = tensor_graph(used_nodes, used_adjacency)
+    audit = {
+        **component_audit,
+        "raw_class_histogram": class_histogram(full_nodes),
+        "used_class_histogram": class_histogram(used_nodes),
+        "model": model_audit,
+    }
+
+    print(
+        f"Sampled h2 n_nodes: {full_nodes.shape[0]} -> "
+        f"{used_nodes.shape[0]} "
+        f"({options['h2_component_policy']})")
 
     # print(f"h2 X: {h2_graph[0][0]}")
     # print(f"Unique h2: {np.unique(h2_graph[0][1])}")
     # print(f"h2 E: {h2_graph[0][1]}")
     # print(f"Sampled inter-community {h2_networkx[0]}")
 
+    if return_audit:
+        return h2_graph, full_networkx, used_networkx, audit
     return h2_graph
 
-def get_h1_graphs(cfg, h1_graph_types, h1_batch_size):
+def get_h1_graphs(cfg, h1_graph_types, h1_batch_size,
+                  return_audit=False):
     """
     Sample h1 graphs (HiGGs Stage Two)
 
@@ -91,6 +149,15 @@ def get_h1_graphs(cfg, h1_graph_types, h1_batch_size):
     cfg_h1, model_h1 = get_samplers(cfg_h1)#, model_kwargs_h1)
     device = 'cuda' if torch.cuda.is_available() and cfg.general.gpus > 0 else 'cpu'
     model_h1 = model_h1.to(device)
+    options = interface_options(cfg)
+    if options["force_eval"]:
+        model_h1.eval()
+    model_audit = model_sampling_state(
+        model_h1, omegaconf.OmegaConf.select(
+            cfg, "general.h1_model", default=""), stage="H1")
+    if options["force_eval"] and model_audit["dropout_training_count"] != 0:
+        raise RuntimeError(
+            "force_eval=true but an H1 Dropout module is still training")
 
     # Get dimensions of model outputs
     x_out, y_out, e_out = model_h1.Xdim_output, model_h1.ydim_output, model_h1.Edim_output
@@ -105,13 +172,21 @@ def get_h1_graphs(cfg, h1_graph_types, h1_batch_size):
 
     # Get One-hot representation of graph categories to condition h1 sampling
     temp_batch_size = h1_batch_size
-    h1_y = torch.nn.functional.one_hot(h1_graph_types, num_classes = y_out)
+    h1_y = adapt_h2_to_h1_conditions(
+        h1_graph_types,
+        y_out,
+        options["h2_to_h1_condition_mode"],
+        dataset_name=str(cfg.general.name),
+    )
 
     # Need to instantiate some aggregators, and determine batch sizes
     h1_node_types = []
     h1_adjs = []
     n_nodes_counter = []
     h1_label_mapping = []
+    h1_full_graphs = []
+    h1_used_graphs = []
+    h1_component_audits = []
     if h1_graph_types.shape[0] % temp_batch_size == 0:
 
         print(f"Data is {h1_graph_types.shape[0]} long, using {h1_graph_types.shape[0] / temp_batch_size} batches (no remainder)")
@@ -137,14 +212,21 @@ def get_h1_graphs(cfg, h1_graph_types, h1_batch_size):
             y_batch = h1_y[batch_ind_low:,:]
         y_batch = y_batch.to(device)
 
-        if n % 10 == 0:
-            figures = True
-        else:
-            figures = False
+        figures = bool(omegaconf.OmegaConf.select(
+            cfg, "general.intermediate_figures", default=False)) and n % 10 == 0
 
-        graphs, networkx_graphs = model_h1.sampling_batch_h1(n, batch_sizes[n], 0, 40, y = y_batch, figures=figures)
+        with inference_context(options["force_eval"]):
+            graphs, networkx_graphs = model_h1.sampling_batch_h1(
+                n, batch_sizes[n], 0, 40, y=y_batch, figures=figures)
         for i in range(len(graphs)):
-            adj, nodes = graphs[i][1], graphs[i][0]
+            full_adj, full_nodes = graphs[i][1], graphs[i][0]
+            nodes, adj, component_audit = apply_component_policy(
+                full_nodes, full_adj, options["h1_component_policy"],
+                label=f"H1 community {len(h1_adjs)}")
+            component_audit["community_id"] = len(h1_adjs)
+            h1_component_audits.append(component_audit)
+            h1_full_graphs.append(tensor_graph(full_nodes, full_adj))
+            h1_used_graphs.append(tensor_graph(nodes, adj))
 
             h1_node_types.append(nodes.to("cpu"))
             h1_adjs.append(adj.to("cpu"))
@@ -161,10 +243,20 @@ def get_h1_graphs(cfg, h1_graph_types, h1_batch_size):
 
         pbar.set_description(f"N nodes added: {node_agg}")
 
+    audit = {
+        "model": model_audit,
+        "h2_raw_class_histogram": class_histogram(h1_graph_types),
+        "condition_mode": options["h2_to_h1_condition_mode"],
+        "condition_histogram_after_adapter": one_hot_histogram(h1_y),
+        "communities": h1_component_audits,
+    }
     model_h1.to("cpu")
     del h1_y
     del model_h1
-
+    if return_audit:
+        return (
+            h1_adjs, h1_node_types, h1_label_mapping, node_to_class,
+            n_nodes_counter, h1_full_graphs, h1_used_graphs, audit)
     return h1_adjs, h1_node_types, h1_label_mapping, node_to_class, n_nodes_counter
 
 def size_classing(type_idx, mean_size, dev_sizes, num_classes_out = 5):
@@ -197,7 +289,9 @@ def size_classing(type_idx, mean_size, dev_sizes, num_classes_out = 5):
 
     return graph_type
 
-def prepare_glue_dataset(cfg, model_glue, h1_adjs, h1_node_types, h2_edge_index, h2_edge_type, glue_batch_size):
+def prepare_glue_dataset(
+        cfg, model_glue, h1_adjs, h1_node_types, h2_edge_index,
+        h2_edge_type, glue_batch_size, return_audit=False):
     """
     Function to prepare the dataset for HiGGs Stage Three
 
@@ -221,12 +315,32 @@ def prepare_glue_dataset(cfg, model_glue, h1_adjs, h1_node_types, h2_edge_index,
 
     device = 'cuda' if torch.cuda.is_available() and cfg.general.gpus > 0 else 'cpu'
 
-    # Slowest stage, so use a progressbar
-    n_edges_h2 = h2_edge_index.shape[1]
-    pbar = tqdm(range(n_edges_h2))
+    options = interface_options(cfg)
+    training_cache_audit = None
+    if options["glue_training_cache"] is not None:
+        training_cache_audit = audit_glue_training_cache(
+            str(options["glue_training_cache"]))
+        print(
+            "[HiGGs interface] Glue training y cache: "
+            f"{training_cache_audit['absolute_path']} "
+            f"sha256={training_cache_audit['sha256']} "
+            f"histogram={training_cache_audit['one_hot_histogram']} "
+            "verified_present_class_index="
+            f"{training_cache_audit['verified_present_class_index']}")
+    if (options["h2_to_glue_condition_mode"] == "sbm_semantic"
+            and training_cache_audit is None):
+        raise ValueError(
+            "A Glue training cache is required for sbm_semantic adaptation")
+
+    # The H2 adjacency is symmetric, so dense_to_sparse contains both edge
+    # orientations. Keep one stable record per unordered present pair.
+    pair_records = unique_undirected_pairs(h2_edge_index, h2_edge_type)
+    pbar = tqdm(pair_records)
     max_nodes = 700
     datalist = []
     pair_ids = []
+    raw_edge_classes = []
+    adapted_glue_conditions = []
 
     x_out, y_out, e_out = model_glue.Xdim_output, model_glue.ydim_output, model_glue.Edim_output
     # Avoid errors thrown when out_dim==1
@@ -239,16 +353,12 @@ def prepare_glue_dataset(cfg, model_glue, h1_adjs, h1_node_types, h2_edge_index,
 
     # Lots of code also found in dgd/datasets/..., better documented there
     # Prepares datasets of pairs of h1 graphs
-    for n in pbar:
-        h2_edge = h2_edge_index[:,n]
+    for left, right, raw_edge_class in pbar:
+        pair_ids.append((left, right))
+        raw_edge_classes.append(raw_edge_class)
 
-        if (h2_edge[1], h2_edge[0]) in pair_ids or h2_edge[0] == h2_edge[1]:
-            continue
-
-        pair_ids.append((h2_edge[0], h2_edge[1]))
-
-        com1_adj, com2_adj = h1_adjs[h2_edge[0]], h1_adjs[h2_edge[1]]
-        com1_nodes, com2_nodes = h1_node_types[h2_edge[0]], h1_node_types[h2_edge[1]]
+        com1_adj, com2_adj = h1_adjs[left], h1_adjs[right]
+        com1_nodes, com2_nodes = h1_node_types[left], h1_node_types[right]
         com1_nodes, com2_nodes = com1_nodes, com2_nodes
 
         com1_edgelist, com1_attr = dense_to_sparse(com1_adj)
@@ -269,8 +379,20 @@ def prepare_glue_dataset(cfg, model_glue, h1_adjs, h1_node_types, h2_edge_index,
         if x_out == 2:
             x = x[:,0].reshape(-1,1)
 
-        graph_type = h2_edge_type[n]
-        y = F.one_hot(torch.tensor([graph_type]), num_classes=y_out).float()
+        graph_type = adapt_h2_to_glue_class(
+            raw_edge_class,
+            options["h2_to_glue_condition_mode"],
+            configured_present_class_index=options[
+                "glue_present_class_index"],
+            training_cache_audit=training_cache_audit,
+            dataset_name=str(cfg.general.name),
+        )
+        if graph_type < 0 or graph_type >= y_out:
+            raise ValueError(
+                f"Glue condition class {graph_type} is outside {y_out} classes")
+        y = F.one_hot(
+            torch.tensor([graph_type]), num_classes=y_out).float()
+        adapted_glue_conditions.append(y.squeeze(0))
 
         edge_attr = torch.cat((com1_attr, com2_attr))
         edge_attr = F.one_hot(edge_attr, num_classes=e_out).to(torch.float)
@@ -279,7 +401,9 @@ def prepare_glue_dataset(cfg, model_glue, h1_adjs, h1_node_types, h2_edge_index,
                     edge_index=pair_edges,
                     edge_attr = edge_attr,
                     pos = pos,
-                    y = y).to(device)
+                    y = y,
+                    pair_order=torch.tensor(
+                        [len(datalist)], dtype=torch.long)).to(device)
         datalist.append(data)
 
 
@@ -294,6 +418,29 @@ def prepare_glue_dataset(cfg, model_glue, h1_adjs, h1_node_types, h2_edge_index,
     loader = DataLoader(datalist, batch_size=batch_size, shuffle=False)#.to(device)
     print(f"Pair-pair community dataset is size {sys.getsizeof(loader)} in memory")
 
+    raw_histogram = {
+        str(key): int(value)
+        for key, value in sorted(Counter(raw_edge_classes).items())
+    }
+    if adapted_glue_conditions:
+        condition_tensor = torch.stack(adapted_glue_conditions)
+        condition_histogram = one_hot_histogram(condition_tensor)
+    else:
+        condition_histogram = {}
+    audit = {
+        "condition_mode": options["h2_to_glue_condition_mode"],
+        "raw_h2_edge_type_histogram": raw_histogram,
+        "glue_condition_histogram_after_adapter": condition_histogram,
+        "verified_glue_training_y_histogram": (
+            None if training_cache_audit is None
+            else training_cache_audit["one_hot_histogram"]),
+        "glue_training_cache": training_cache_audit,
+        "pair_ids": [list(pair) for pair in pair_ids],
+    }
+    if return_audit:
+        return (
+            datalist, loader, batch_size, n_batches, remainder, pair_ids,
+            audit)
     return datalist, loader, batch_size, n_batches, remainder, pair_ids
 
 def get_glue_model(cfg):
@@ -304,7 +451,8 @@ def get_glue_model(cfg):
 
     return cfg_glue, model_glue
 
-def get_inter_edges(cfg, model_glue, loader, n_batches, batch_size, remainder):
+def get_inter_edges(cfg, model_glue, loader, n_batches, batch_size, remainder,
+                    pair_ids=None, return_audit=False):
     """
     Sample inter-h1 edges (HiGGs Stage Three) using a loaded model and prepared dataset
 
@@ -323,11 +471,24 @@ def get_inter_edges(cfg, model_glue, loader, n_batches, batch_size, remainder):
     # Send model to GPU if available
     device = 'cuda' if torch.cuda.is_available() and cfg.general.gpus > 0 else 'cpu'
     model_glue = model_glue.to(device)
+    options = interface_options(cfg)
+    if options["force_eval"]:
+        model_glue.eval()
+    model_audit = model_sampling_state(
+        model_glue, omegaconf.OmegaConf.select(
+            cfg, "general.glue_model", default=""), stage="Glue")
+    if options["force_eval"] and model_audit["dropout_training_count"] != 0:
+        raise RuntimeError(
+            "force_eval=true but a Glue Dropout module is still training")
     out_nx = []
+    observed_pair_order = []
 
     pbar_glue = tqdm(loader)
     for n, batch in enumerate(pbar_glue):
         pbar_glue.set_description(f"Batch {n}")
+        if hasattr(batch, "pair_order"):
+            observed_pair_order.extend(
+                int(item) for item in batch.pair_order.detach().cpu().tolist())
         # Determine the size of this batch
         if n != n_batches - 1:
             bs = batch_size
@@ -336,24 +497,39 @@ def get_inter_edges(cfg, model_glue, loader, n_batches, batch_size, remainder):
             print(f"Doing final batch with remainder {remainder}")
 
         # Often too many batches to visualise all
-        if n % 50 == 0:
-            figures = True
-        else:
-            figures = False
+        figures = bool(omegaconf.OmegaConf.select(
+            cfg, "general.intermediate_figures", default=False)) and n % 50 == 0
 
         # Predict edges
-        pair_graphs, pair_nx = model_glue.sampling_batch_glue(
-            n, bs, 0, 40, data=batch, figures=figures)
+        with inference_context(options["force_eval"]):
+            pair_graphs, pair_nx = model_glue.sampling_batch_glue(
+                n, bs, 0, 40, data=batch, figures=figures)
 
         # Send predicted graphs to aggregator
         for i in range(bs):
             out_nx.append(pair_nx[i])
         del pair_graphs, pair_nx
 
+    expected_order = list(range(len(out_nx)))
+    if observed_pair_order and observed_pair_order != expected_order:
+        raise RuntimeError(
+            "Glue DataLoader output order differs from datalist/pair_ids: "
+            f"expected={expected_order}, observed={observed_pair_order}")
+    if pair_ids is not None and len(pair_ids) != len(out_nx):
+        raise RuntimeError(
+            "Glue output count does not match pair_ids: "
+            f"{len(out_nx)} != {len(pair_ids)}")
+    audit = {
+        "model": model_audit,
+        "observed_pair_order": observed_pair_order,
+        "output_count": len(out_nx),
+    }
+    if return_audit:
+        return out_nx, audit
     return out_nx
 
 
-def inter_edge_specific(h1_nx, glue_nx, pair_ids):
+def inter_edge_specific(h1_nx, glue_nx, pair_ids, return_details=False):
     """
     Extract new inter-h1 edges from graphs of connected h1-subgraphs
 
@@ -368,6 +544,7 @@ def inter_edge_specific(h1_nx, glue_nx, pair_ids):
 
     # Aggregate all inter-h1 edges
     all_edges = []
+    pair_details = []
 
     pbar_pairs = tqdm(range(len(pair_ids)))
     pbar_pairs.set_description("Extracting inter h1 edges")
@@ -393,13 +570,25 @@ def inter_edge_specific(h1_nx, glue_nx, pair_ids):
         # Add edges if they aren't already in one of the h1 graphs
         x_edges = list(gX.edges())
         y_edges = list(gY.edges())
+        pair_new_edges = []
         for e in y_edges:
             if e not in x_edges and (e[1], e[0]) not in x_edges:
-                all_edges.append(e)
+                canonical = (min(int(e[0]), int(e[1])),
+                             max(int(e[0]), int(e[1])))
+                all_edges.append(canonical)
+                pair_new_edges.append(canonical)
+        pair_details.append({
+            "pair_id": [int(com1), int(com2)],
+            "new_edges": [list(edge) for edge in pair_new_edges],
+        })
 
+    if return_details:
+        return all_edges, pair_details
     return all_edges
 
-def build_from_components(h1_node_types, h1_adjs, out_nx, h1_label_mapping, node_to_class, pair_ids):
+def build_from_components(
+        h1_node_types, h1_adjs, out_nx, h1_label_mapping, node_to_class,
+        pair_ids, strict_assertions=True, return_audit=False):
     """
     Combines graphs from each previous stage into the final sampled graph
 
@@ -418,6 +607,9 @@ def build_from_components(h1_node_types, h1_adjs, out_nx, h1_label_mapping, node
     """
     # Instantiate empty graph
     G = nx.Graph()
+    expected_node_count = sum(
+        int(nodes.shape[0]) for nodes in h1_node_types)
+    node_to_community = {}
 
     # Relabel each h1 graph and compose it into the final sampled graph
     h1_relabels = []
@@ -427,15 +619,36 @@ def build_from_components(h1_node_types, h1_adjs, out_nx, h1_label_mapping, node
         shift = mapping["start_ind"]
 
         adj = h1_adjs[i]
+        validate_discrete_graph(
+            h1_node_types[i], adj, label=f"Final assembly H1 {i}")
 
         g = nx.from_numpy_array(adj.cpu().numpy())
         g = nx.convert_node_labels_to_integers(g, first_label=shift)
         G = nx.compose(G, g)
+        for node_id in g.nodes():
+            node_to_community[int(node_id)] = int(i)
 
         h1_relabels.append(g)
 
     # Get edges from Stage Three (inter-h1 edges)
-    all_edges = inter_edge_specific(h1_relabels, out_nx, pair_ids)
+    all_edges, pair_details = inter_edge_specific(
+        h1_relabels, out_nx, pair_ids, return_details=True)
+    base_edges = {
+        (min(int(left), int(right)), max(int(left), int(right)))
+        for left, right in G.edges()
+    }
+    for pair_detail in pair_details:
+        expected_pair = set(pair_detail["pair_id"])
+        for left, right in pair_detail["new_edges"]:
+            actual_pair = {
+                node_to_community[int(left)],
+                node_to_community[int(right)],
+            }
+            if actual_pair != expected_pair:
+                raise RuntimeError(
+                    "A Glue pair output was routed to another community pair: "
+                    f"expected={sorted(expected_pair)}, "
+                    f"actual={sorted(actual_pair)}, edge={(left, right)}")
 
     # Add these edges to the final graph
     print(f"Before adding IC edges G is a {G}")
@@ -458,4 +671,51 @@ def build_from_components(h1_node_types, h1_adjs, out_nx, h1_label_mapping, node
 
     print(f"HiGGs sampled {G}, largest component is a {cg}")
 
+    final_edges = {
+        (min(int(left), int(right)), max(int(left), int(right)))
+        for left, right in G.edges()
+    }
+    missing_intra_edges = sorted(base_edges - final_edges)
+    added_edges = sorted(final_edges - base_edges)
+    invalid_added_edges = [
+        edge for edge in added_edges
+        if node_to_community[edge[0]] == node_to_community[edge[1]]
+    ]
+    if strict_assertions:
+        if not isinstance(G, nx.Graph) or isinstance(G, nx.MultiGraph):
+            raise RuntimeError("Final HiGGs output must be a networkx.Graph")
+        if nx.number_of_selfloops(G) != 0:
+            raise RuntimeError("Final HiGGs output contains a self-loop")
+        if list(G.nodes()) != list(range(G.number_of_nodes())):
+            raise RuntimeError("Final HiGGs node IDs are not contiguous")
+        if G.number_of_nodes() != expected_node_count:
+            raise RuntimeError(
+                "Final node count differs from the sum of used H1 nodes")
+        if missing_intra_edges:
+            raise RuntimeError(
+                f"Glue removed H1 intra edges: {missing_intra_edges[:10]}")
+        if invalid_added_edges:
+            raise RuntimeError(
+                "Glue introduced an edge inside one H1 community: "
+                f"{invalid_added_edges[:10]}")
+        if len({tuple(sorted((int(a), int(b)))) for a, b in pair_ids}) != len(
+                pair_ids):
+            raise RuntimeError("Glue pair IDs contain duplicates")
+    audit = {
+        "glue_nodes_before": expected_node_count,
+        "glue_nodes_after": G.number_of_nodes(),
+        "glue_added_edge_count": len(added_edges),
+        "intra_h1_edges_changed": len(missing_intra_edges),
+        "invalid_intra_added_edge_count": len(invalid_added_edges),
+        "pair_details": pair_details,
+        "self_loop_count": nx.number_of_selfloops(G),
+        "final_nodes": G.number_of_nodes(),
+        "final_edges": G.number_of_edges(),
+        "final_components": nx.number_connected_components(G),
+        "full_graph_nodes": G.number_of_nodes(),
+        "final_lcc_nodes": cg.number_of_nodes(),
+        "all_assertions_passed": True,
+    }
+    if return_audit:
+        return G, cg, audit
     return G, cg

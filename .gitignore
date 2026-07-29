@@ -7,3 +7,28 @@ Thumbs.db
 .DS_Store
 
 saved_models/facebook/facebook_glue.ckpt
+
+# Local datasets, checkpoints, and generated experiment artifacts
+data/
+outputs/
+higgs/outputs/
+wandb/
+**/wandb/
+*.ckpt
+sampled_graph_*.pkl
+sampled_h1_graphs_*.pkl
+evaluation_samples/
+environment_snapshot/
+
+# Local logs, temporary files, and environment snapshots
+*.log
+*.tmp
+.tmp/
+tests/.tmp*/
+higgs.before-regenerate.*.yml
+
+# Local Python and Conda environments
+.venv/
+venv/
+env/
+.conda/

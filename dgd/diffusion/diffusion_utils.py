@@ -327,12 +327,17 @@ def compute_posterior_distribution(M, M_t, Qt_M, Qsb_M, Qtb_M):
 
     denom = M @ Qtb_M     # (bs, N, d) @ (bs, d, d) = (bs, N, d)
     denom = (denom * M_t).sum(dim=-1)   # (bs, N, d) * (bs, N, d) + sum = (bs, N)
-    # denom = product.sum(dim=-1)
-    # denom[denom == 0.] = 1
+    denom = denom.clamp_min(torch.finfo(denom.dtype).tiny)
 
     prob = product / denom.unsqueeze(-1)    # (bs, N, d)
 
     return prob
+
+
+def log_probability(probability):
+    """Take log probabilities without changing finite, non-zero values."""
+    return probability.clamp_min(
+        torch.finfo(probability.dtype).tiny).log()
 
 
 def compute_batched_over0_posterior_distribution(X_t, Qt, Qsb, Qtb):
@@ -428,4 +433,3 @@ def sample_discrete_feature_noise(limit_dist, node_mask):
     assert (U_E == torch.transpose(U_E, 1, 2)).all()
 
     return PlaceHolder(X=U_X, E=U_E, y=U_y).mask(node_mask)
-

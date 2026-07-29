@@ -1,0 +1,30 @@
+name: sbm
+wandb: disabled
+gpus: 1
+
+root_path: E:/HiGGs-GBD/HiGGs-main/data
+
+h2_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_beta_h2_r1_e500_best.ckpt
+h2_model_family: beta_h2
+h1_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_beta_h1_r1_best.ckpt
+h1_model_family: beta_h1
+glue_model: E:/HiGGs-GBD/HiGGs-main/saved_models/sbm/sbm_glue.ckpt
+glue_model_family: original_glue
+
+samples_to_generate: 40
+h1_batch_size: 16
+glue_batch_size: 5
+visualize: true
+intermediate_figures: false
+sampling_seed: 0
+
+interface:
+  h2_component_policy: full
+  h1_component_policy: full
+  h2_to_h1_condition_mode: direct
+  h2_to_glue_condition_mode: direct
+  glue_present_class_index: null
+  glue_training_cache: E:/HiGGs-GBD/HiGGs-main/data/sbm/processed/proc_train_X_r1_majority_max500_bs8.pt
+  force_eval: true
+  save_intermediates: true
+  strict_assertions: true

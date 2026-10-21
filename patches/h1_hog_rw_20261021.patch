@@ -1,0 +1,464 @@
+diff --git a/dgd/diffusion_model_beta_h1.py b/dgd/diffusion_model_beta_h1.py
+--- a/dgd/diffusion_model_beta_h1.py
++++ b/dgd/diffusion_model_beta_h1.py
+@@ -26,6 +26,10 @@
+ from metrics.beta_train_metrics import BetaH1Loss
+ from models.transformer_model import GraphTransformer
+ from models.two_hop_edge import two_hop_options
++from diffusion.hog_rw_features import (
++    HOG_RW_ALGORITHM, hog_rw_options, masked_hog_rw_features,
++)
+ 
+ 
+ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
+@@ -69,6 +73,13 @@
+         input_dims["E"] -= 1
+         output_dims["E"] -= 1
+         self.two_hop_options = two_hop_options(cfg.model.get("two_hop"))
++        self.hog_rw_options = hog_rw_options(cfg.model.get("hog_rw"))
++        if self.hog_rw_options["enabled"]:
++            if self.two_hop_options["enabled"]:
++                raise ValueError("HOG RW/SPD first ablation cannot enable two-hop")
++            # Change only this local copy, never dataset_infos.input_dims.
++            input_dims["X"] += self.hog_rw_options["rw_depth"]
++            input_dims["E"] += self.hog_rw_options["rw_depth"] + 1
+         self._two_hop_checkpoint_loaded = False
+         self._two_hop_warm_start_audit = None
+         backbone = GraphTransformer
+@@ -140,6 +151,12 @@
+         except Exception as error:
+             print(f"[HiGGs] beta_h1 hyperparameter serialization skipped: {error}")
+         print("[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion")
++        if self.hog_rw_options["enabled"]:
++            print("[HiGGs] H1 HOG-Diff RW/SPD feature transfer: "
++                  f"depth={self.hog_rw_options['rw_depth']}; "
++                  f"input_dims={input_dims}; output_dims={output_dims}; "
++                  "two-hop=disabled; original Beta transitions unchanged")
+         if self.two_hop_options["enabled"]:
+             print("[HiGGs] H1 dense two-hop residual: enabled, channels="
+                   f"{self.two_hop_options['channels']}; normalization="
+@@ -149,6 +166,13 @@
+     def on_save_checkpoint(self, checkpoint):
+         checkpoint["model_family"] = self.family
+         checkpoint["stage"] = self.stage
++        if self.hog_rw_options["enabled"]:
++            checkpoint["h1_hog_rw"] = {
++                "version": 1,
++                "rw_depth": self.hog_rw_options["rw_depth"],
++                "algorithm": HOG_RW_ALGORITHM,
++                "two_hop": False,
++            }
+         if self.two_hop_options["enabled"]:
+             checkpoint["h1_two_hop"] = {
+                 "version": 2, "channels": self.two_hop_options["channels"],
+@@ -159,6 +183,30 @@
+     def on_load_checkpoint(self, checkpoint):
++        hog_meta = checkpoint.get("h1_hog_rw")
++        if self.hog_rw_options["enabled"]:
++            if not isinstance(hog_meta, Mapping):
++                raise RuntimeError("HOG RW/SPD requires its own checkpoint metadata")
++            hp = checkpoint.get("hyper_parameters") or {}
++            saved_cfg = hp.get("cfg") if isinstance(hp, Mapping) else None
++            saved_model = saved_cfg.get("model") if isinstance(saved_cfg, Mapping) else None
++            if not isinstance(saved_model, Mapping):
++                raise RuntimeError("HOG RW/SPD checkpoint requires saved model config")
++            saved_hog = hog_rw_options(saved_model.get("hog_rw"))
++            if (saved_hog != self.hog_rw_options
++                    or hog_meta.get("version") != 1
++                    or hog_meta.get("rw_depth") != saved_hog["rw_depth"]
++                    or hog_meta.get("algorithm") != HOG_RW_ALGORITHM
++                    or hog_meta.get("two_hop") is not False
++                    or two_hop_options(saved_model.get("two_hop"))["enabled"]):
++                raise RuntimeError("HOG RW/SPD checkpoint/config mismatch")
++        elif hog_meta is not None:
++            raise RuntimeError("Cannot load an enabled HOG RW/SPD checkpoint as baseline")
+         meta = checkpoint.get("h1_two_hop") or {}
+         if self.two_hop_options["enabled"]:
+             if not isinstance(meta, Mapping):
+@@ -303,6 +351,13 @@
+         if self.domain_features is not None:
+             domain = self.domain_features(noisy_data)
+             extra_X = torch.cat((extra_X, domain.X), dim=-1)
+             extra_E = torch.cat((extra_E, domain.E), dim=-1)
+             extra_y = torch.cat((extra_y, domain.y), dim=-1)
++        if self.hog_rw_options["enabled"]:
++            # Compute from the current noisy state only, never the clean target.
++            rw_X, spd_E = masked_hog_rw_features(
++                public_E[..., 1], node_mask,
++                self.hog_rw_options["rw_depth"])
++            extra_X = torch.cat((extra_X, rw_X.to(extra_X)), dim=-1)
++            extra_E = torch.cat((extra_E, spd_E.to(extra_E)), dim=-1)
+         return extra_X, extra_E, extra_y
+ 
+     def _predict_clean(self, X_t, E_t, condition_y, t, alpha_t,
+diff --git a/dgd/diffusion/hog_rw_features.py b/dgd/diffusion/hog_rw_features.py
+new file mode 100644
+--- /dev/null
++++ b/dgd/diffusion/hog_rw_features.py
+@@ -0,0 +1,102 @@
++"""HOG-Diff RW/SPD input subcomponent, NOT the complete HOG-Diff model.
++
++get_rw_feat is adapted from Yiming Huang and Tolga Birdal, HOG-Diff (2026):
++https://github.com/Yiminghh/HOG-Diff/blob/main/models/utils.py
++Upstream Git blob: 5d72f438b1122d6f05b6ca9e95b135691f5b1eff.
++Copyright (c) 2026 Yiming Huang and Tolga Birdal.
++SPDX-License-Identifier: CC-BY-NC-4.0
++https://creativecommons.org/licenses/by-nc/4.0/
++See THIRD_PARTY_NOTICES_HOG_RW.md for provenance and licensing.
++
++Changes: comments/style, strict opt-in configuration, and an external HiGGs
++masking wrapper. The original powers P^2,...,P^(k+1) and zero-count SPD encoding
++are retained. This is NOT a replacement with exact shortest-path distances.
++No claim of a new encoding algorithm, complete ScoreNet or HOG-Diff replication.
++"""
++
++from collections.abc import Mapping
++import torch
++
++HOG_RW_ALGORITHM = "HOG-Diff:utils.py:5d72f438:get_rw_feat"
++
++
++def hog_rw_options(config=None):
++    defaults = {"enabled": False, "rw_depth": 4}
++    if config is None:
++        return defaults
++    if not isinstance(config, Mapping):
++        raise TypeError("model.hog_rw must be a mapping")
++    unknown = set(config) - set(defaults)
++    if unknown:
++        raise ValueError(f"Unknown hog_rw options: {sorted(unknown)}")
++    result = dict(defaults, **dict(config))
++    if type(result["enabled"]) is not bool:
++        raise TypeError("hog_rw.enabled must be bool")
++    if type(result["rw_depth"]) is not int or not 1 <= result["rw_depth"] <= 32:
++        raise ValueError("hog_rw.rw_depth must be an integer in [1, 32]")
++    return result
++
++
++@torch.no_grad()
++def get_rw_feat(k_step, dense_adj):
++    """Original HOG-Diff computation; returns RW landing and SPD channels."""
++    rw_list = []
++    deg = dense_adj.sum(-1, keepdims=True)
++    AD = dense_adj / (deg + 1e-8)
++    rw_list.append(AD)
++    for _ in range(k_step):
++        rw = torch.bmm(rw_list[-1], AD)
++        rw_list.append(rw)
++    rw_map = torch.stack(rw_list[1:], dim=1)
++    rw_landing = torch.diagonal(rw_map, offset=0, dim1=2, dim2=3)
++    rw_landing = rw_landing.permute(0, 2, 1)
++    tmp_rw = rw_map.sort(dim=1)[0]
++    spd_ind = (tmp_rw <= 0).sum(dim=1)
++    spd_onehot = torch.nn.functional.one_hot(
++        spd_ind, num_classes=k_step + 1).to(torch.float)
++    spd_onehot = spd_onehot.permute(0, 3, 1, 2)
++    return rw_landing, spd_onehot
++
++
++@torch.no_grad()
++def masked_hog_rw_features(binary_adj, node_mask, rw_depth):
++    """Append-only HiGGs adapter; output X=[B,N,k], E=[B,N,N,k+1]."""
++    if binary_adj.ndim != 3 or binary_adj.shape[1] != binary_adj.shape[2]:
++        raise ValueError("binary_adj must have shape [B,N,N]")
++    if node_mask.dtype != torch.bool or node_mask.shape != binary_adj.shape[:2]:
++        raise ValueError("node_mask must be bool [B,N]")
++    hog_rw_options({"enabled": True, "rw_depth": rw_depth})
++    if not torch.isfinite(binary_adj).all():
++        raise ValueError("Nonfinite adjacency passed to HOG RW/SPD")
++    if not ((binary_adj == 0) | (binary_adj == 1)).all():
++        raise ValueError("HOG RW/SPD adapter expects a binary adjacency")
++    n = binary_adj.shape[1]
++    valid = node_mask[:, :, None] & node_mask[:, None, :]
++    diagonal = torch.eye(n, device=binary_adj.device, dtype=torch.bool)[None]
++    valid_edge = valid & ~diagonal
++    adj = binary_adj.float() * valid_edge
++    if not torch.equal(adj, adj.transpose(1, 2)):
++        raise ValueError("HOG RW/SPD requires an undirected adjacency")
++    rw, spd = get_rw_feat(rw_depth, adj)
++    rw = rw * node_mask.unsqueeze(-1)
++    spd = spd.permute(0, 2, 3, 1) * valid_edge.unsqueeze(-1)
++    return rw, spd
+diff --git a/configs/model/beta_h1_hog_rw.yaml b/configs/model/beta_h1_hog_rw.yaml
+new file mode 100644
+--- /dev/null
++++ b/configs/model/beta_h1_hog_rw.yaml
+@@ -0,0 +1,19 @@
++# HOG-Diff RW/SPD subcomponent transfer, not a new encoding algorithm.
++# Single-factor experiment: do not simultaneously add precondition/degree eta.
++defaults:
++  - beta_h1
++  - _self_
++
++hog_rw:
++  enabled: true
++  rw_depth: 4
++
++two_hop:
++  enabled: false
++  channels: 16
++  normalization: mean
++  warm_start_checkpoint: null
++
++pre_condition: false
++eta_strategy: fixed
+diff --git a/THIRD_PARTY_NOTICES_HOG_RW.md b/THIRD_PARTY_NOTICES_HOG_RW.md
+new file mode 100644
+--- /dev/null
++++ b/THIRD_PARTY_NOTICES_HOG_RW.md
+@@ -0,0 +1,30 @@
++# HOG-Diff RW/SPD input subcomponent
++
++Source: https://github.com/Yiminghh/HOG-Diff/blob/main/models/utils.py
++Original file Git blob: `5d72f438b1122d6f05b6ca9e95b135691f5b1eff`.
++Original authors: Yiming Huang and Tolga Birdal, 2026.
++Paper: HOG-Diff: Higher-Order Guided Diffusion for Graph Generation, ICLR 2026.
++
++The adapted `get_rw_feat` function in `dgd/diffusion/hog_rw_features.py` is
++licensed under Creative Commons Attribution-NonCommercial 4.0 International:
++https://creativecommons.org/licenses/by-nc/4.0/
++Full license: https://creativecommons.org/licenses/by-nc/4.0/legalcode
++Upstream notice: https://github.com/Yiminghh/HOG-Diff/blob/main/LICENSE
++
++Copyright (c) 2026 Yiming Huang and Tolga Birdal.
++For commercial licensing inquiries, contact the original authors.
++This third-party component is not relicensed under the surrounding project's
++license. No endorsement by the original authors is claimed. No warranties.
++
++Changes: comments and formatting; opt-in options; an external masking adapter;
++concatenation into an existing HiGGs Beta-H1 denoiser. The random-walk powers
++and zero-count SPD algorithm are retained. The adapter clears padding and
++edge-diagonal channels. Existing cycle/spectral input features are retained.
++
++This is a transfer experiment, NOT a complete HOG-Diff or ScoreNet replication.
++It does not include the original degree/binary-adjacency input channels, CCF,
++spectral diffusion or diffusion bridges. Beta formulas, losses, H2 and Glue
++are unchanged. Copying a published component is not a claim of new-method
++novelty, and no generation-quality gain is asserted before experiments.
+diff --git a/tests/test_h1_hog_rw.py b/tests/test_h1_hog_rw.py
+new file mode 100644
+--- /dev/null
++++ b/tests/test_h1_hog_rw.py
+@@ -0,0 +1,245 @@
++"""CPU-only feature/regression smoke. No real dataset or model downloads."""
++import copy
++import importlib.util
++import os
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++import torch
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT / "dgd"))
++sys.path.insert(0, str(ROOT / "tests"))
++from diffusion.hog_rw_features import (
++    HOG_RW_ALGORITHM, get_rw_feat, hog_rw_options, masked_hog_rw_features,
++)
++
++REQUIRE_INTEGRATION = "--require-integration" in sys.argv
++if REQUIRE_INTEGRATION:
++    sys.argv.remove("--require-integration")
++
++
++class FeatureTests(unittest.TestCase):
++    def test_options(self):
++        self.assertFalse(hog_rw_options()["enabled"])
++        for bad in ({"enabled": "false"}, {"rw_depth": True},
++                    {"rw_depth": 0}, {"unknown": 3}):
++            with self.assertRaises((TypeError, ValueError)):
++                hog_rw_options(bad)
++
++    def test_matches_independent_matrix_power_reference(self):
++        # Test chains, odd cycles, bipartite graphs, isolated and singleton nodes.
++        graphs = [torch.zeros(1, 1), torch.zeros(4, 4)]
++        for n, edges in [(4, [(0, 1), (1, 2)]),
++                         (3, [(0, 1), (1, 2), (2, 0)]),
++                         (4, [(0, 2), (0, 3), (1, 2), (1, 3)])]:
++            a = torch.zeros(n, n)
++            for i, j in edges:
++                a[i, j] = a[j, i] = 1
++            graphs.append(a)
++        for a in graphs:
++            a = a.unsqueeze(0)
++            p = a / (a.sum(-1, keepdim=True) + 1e-8)
++            powers = torch.stack([torch.linalg.matrix_power(p, j)
++                                  for j in range(2, 6)], dim=1)
++            expected_x = powers.diagonal(dim1=2, dim2=3).permute(0, 2, 1)
++            index = (powers <= 0).sum(1)
++            expected_e = torch.nn.functional.one_hot(index, 5).float()
++            x, e = get_rw_feat(4, a)
++            self.assertTrue(torch.allclose(x, expected_x, atol=1e-6))
++            self.assertTrue(torch.equal(e.permute(0, 2, 3, 1), expected_e))
++
++    def test_masks_symmetry_padding_and_permutation(self):
++        a = torch.zeros(1, 5, 5)
++        a[0, 0, 1] = a[0, 1, 0] = 1
++        a[0, 1, 2] = a[0, 2, 1] = 1
++        mask = torch.tensor([[True, True, True, False, False]])
++        x, e = masked_hog_rw_features(a, mask, 4)
++        sx, se = masked_hog_rw_features(a[:, :3, :3], mask[:, :3], 4)
++        self.assertTrue(torch.equal(x[:, :3], sx))
++        self.assertTrue(torch.equal(e[:, :3, :3], se))
++        self.assertEqual(int(x[:, 3:].count_nonzero()), 0)
++        self.assertEqual(int(e[:, 3:].count_nonzero()), 0)
++        self.assertEqual(int(e[:, :, 3:].count_nonzero()), 0)
++        self.assertEqual(int(e[:, torch.arange(5), torch.arange(5)].count_nonzero()), 0)
++        self.assertTrue(torch.equal(e, e.transpose(1, 2)))
++        perm = torch.tensor([4, 2, 0, 3, 1])
++        px, pe = masked_hog_rw_features(a[:, perm][:, :, perm], mask[:, perm], 4)
++        self.assertTrue(torch.allclose(px, x[:, perm], atol=1e-6))
++        self.assertTrue(torch.equal(pe, e[:, perm][:, :, perm]))
++
++    def test_singleton_empty_and_no_rng_consumption(self):
++        for n in (1, 3):
++            state = torch.get_rng_state()
++            x, e = masked_hog_rw_features(torch.zeros(2, n, n),
++                                         torch.ones(2, n, dtype=torch.bool), 4)
++            self.assertTrue(torch.equal(state, torch.get_rng_state()))
++            self.assertTrue(torch.isfinite(x).all() and torch.isfinite(e).all())
++            self.assertEqual(tuple(x.shape), (2, n, 4))
++            self.assertEqual(tuple(e.shape), (2, n, n, 5))
++
++    def test_invalid_inputs_fail(self):
++        mask = torch.ones(1, 2, dtype=torch.bool)
++        for a in (torch.tensor([[[0., 1.], [0., 0.]]]),
++                  torch.full((1, 2, 2), .1), torch.full((1, 2, 2), float("nan"))):
++            with self.assertRaises(ValueError):
++                masked_hog_rw_features(a, mask, 4)
++
++
++class ModelTests(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        try:
++            from diffusion_model_beta_h1 import ConditionalGraphBetaDiffusionH1
++            from test_beta_h1_semantics import _cfg, _DatasetInfo
++        except ModuleNotFoundError as error:
++            if REQUIRE_INTEGRATION:
++                raise
++            raise unittest.SkipTest(f"Integration dependency unavailable: {error}")
++        cls.Model = ConditionalGraphBetaDiffusionH1
++        cls.cfg_factory = staticmethod(_cfg)
++        cls.Info = _DatasetInfo
++
++    def model(self, enabled=True):
++        cfg = self.cfg_factory()
++        if enabled:
++            cfg.model.hog_rw = {"enabled": True, "rw_depth": 4}
++        return self.Model(cfg, self.Info()).eval()
++
++    def test_dimensions_and_dataset_info_not_mutated(self):
++        info = self.Info()
++        before = dict(info.input_dims)
++        base, model = self.model(False), self.model(True)
++        self.assertEqual(info.input_dims, before)
++        self.assertEqual(model.model.mlp_in_X[0].in_features,
++                         base.model.mlp_in_X[0].in_features + 4)
++        self.assertEqual(model.model.mlp_in_E[0].in_features,
++                         base.model.mlp_in_E[0].in_features + 5)
++        self.assertEqual(model.model.out_dim_X, base.model.out_dim_X)
++        self.assertEqual(model.model.out_dim_E, base.model.out_dim_E)
++        self.assertEqual(model.model.out_dim_y, base.model.out_dim_y)
++        self.assertFalse(model.two_hop_options["enabled"])
++
++    def test_rejects_twohop_combination(self):
++        cfg = self.cfg_factory()
++        cfg.model.hog_rw = {"enabled": True, "rw_depth": 4}
++        cfg.model.two_hop = {"enabled": True, "channels": 4}
++        with self.assertRaises(ValueError):
++            self.Model(cfg, self.Info())
++
++    def test_disabled_matches_prepatch_backbone(self):
++        path = os.environ.get("H1_HOG_BASELINE_FILE")
++        if not path:
++            if REQUIRE_INTEGRATION:
++                self.fail("Set H1_HOG_BASELINE_FILE to the pre-patch backup")
++            self.skipTest("No pre-patch backup path provided")
++        spec = importlib.util.spec_from_file_location("h1_pre_hog_baseline", path)
++        original = importlib.util.module_from_spec(spec)
++        spec.loader.exec_module(original)
++        torch.manual_seed(613)
++        old = original.ConditionalGraphBetaDiffusionH1(self.cfg_factory(), self.Info()).eval()
++        old_rng = torch.get_rng_state()
++        torch.manual_seed(613)
++        new = self.model(False)
++        self.assertTrue(torch.equal(old_rng, torch.get_rng_state()))
++        new.load_state_dict(old.state_dict(), strict=True)
++        mask = torch.ones(1, 3, dtype=torch.bool)
++        x, e = torch.zeros(1, 3, 1), torch.zeros(1, 3, 3, 1)
++        y, t = torch.tensor([[1., 0.]]), torch.tensor([[.5]])
++        eta_x, eta_e = old._eta_tensors(1, 3, x)
++        args = (x, e, y, t, old._alpha(t), eta_x, eta_e, mask)
++        for a, b in zip(old._predict_clean(*args), new._predict_clean(*args)):
++            self.assertTrue(torch.equal(a, b))
++
++    def test_sampling_output_schema_and_fixed_condition(self):
++        model = self.model()
++        y = torch.tensor([[1., 0.], [0., 1.]])
++        graphs, _ = model.sampling_batch_h1(
++            batch_id=0, batch_size=2, keep_chain=0, number_chain_steps=1,
++            num_nodes=torch.tensor([1, 3]), y=y.clone(), figures=False)
++        for n, (x, e) in zip((1, 3), graphs):
++            self.assertEqual(tuple(x.shape), (n,))
++            self.assertEqual(tuple(e.shape), (n, n))
++            self.assertTrue(torch.equal(e, e.T))
++            self.assertEqual(int(e.diagonal().count_nonzero()), 0)
++            self.assertTrue(torch.isfinite(e.float()).all())
++
++    def test_checkpoint_metadata_and_mismatch(self):
++        model = self.model()
++        ckpt = {"hyper_parameters": {"cfg": copy.deepcopy(model.cfg)}}
++        model.on_save_checkpoint(ckpt)
++        self.assertEqual(ckpt["h1_hog_rw"]["algorithm"], HOG_RW_ALGORITHM)
++        restored = self.model()
++        restored.on_load_checkpoint(ckpt)
++        restored.load_state_dict(model.state_dict(), strict=True)
++        with self.assertRaises(RuntimeError):
++            self.model(False).on_load_checkpoint(ckpt)
++        broken = copy.deepcopy(ckpt)
++        broken["h1_hog_rw"]["rw_depth"] = 5
++        with self.assertRaises(RuntimeError):
++            self.model().on_load_checkpoint(broken)
++
++    def test_synthetic_train_validation_checkpoint_reload(self):
++        from pytorch_lightning import Trainer
++        from pytorch_lightning.callbacks import ModelCheckpoint
++        from torch_geometric.data import Batch, Data
++        from torch.utils.data import DataLoader
++        edge_index = torch.tensor([[0, 1, 1, 2], [1, 0, 2, 1]])
++        graph = Data(x=torch.ones(3, 1), edge_index=edge_index,
++                     edge_attr=torch.tensor([[0., 1.]]).repeat(4, 1),
++                     y=torch.tensor([[1., 0.]]))
++        loader = DataLoader([graph] * 4, batch_size=2, collate_fn=Batch.from_data_list)
++        with tempfile.TemporaryDirectory(prefix="h1_hog_synthetic_") as directory:
++            model = self.model().train()
++            callback = ModelCheckpoint(dirpath=directory, monitor="val/h1_total",
++                                       mode="min", save_top_k=1, save_last=True)
++            trainer = Trainer(accelerator="cpu", devices=1, max_epochs=1,
++                              limit_train_batches=2, limit_val_batches=2,
++                              num_sanity_val_steps=0, logger=False,
++                              enable_progress_bar=False, callbacks=[callback])
++            trainer.fit(model, loader, loader)
++            for key in ("train/h1_total", "val/h1_total"):
++                self.assertTrue(torch.isfinite(trainer.callback_metrics[key]))
++            for path in (callback.best_model_path, callback.last_model_path):
++                self.assertTrue(Path(path).is_file())
++            restored = self.Model.load_from_checkpoint(callback.last_model_path)
++            self.assertEqual(restored.hog_rw_options, model.hog_rw_options)
++            for key, value in model.state_dict().items():
++                self.assertTrue(torch.equal(value.cpu(), restored.state_dict()[key].cpu()))
++
++
++if __name__ == "__main__":
++    result = unittest.main(verbosity=2, exit=False).result
++    if not result.wasSuccessful():
++        sys.exit(1)
++    print("PASS: HOG_RW_FEATURE_TESTS")
++    if REQUIRE_INTEGRATION:
++        print("PASS: HOG_RW_INTEGRATION_AND_SYNTHETIC_SMOKE")
++    else:
++        print("Integration is optional in this mode; inspect skipped tests above.")
++    print("No real dataset training, H2/Glue sampling, or metric evaluation performed.")

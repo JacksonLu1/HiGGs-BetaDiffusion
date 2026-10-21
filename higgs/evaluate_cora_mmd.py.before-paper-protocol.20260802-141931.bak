@@ -1,0 +1,1130 @@
+"""Offline whole-graph and community MMD evaluation for Cora HiGGs samples."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import logging
+import math
+import os
+import pickle
+import random
+import statistics
+import sys
+import time
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Callable, Iterable, Sequence, TypeVar
+
+import networkx as nx
+import numpy as np
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DGD_ROOT = REPO_ROOT / "dgd"
+if str(DGD_ROOT) not in sys.path:
+    sys.path.insert(0, str(DGD_ROOT))
+
+os.environ.setdefault("WANDB_MODE", "disabled")
+os.environ.setdefault("WANDB_SILENT", "true")
+os.environ.setdefault("MPLBACKEND", "Agg")
+
+from analysis import dist_helper, spectre_utils  # noqa: E402
+from metrics.mmd import calculators as mmd_calculators  # noqa: E402
+
+
+EXPECTED_REAL_NODES = 2810
+EXPECTED_REAL_EDGES = 7981
+PAPER_COMPATIBLE_MODE = "tv"
+SELF_CHECK_TOLERANCE = 1e-8
+
+WHOLE_METRICS = ("Degree", "Clustering", "Eccentricity")
+COMMUNITY_METRICS = (
+    "Nodes",
+    "Degree",
+    "Clustering",
+    "Eccentricity",
+    "Spectre",
+)
+
+PAPER_WHOLE_MMD = {
+    "Degree": 0.254,
+    "Clustering": 0.958,
+    "Eccentricity": 0.273,
+}
+PAPER_COMMUNITY_MMD = {
+    "Nodes": 0.662,
+    "Degree": 0.069,
+    "Clustering": 0.451,
+    "Eccentricity": 0.0135,
+    "Spectre": 0.100,
+}
+PAPER_GRAPH_REFERENCES = {
+    "Communities": {"real": 17.0, "higgs": 29.0},
+    "Median community size": {"real": 110.0, "higgs": 94.0},
+}
+
+FUNCTION_PATHS = {
+    "nodes": "analysis.dist_helper.compute_mmd",
+    "degree": "analysis.spectre_utils.degree_stats",
+    "clustering": "analysis.spectre_utils.clustering_stats",
+    "eccentricity": "metrics.mmd.calculators.radius_stats",
+    "spectre": "analysis.spectre_utils.spectral_stats",
+}
+
+PAPER_MODE_EVIDENCE = [
+    "CoraSamplingMetrics constructs SpectreSamplingMetrics with compute_emd=False.",
+    "FullSampleMetrics constructs InMemorySpectreSamplingMetrics with compute_emd=False.",
+    "The whole-graph sampling_quality path uses FullSampleMetrics.",
+    "The original Nodes implementation always uses gaussian_tv.",
+]
+
+T = TypeVar("T")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Evaluate an existing HiGGs Cora PKL without training or sampling."
+    )
+    parser.add_argument("--real-path", type=Path, required=True)
+    parser.add_argument("--sample-path", type=Path, required=True)
+    parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument(
+        "--mode",
+        choices=("paper", "tv", "emd", "both"),
+        default="paper",
+    )
+    parser.add_argument("--louvain-resolution", type=float, default=1.0)
+    parser.add_argument("--louvain-seed", type=int, default=0)
+    parser.add_argument("--self-check", action="store_true")
+    return parser.parse_args()
+
+
+def configure_logging(output_dir: Path) -> logging.Logger:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    logger = logging.getLogger("cora_mmd_audit")
+    logger.setLevel(logging.INFO)
+    logger.handlers.clear()
+
+    formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setFormatter(formatter)
+    file_handler = logging.FileHandler(
+        output_dir / "cora_mmd_audit.log", mode="w", encoding="utf-8"
+    )
+    file_handler.setFormatter(formatter)
+    logger.addHandler(stream_handler)
+    logger.addHandler(file_handler)
+    return logger
+
+
+def ensure_valid_args(args: argparse.Namespace) -> None:
+    if not math.isfinite(args.louvain_resolution) or args.louvain_resolution <= 0:
+        raise ValueError("--louvain-resolution must be a finite positive number")
+    real_path = args.real_path.resolve()
+    sample_path = args.sample_path.resolve()
+    if real_path == sample_path:
+        raise ValueError("--real-path and --sample-path must identify different files")
+    if not real_path.is_file():
+        raise FileNotFoundError(f"Real Cora PKL does not exist: {real_path}")
+    if not sample_path.is_file():
+        raise FileNotFoundError(f"Generated Cora PKL does not exist: {sample_path}")
+
+
+def finite_float(value: Any, label: str) -> float:
+    result = float(value)
+    if not math.isfinite(result):
+        raise ValueError(f"{label} is NaN or Inf: {result}")
+    return result
+
+
+def timed_call(label: str, logger: logging.Logger, function: Callable[[], T]) -> T:
+    started_at = datetime.now().astimezone().isoformat(timespec="seconds")
+    started = time.perf_counter()
+    logger.info("Metric start: %s at %s", label, started_at)
+    try:
+        result = function()
+    except Exception:
+        elapsed = time.perf_counter() - started
+        logger.exception("Metric failed: %s after %.3f seconds", label, elapsed)
+        raise
+    finished_at = datetime.now().astimezone().isoformat(timespec="seconds")
+    elapsed = time.perf_counter() - started
+    logger.info(
+        "Metric finish: %s at %s; elapsed=%.3f seconds",
+        label,
+        finished_at,
+        elapsed,
+    )
+    return result
+
+
+def load_graph(path: Path, role: str) -> tuple[nx.Graph, dict[str, Any]]:
+    try:
+        with path.open("rb") as handle:
+            loaded = pickle.load(handle)
+    except Exception as exc:
+        raise RuntimeError(f"Failed to read {role} graph from {path}: {exc}") from exc
+
+    graph_types = (nx.Graph, nx.DiGraph, nx.MultiGraph, nx.MultiDiGraph)
+    if not isinstance(loaded, graph_types):
+        try:
+            graph = nx.Graph(loaded)
+        except Exception as exc:
+            raise TypeError(
+                f"{role} object is {type(loaded).__name__} and cannot be converted "
+                "safely to networkx.Graph"
+            ) from exc
+    else:
+        graph = nx.Graph(loaded)
+
+    source_nodes = graph.number_of_nodes()
+    source_edges = graph.number_of_edges()
+    self_loops = list(nx.selfloop_edges(graph))
+    graph.remove_edges_from(self_loops)
+    if graph.number_of_nodes() == 0:
+        raise ValueError(f"{role} graph is empty after conversion: {path}")
+
+    metadata = {
+        "role": role,
+        "path": str(path.resolve()),
+        "loaded_type": f"{type(loaded).__module__}.{type(loaded).__name__}",
+        "source_nodes_after_simple_conversion": source_nodes,
+        "source_edges_after_simple_conversion": source_edges,
+        "self_loops_removed": len(self_loops),
+        "converted_to_undirected_simple_graph": True,
+        "node_ids_relabelled": False,
+        "isolated_nodes_removed": False,
+    }
+    return graph, metadata
+
+
+def largest_component(graph: nx.Graph) -> nx.Graph:
+    component_nodes = max(nx.connected_components(graph), key=len)
+    return graph.subgraph(component_nodes).copy()
+
+
+def graph_statistics(
+    graph: nx.Graph,
+    label: str,
+    self_loops_removed: int = 0,
+) -> dict[str, Any]:
+    if graph.number_of_nodes() == 0:
+        raise ValueError(f"Cannot summarize empty graph: {label}")
+    components = nx.number_connected_components(graph)
+    largest = largest_component(graph)
+    nodes = graph.number_of_nodes()
+    edges = graph.number_of_edges()
+    values: dict[str, Any] = {
+        "graph": label,
+        "nodes": nodes,
+        "edges": edges,
+        "connected_components": components,
+        "largest_component_nodes": largest.number_of_nodes(),
+        "largest_component_edges": largest.number_of_edges(),
+        "self_loops": nx.number_of_selfloops(graph),
+        "self_loops_removed": self_loops_removed,
+        "average_degree": 2.0 * edges / nodes,
+        "diameter": nx.diameter(largest),
+        "diameter_policy": (
+            "full graph" if components == 1 else "largest connected component"
+        ),
+        "average_clustering": nx.average_clustering(graph),
+        "density": nx.density(graph),
+        "transitivity": nx.transitivity(graph),
+    }
+    for field in (
+        "average_degree",
+        "diameter",
+        "average_clustering",
+        "density",
+        "transitivity",
+    ):
+        finite_float(values[field], f"{label}.{field}")
+    return values
+
+
+def validate_real_cora(graph: nx.Graph) -> None:
+    nodes = graph.number_of_nodes()
+    edges = graph.number_of_edges()
+    if nodes != EXPECTED_REAL_NODES or edges != EXPECTED_REAL_EDGES:
+        raise ValueError(
+            "Real Cora graph does not match the expected Cora-ML graph after "
+            f"simple-graph conversion: expected nodes={EXPECTED_REAL_NODES}, "
+            f"edges={EXPECTED_REAL_EDGES}; found nodes={nodes}, edges={edges}"
+        )
+
+
+def select_whole_graph(
+    graph: nx.Graph,
+    role: str,
+    logger: logging.Logger,
+) -> tuple[nx.Graph, dict[str, Any]]:
+    before = {
+        "nodes": graph.number_of_nodes(),
+        "edges": graph.number_of_edges(),
+        "connected_components": nx.number_connected_components(graph),
+    }
+    use_lcc = before["connected_components"] > 1
+    selected = largest_component(graph) if use_lcc else graph.copy()
+    after = {
+        "nodes": selected.number_of_nodes(),
+        "edges": selected.number_of_edges(),
+        "connected_components": nx.number_connected_components(selected),
+    }
+    logger.info(
+        "Whole Graph LCC policy for %s: applied=%s before=%s after=%s",
+        role,
+        use_lcc,
+        before,
+        after,
+    )
+    return selected, {
+        "role": role,
+        "largest_connected_component_applied": use_lcc,
+        "before": before,
+        "after": after,
+    }
+
+
+def partition_graph(
+    graph: nx.Graph,
+    role: str,
+    resolution: float,
+    seed: int,
+    logger: logging.Logger,
+) -> tuple[list[set[Any]], dict[str, Any]]:
+    logger.info(
+        "Louvain start: role=%s function=%s networkx=%s resolution=%s seed=%s weight=weight",
+        role,
+        "networkx.algorithms.community.louvain_communities",
+        nx.__version__,
+        resolution,
+        seed,
+    )
+    started = time.perf_counter()
+    communities = nx.algorithms.community.louvain_communities(
+        graph,
+        weight="weight",
+        resolution=resolution,
+        seed=seed,
+    )
+    elapsed = time.perf_counter() - started
+    if not communities or any(len(nodes) == 0 for nodes in communities):
+        raise ValueError(f"Louvain produced an empty partition for {role}")
+
+    seen: set[Any] = set()
+    for nodes in communities:
+        overlap = seen.intersection(nodes)
+        if overlap:
+            raise ValueError(
+                f"Louvain partition for {role} assigns nodes more than once: {overlap}"
+            )
+        seen.update(nodes)
+    graph_nodes = set(graph.nodes())
+    if seen != graph_nodes:
+        raise ValueError(
+            f"Louvain partition for {role} does not cover exactly the graph nodes; "
+            f"missing={graph_nodes - seen}, unexpected={seen - graph_nodes}"
+        )
+
+    try:
+        ordered = sorted((set(nodes) for nodes in communities), key=lambda nodes: min(nodes))
+    except TypeError as exc:
+        raise TypeError(
+            f"Node identifiers in {role} are not mutually comparable, so communities "
+            "cannot be sorted by minimum original node identifier"
+        ) from exc
+
+    sizes = [len(nodes) for nodes in ordered]
+    summary = {
+        "role": role,
+        "function": "networkx.algorithms.community.louvain_communities",
+        "networkx_version": nx.__version__,
+        "resolution": resolution,
+        "seed": seed,
+        "weight": "weight",
+        "community_count": len(ordered),
+        "community_sizes": sizes,
+        "mean_community_size": finite_float(np.mean(sizes), f"{role}.mean_size"),
+        "median_community_size": finite_float(
+            statistics.median(sizes), f"{role}.median_size"
+        ),
+        "min_community_size": min(sizes),
+        "max_community_size": max(sizes),
+        "elapsed_seconds": elapsed,
+    }
+    logger.info(
+        "Louvain finish: role=%s elapsed=%.3f seconds count=%d sizes=%s "
+        "mean=%.6f median=%.6f min=%d max=%d",
+        role,
+        elapsed,
+        summary["community_count"],
+        sizes,
+        summary["mean_community_size"],
+        summary["median_community_size"],
+        summary["min_community_size"],
+        summary["max_community_size"],
+    )
+    return ordered, summary
+
+
+def build_community_graphs(
+    graph: nx.Graph,
+    partition: Sequence[set[Any]],
+    role: str,
+) -> tuple[list[nx.Graph], list[dict[str, Any]]]:
+    community_graphs: list[nx.Graph] = []
+    rows: list[dict[str, Any]] = []
+    total_nodes = 0
+    for community_id, nodes in enumerate(partition):
+        community = graph.subgraph(nodes).copy()
+        community.remove_edges_from(list(nx.selfloop_edges(community)))
+        if community.number_of_nodes() == 0:
+            raise ValueError(f"Empty {role} community at stable id {community_id}")
+        total_nodes += community.number_of_nodes()
+        community_graphs.append(community)
+        node_count = community.number_of_nodes()
+        edge_count = community.number_of_edges()
+        row = {
+            "community_id": community_id,
+            "minimum_original_node_id": min(nodes),
+            "nodes": node_count,
+            "edges": edge_count,
+            "connected_components": nx.number_connected_components(community),
+            "average_degree": 2.0 * edge_count / node_count,
+            "average_clustering": nx.average_clustering(community),
+            "density": nx.density(community),
+            "transitivity": nx.transitivity(community),
+        }
+        for field in (
+            "average_degree",
+            "average_clustering",
+            "density",
+            "transitivity",
+        ):
+            finite_float(row[field], f"{role}.community_{community_id}.{field}")
+        rows.append(row)
+
+    if total_nodes != graph.number_of_nodes():
+        raise ValueError(
+            f"{role} community subgraphs contain {total_nodes} nodes, but the full "
+            f"graph contains {graph.number_of_nodes()}"
+        )
+    return community_graphs, rows
+
+
+def validate_histogram(histogram: np.ndarray, label: str) -> None:
+    if histogram.ndim != 1 or histogram.size == 0:
+        raise ValueError(f"{label} histogram is empty or not one-dimensional")
+    if not np.isfinite(histogram).all():
+        raise ValueError(f"{label} histogram contains NaN or Inf")
+    if float(histogram.sum()) <= 0:
+        raise ValueError(f"{label} histogram has no observations")
+
+
+def nodes_mmd(
+    real_graphs: Sequence[nx.Graph],
+    generated_graphs: Sequence[nx.Graph],
+    mode: str,
+    logger: logging.Logger,
+) -> float:
+    real_counts = [graph.number_of_nodes() for graph in real_graphs]
+    generated_counts = [graph.number_of_nodes() for graph in generated_graphs]
+    if not real_counts or not generated_counts:
+        raise ValueError("Nodes MMD requires non-empty real and generated graph sets")
+    real_histogram = np.bincount(real_counts)
+    generated_histogram = np.bincount(generated_counts)
+    validate_histogram(real_histogram, "real community sizes")
+    validate_histogram(generated_histogram, "generated community sizes")
+    kernel = dist_helper.gaussian_tv if mode == "tv" else dist_helper.gaussian_emd
+    logger.info(
+        "Nodes/%s counts: real=%s generated=%s histogram_lengths=(%d,%d) kernel=%s",
+        mode,
+        real_counts,
+        generated_counts,
+        len(real_histogram),
+        len(generated_histogram),
+        "analysis.dist_helper.gaussian_tv"
+        if mode == "tv"
+        else "analysis.dist_helper.gaussian_emd",
+    )
+    return finite_float(
+        dist_helper.compute_mmd(
+            [real_histogram],
+            [generated_histogram],
+            kernel=kernel,
+        ),
+        f"Nodes/{mode}",
+    )
+
+
+def compute_whole_metrics(
+    real_graph: nx.Graph,
+    generated_graph: nx.Graph,
+    mode: str,
+    logger: logging.Logger,
+) -> dict[str, float]:
+    compute_emd = mode == "emd"
+    real_graphs = [real_graph]
+    generated_graphs = [generated_graph]
+    metrics = {
+        "Degree": timed_call(
+            f"Whole Graph {mode.upper()} Degree",
+            logger,
+            lambda: spectre_utils.degree_stats(
+                real_graphs,
+                generated_graphs,
+                is_parallel=True,
+                compute_emd=compute_emd,
+            ),
+        ),
+        "Clustering": timed_call(
+            f"Whole Graph {mode.upper()} Clustering",
+            logger,
+            lambda: spectre_utils.clustering_stats(
+                real_graphs,
+                generated_graphs,
+                bins=100,
+                is_parallel=True,
+                compute_emd=compute_emd,
+            ),
+        ),
+        "Eccentricity": timed_call(
+            f"Whole Graph {mode.upper()} Eccentricity",
+            logger,
+            lambda: mmd_calculators.radius_stats(
+                real_graphs,
+                generated_graphs,
+                compute_emd=compute_emd,
+                is_parallel=True,
+                PRINT_TIME=False,
+            ),
+        ),
+    }
+    return {
+        name: finite_float(value, f"Whole Graph {mode}/{name}")
+        for name, value in metrics.items()
+    }
+
+
+def compute_community_metrics(
+    real_graphs: Sequence[nx.Graph],
+    generated_graphs: Sequence[nx.Graph],
+    mode: str,
+    logger: logging.Logger,
+) -> dict[str, float]:
+    compute_emd = mode == "emd"
+    metrics = {
+        "Nodes": timed_call(
+            f"Communities {mode.upper()} Nodes",
+            logger,
+            lambda: nodes_mmd(real_graphs, generated_graphs, mode, logger),
+        ),
+        "Degree": timed_call(
+            f"Communities {mode.upper()} Degree",
+            logger,
+            lambda: spectre_utils.degree_stats(
+                real_graphs,
+                generated_graphs,
+                is_parallel=True,
+                compute_emd=compute_emd,
+            ),
+        ),
+        "Clustering": timed_call(
+            f"Communities {mode.upper()} Clustering",
+            logger,
+            lambda: spectre_utils.clustering_stats(
+                real_graphs,
+                generated_graphs,
+                bins=100,
+                is_parallel=True,
+                compute_emd=compute_emd,
+            ),
+        ),
+        "Eccentricity": timed_call(
+            f"Communities {mode.upper()} Eccentricity",
+            logger,
+            lambda: mmd_calculators.radius_stats(
+                real_graphs,
+                generated_graphs,
+                compute_emd=compute_emd,
+                is_parallel=True,
+                PRINT_TIME=False,
+            ),
+        ),
+        "Spectre": timed_call(
+            f"Communities {mode.upper()} Spectre",
+            logger,
+            lambda: spectre_utils.spectral_stats(
+                real_graphs,
+                generated_graphs,
+                is_parallel=True,
+                n_eigvals=-1,
+                compute_emd=compute_emd,
+            ),
+        ),
+    }
+    return {
+        name: finite_float(value, f"Communities {mode}/{name}")
+        for name, value in metrics.items()
+    }
+
+
+def requested_computation_modes(mode: str) -> list[str]:
+    if mode == "both":
+        return ["tv", "emd"]
+    if mode == "paper":
+        return [PAPER_COMPATIBLE_MODE]
+    return [mode]
+
+
+def self_check_modes(mode: str) -> list[str]:
+    modes = ["tv"]
+    if mode in {"emd", "both"}:
+        modes.append("emd")
+    return modes
+
+
+def assert_near_zero(
+    values: dict[str, float],
+    label: str,
+) -> None:
+    failures = {
+        metric: value
+        for metric, value in values.items()
+        if abs(value) > SELF_CHECK_TOLERANCE
+    }
+    if failures:
+        raise AssertionError(
+            f"Self-check failed for {label}; tolerance={SELF_CHECK_TOLERANCE}, "
+            f"values={failures}"
+        )
+
+
+def run_self_checks(
+    real_whole: nx.Graph,
+    generated_whole: nx.Graph,
+    real_communities: Sequence[nx.Graph],
+    generated_communities: Sequence[nx.Graph],
+    modes: Sequence[str],
+    seed: int,
+    logger: logging.Logger,
+) -> dict[str, Any]:
+    shuffled_generated = list(generated_communities)
+    random.Random(seed).shuffle(shuffled_generated)
+    checks: dict[str, Any] = {}
+
+    for mode in modes:
+        whole_checks = {
+            "real_vs_real": compute_whole_metrics(
+                real_whole, real_whole, mode, logger
+            ),
+            "generated_vs_generated": compute_whole_metrics(
+                generated_whole, generated_whole, mode, logger
+            ),
+        }
+        for name, values in whole_checks.items():
+            assert_near_zero(values, f"{mode}/whole/{name}")
+
+        community_checks = {
+            "real_vs_real": compute_community_metrics(
+                real_communities, real_communities, mode, logger
+            ),
+            "generated_vs_generated": compute_community_metrics(
+                generated_communities, generated_communities, mode, logger
+            ),
+            "generated_vs_shuffled_generated": compute_community_metrics(
+                generated_communities, shuffled_generated, mode, logger
+            ),
+        }
+        for name, values in community_checks.items():
+            assert_near_zero(values, f"{mode}/communities/{name}")
+
+        baseline = compute_community_metrics(
+            real_communities, generated_communities, mode, logger
+        )
+        shuffled = compute_community_metrics(
+            real_communities, shuffled_generated, mode, logger
+        )
+        order_differences = {
+            metric: abs(baseline[metric] - shuffled[metric])
+            for metric in COMMUNITY_METRICS
+        }
+        assert_near_zero(order_differences, f"{mode}/communities/order_invariance")
+
+        checks[mode] = {
+            "whole": whole_checks,
+            "communities": community_checks,
+            "real_vs_generated": baseline,
+            "real_vs_shuffled_generated": shuffled,
+            "order_invariance_absolute_differences": order_differences,
+        }
+        logger.info("Self-check passed for mode=%s", mode)
+
+    return {
+        "tolerance": SELF_CHECK_TOLERANCE,
+        "modes": list(modes),
+        "checks": checks,
+        "formal_result_files_written": False,
+    }
+
+
+def result_rows(
+    values: dict[str, float],
+    paper_values: dict[str, float],
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for metric, current in values.items():
+        paper = paper_values[metric]
+        rows.append(
+            {
+                "metric": metric,
+                "current": current,
+                "paper_higgs": paper,
+                "absolute_difference": abs(current - paper),
+            }
+        )
+    return rows
+
+
+def write_csv(path: Path, rows: Sequence[dict[str, Any]]) -> None:
+    if not rows:
+        raise ValueError(f"Cannot write empty CSV: {path}")
+    fieldnames: list[str] = []
+    for row in rows:
+        for key in row:
+            if key not in fieldnames:
+                fieldnames.append(key)
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def write_json(path: Path, payload: dict[str, Any]) -> None:
+    with path.open("w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, ensure_ascii=False)
+        handle.write("\n")
+
+
+def write_result_pair(
+    output_dir: Path,
+    stem: str,
+    scope: str,
+    mode: str,
+    rows: Sequence[dict[str, Any]],
+) -> list[str]:
+    csv_path = output_dir / f"{stem}.csv"
+    json_path = output_dir / f"{stem}.json"
+    write_csv(csv_path, rows)
+    write_json(
+        json_path,
+        {
+            "scope": scope,
+            "mode": mode,
+            "paper_compatible_mode": PAPER_COMPATIBLE_MODE,
+            "metrics": list(rows),
+        },
+    )
+    return [str(csv_path), str(json_path)]
+
+
+def format_table_value(value: Any) -> str:
+    if value is None:
+        return "-"
+    if isinstance(value, int):
+        return str(value)
+    return f"{float(value):.6f}"
+
+
+def print_graph_table(
+    real_stats: dict[str, Any],
+    generated_stats: dict[str, Any],
+    real_louvain: dict[str, Any],
+    generated_louvain: dict[str, Any],
+    logger: logging.Logger,
+) -> None:
+    rows = [
+        ("Nodes", real_stats["nodes"], generated_stats["nodes"], None, None),
+        ("Edges", real_stats["edges"], generated_stats["edges"], None, None),
+        (
+            "Diameter",
+            real_stats["diameter"],
+            generated_stats["diameter"],
+            None,
+            None,
+        ),
+        (
+            "Communities",
+            real_louvain["community_count"],
+            generated_louvain["community_count"],
+            PAPER_GRAPH_REFERENCES["Communities"]["real"],
+            PAPER_GRAPH_REFERENCES["Communities"]["higgs"],
+        ),
+        (
+            "Median community size",
+            real_louvain["median_community_size"],
+            generated_louvain["median_community_size"],
+            PAPER_GRAPH_REFERENCES["Median community size"]["real"],
+            PAPER_GRAPH_REFERENCES["Median community size"]["higgs"],
+        ),
+        (
+            "Clustering",
+            real_stats["average_clustering"],
+            generated_stats["average_clustering"],
+            None,
+            None,
+        ),
+        ("Density", real_stats["density"], generated_stats["density"], None, None),
+        (
+            "Transitivity",
+            real_stats["transitivity"],
+            generated_stats["transitivity"],
+            None,
+            None,
+        ),
+    ]
+    logger.info("Cora graph statistics")
+    logger.info(
+        "%-24s %14s %14s %14s %14s",
+        "Metric",
+        "Real",
+        "Generated",
+        "Paper Real",
+        "Paper HiGGs",
+    )
+    for metric, real, generated, paper_real, paper_higgs in rows:
+        logger.info(
+            "%-24s %14s %14s %14s %14s",
+            metric,
+            format_table_value(real),
+            format_table_value(generated),
+            format_table_value(paper_real),
+            format_table_value(paper_higgs),
+        )
+
+
+def print_mmd_table(
+    title: str,
+    rows: Iterable[dict[str, Any]],
+    logger: logging.Logger,
+) -> None:
+    logger.info("%s", title)
+    logger.info("%-18s %14s %14s %14s", "Metric", "Current", "Paper HiGGs", "Difference")
+    for row in rows:
+        logger.info(
+            "%-18s %14.6f %14.6f %14.6f",
+            row["metric"],
+            row["current"],
+            row["paper_higgs"],
+            row["absolute_difference"],
+        )
+
+
+def graph_summary_rows(
+    real_stats: dict[str, Any],
+    generated_stats: dict[str, Any],
+    real_whole_stats: dict[str, Any],
+    generated_whole_stats: dict[str, Any],
+    real_metadata: dict[str, Any],
+    generated_metadata: dict[str, Any],
+    real_lcc: dict[str, Any],
+    generated_lcc: dict[str, Any],
+) -> list[dict[str, Any]]:
+    rows = []
+    for role, stats, metadata, lcc_record in (
+        ("real_input", real_stats, real_metadata, real_lcc),
+        ("generated_input", generated_stats, generated_metadata, generated_lcc),
+        ("real_whole_mmd", real_whole_stats, real_metadata, real_lcc),
+        ("generated_whole_mmd", generated_whole_stats, generated_metadata, generated_lcc),
+    ):
+        row = dict(stats)
+        row["graph"] = role
+        row["source_path"] = metadata["path"]
+        row["largest_connected_component_applied_for_whole_mmd"] = lcc_record[
+            "largest_connected_component_applied"
+        ]
+        rows.append(row)
+    return rows
+
+
+def run(args: argparse.Namespace, logger: logging.Logger) -> None:
+    ensure_valid_args(args)
+    random.seed(args.louvain_seed)
+    np.random.seed(args.louvain_seed)
+
+    logger.info("Paper-compatible mode: %s", PAPER_COMPATIBLE_MODE)
+    logger.info("Paper mode evidence: %s", PAPER_MODE_EVIDENCE)
+    logger.info("W&B disabled; no trainer, checkpoint, download, sampling, or image output")
+    logger.info("Metric functions: %s", FUNCTION_PATHS)
+
+    real_graph, real_metadata = load_graph(args.real_path.resolve(), "real")
+    generated_graph, generated_metadata = load_graph(
+        args.sample_path.resolve(), "generated"
+    )
+    validate_real_cora(real_graph)
+
+    real_stats = graph_statistics(
+        real_graph, "real_input", real_metadata["self_loops_removed"]
+    )
+    generated_stats = graph_statistics(
+        generated_graph,
+        "generated_input",
+        generated_metadata["self_loops_removed"],
+    )
+    logger.info("Real graph statistics: %s", real_stats)
+    logger.info("Generated graph statistics: %s", generated_stats)
+
+    real_whole, real_lcc = select_whole_graph(real_graph, "real", logger)
+    generated_whole, generated_lcc = select_whole_graph(
+        generated_graph, "generated", logger
+    )
+    real_whole_stats = graph_statistics(real_whole, "real_whole_mmd")
+    generated_whole_stats = graph_statistics(
+        generated_whole, "generated_whole_mmd"
+    )
+
+    real_partition, real_louvain = partition_graph(
+        real_graph,
+        "real",
+        args.louvain_resolution,
+        args.louvain_seed,
+        logger,
+    )
+    generated_partition, generated_louvain = partition_graph(
+        generated_graph,
+        "generated",
+        args.louvain_resolution,
+        args.louvain_seed,
+        logger,
+    )
+    real_communities, real_community_rows = build_community_graphs(
+        real_graph, real_partition, "real"
+    )
+    generated_communities, generated_community_rows = build_community_graphs(
+        generated_graph, generated_partition, "generated"
+    )
+
+    print_graph_table(
+        real_stats,
+        generated_stats,
+        real_louvain,
+        generated_louvain,
+        logger,
+    )
+
+    output_dir = args.output_dir.resolve()
+    audit: dict[str, Any] = {
+        "requested_mode": args.mode,
+        "self_check_requested": args.self_check,
+        "paper_compatible_mode": PAPER_COMPATIBLE_MODE,
+        "paper_compatible_mode_evidence": PAPER_MODE_EVIDENCE,
+        "real_path": str(args.real_path.resolve()),
+        "sample_path": str(args.sample_path.resolve()),
+        "preprocessing": {
+            "convert_to_nx_graph": True,
+            "convert_to_undirected_simple_graph": True,
+            "remove_self_loops": True,
+            "preserve_node_ids": True,
+            "preserve_node_attributes": True,
+            "preserve_edge_attributes": True,
+            "remove_isolated_nodes": False,
+            "global_lcc_for_communities": False,
+        },
+        "whole_graph_lcc_policy": (
+            "For Whole Graph MMD only, independently replace each disconnected "
+            "real/generated graph with its largest connected component. Record "
+            "before and after sizes. Louvain always uses each full cleaned graph."
+        ),
+        "whole_graph_lcc_records": {
+            "real": real_lcc,
+            "generated": generated_lcc,
+        },
+        "louvain": {
+            "function": "networkx.algorithms.community.louvain_communities",
+            "networkx_version": nx.__version__,
+            "resolution": args.louvain_resolution,
+            "seed": args.louvain_seed,
+            "weight": "weight",
+            "real": real_louvain,
+            "generated": generated_louvain,
+        },
+        "functions": FUNCTION_PATHS,
+        "metric_parameters": {
+            "whole_graph": {
+                "metrics": list(WHOLE_METRICS),
+                "clustering_bins": 100,
+                "radius_is_parallel": True,
+            },
+            "communities": {
+                "metrics": list(COMMUNITY_METRICS),
+                "nodes_histogram": "np.bincount over community graph node counts",
+                "nodes_tv_kernel": "analysis.dist_helper.gaussian_tv",
+                "nodes_emd_kernel": "analysis.dist_helper.gaussian_emd",
+                "clustering_bins": 100,
+                "spectral_n_eigvals": -1,
+                "radius_is_parallel": True,
+            },
+            "eccentricity_definition": (
+                "Project radius_stats: 50-bin all-pairs shortest-path length "
+                "histogram on each graph's largest connected component"
+            ),
+        },
+        "whole_graph_reported_metrics": list(WHOLE_METRICS),
+        "communities_reported_metrics": list(COMMUNITY_METRICS),
+        "input_metadata": {
+            "real": real_metadata,
+            "generated": generated_metadata,
+        },
+        "graph_statistics": {
+            "real_input": real_stats,
+            "generated_input": generated_stats,
+            "real_whole_mmd": real_whole_stats,
+            "generated_whole_mmd": generated_whole_stats,
+        },
+        "paper_references": {
+            "whole_mmd": PAPER_WHOLE_MMD,
+            "communities_mmd": PAPER_COMMUNITY_MMD,
+            "community_statistics": PAPER_GRAPH_REFERENCES,
+        },
+        "runtime_constraints": {
+            "device": "cpu",
+            "wandb": False,
+            "network": False,
+            "checkpoint": False,
+            "trainer": False,
+            "image_output": False,
+            "process_pool": False,
+            "thread_pool_via_project_metrics": True,
+        },
+    }
+
+    if args.self_check:
+        modes = self_check_modes(args.mode)
+        audit["self_check"] = run_self_checks(
+            real_whole,
+            generated_whole,
+            real_communities,
+            generated_communities,
+            modes,
+            args.louvain_seed,
+            logger,
+        )
+        write_json(output_dir / "cora_mmd_audit.json", audit)
+        logger.info("Self-check completed; no formal result or statistics CSV was written")
+    else:
+        modes = requested_computation_modes(args.mode)
+        results: dict[str, dict[str, dict[str, float]]] = {}
+        for mode in modes:
+            results[mode] = {
+                "whole": compute_whole_metrics(
+                    real_whole, generated_whole, mode, logger
+                ),
+                "communities": compute_community_metrics(
+                    real_communities, generated_communities, mode, logger
+                ),
+            }
+
+        graph_rows = graph_summary_rows(
+            real_stats,
+            generated_stats,
+            real_whole_stats,
+            generated_whole_stats,
+            real_metadata,
+            generated_metadata,
+            real_lcc,
+            generated_lcc,
+        )
+        write_csv(output_dir / "cora_graph_summary.csv", graph_rows)
+        write_csv(
+            output_dir / "cora_real_community_stats.csv", real_community_rows
+        )
+        write_csv(
+            output_dir / "cora_generated_community_stats.csv",
+            generated_community_rows,
+        )
+
+        output_files = [
+            str(output_dir / "cora_graph_summary.csv"),
+            str(output_dir / "cora_real_community_stats.csv"),
+            str(output_dir / "cora_generated_community_stats.csv"),
+        ]
+        for mode in modes:
+            whole_rows = result_rows(results[mode]["whole"], PAPER_WHOLE_MMD)
+            community_rows = result_rows(
+                results[mode]["communities"], PAPER_COMMUNITY_MMD
+            )
+            if args.mode == "paper":
+                output_files.extend(
+                    write_result_pair(
+                        output_dir,
+                        "cora_whole_mmd_paper_compatible",
+                        "whole_graph",
+                        PAPER_COMPATIBLE_MODE,
+                        whole_rows,
+                    )
+                )
+                output_files.extend(
+                    write_result_pair(
+                        output_dir,
+                        "cora_communities_mmd_paper_compatible",
+                        "communities",
+                        PAPER_COMPATIBLE_MODE,
+                        community_rows,
+                    )
+                )
+            else:
+                output_files.extend(
+                    write_result_pair(
+                        output_dir,
+                        f"cora_whole_mmd_{mode}",
+                        "whole_graph",
+                        mode,
+                        whole_rows,
+                    )
+                )
+                output_files.extend(
+                    write_result_pair(
+                        output_dir,
+                        f"cora_communities_mmd_{mode}",
+                        "communities",
+                        mode,
+                        community_rows,
+                    )
+                )
+
+            title_mode = "Paper-compatible TV" if args.mode == "paper" else mode.upper()
+            print_mmd_table(
+                f"Whole Graph {title_mode} MMD", whole_rows, logger
+            )
+            print_mmd_table(
+                f"Communities {title_mode} MMD", community_rows, logger
+            )
+
+        audit["computed_modes"] = modes
+        audit["results"] = results
+        audit["formal_output_files"] = output_files
+        write_json(output_dir / "cora_mmd_audit.json", audit)
+
+    logger.info("Paper-compatible mode: %s", PAPER_COMPATIBLE_MODE)
+    logger.info("Louvain resolution: %s", args.louvain_resolution)
+    logger.info("Louvain seed: %s", args.louvain_seed)
+    logger.info("Real communities: %d", real_louvain["community_count"])
+    logger.info("Generated communities: %d", generated_louvain["community_count"])
+    logger.info("Output directory: %s", output_dir)
+
+
+def main() -> None:
+    args = parse_args()
+    logger = configure_logging(args.output_dir.resolve())
+    try:
+        run(args, logger)
+    except Exception:
+        logger.exception("Cora offline MMD evaluation failed")
+        raise
+
+
+if __name__ == "__main__":
+    main()

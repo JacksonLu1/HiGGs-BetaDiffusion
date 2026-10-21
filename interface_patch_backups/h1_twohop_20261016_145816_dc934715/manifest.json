@@ -1,0 +1,51 @@
+{
+  "source_archive": "higgs_server_source_20261016_142815.tar.gz",
+  "source_sha256": "fe8f4cdfd96fa140084b127c4c09515383439052468e8d958ea274f26d1bd6b4",
+  "files": [
+    {
+      "path": "dgd/diffusion_model_beta_h1.py",
+      "sha256": "19f2cb70fec552167f66257fe0032bd226f6b48f1837ab2902ddd4a48177bee0",
+      "before_sha256": "e8ac702801705c8e21f7a1c9cd6b38b4815ac847986ebc1b0c967527b13d5e75"
+    },
+    {
+      "path": "dgd/models/two_hop_edge.py",
+      "sha256": "2f7b0025e7975792d804b29b368811c473eb2d950b741e997675737b4e27a1f3",
+      "before_sha256": null
+    },
+    {
+      "path": "dgd/models/h1_twohop_transformer.py",
+      "sha256": "7145bfcddbd3f582a38f50bc7d11b5482891d1db2f77fbb6ed3c0c1f31046cf4",
+      "before_sha256": null
+    },
+    {
+      "path": "dgd/models/h1_twohop_warm_start.py",
+      "sha256": "e38f8b7e308c27a99b8655e914825b4d9ca2905b498600f9d19018132ee7071c",
+      "before_sha256": null
+    },
+    {
+      "path": "configs/model/beta_h1_twohop.yaml",
+      "sha256": "69441aa58e1bcef39bf0392953e20d824ee21176a31f5981e8f0570a31bb3502",
+      "before_sha256": null
+    },
+    {
+      "path": "tests/test_h1_twohop.py",
+      "sha256": "a39f985508fe96392d9e45323d1bce49802328958d5b1ba57d0fb66a212cd20f",
+      "before_sha256": null
+    }
+  ],
+  "required_inputs": {
+    "dgd/diffusion_model_beta_h1.py": "e8ac702801705c8e21f7a1c9cd6b38b4815ac847986ebc1b0c967527b13d5e75",
+    "dgd/models/transformer_model.py": "ea726698dbe0ab8205aac649eea669f728ec472f7ee8c6d40566e1421e5319e2",
+    "dgd/models/layers.py": "3cf4c984f6519f3e8b2be8dca82221afb589d938d9cf06dfdf880f8d4516e9ad",
+    "dgd/diffusion/beta_diffusion_utils.py": "26ec346d58d8d224fda6ec87edf4a9b74601418a0953bf1863bca3317b903f0a",
+    "dgd/metrics/beta_train_metrics.py": "feaefda23aa9effaea15594d70c5eb70897196ddb801cc5707a1600df704a0a5",
+    "dgd/diffusion/extra_features.py": "8b0a484b11beb8d5c8a7a17ab3107fc657ed19197e51f60a5a127c47a390a8ed",
+    "dgd/main.py": "f1cc8f14964b234f84845b5cb64ddb0a4a8fae56bd0e06687ac72b46d44b7dc7",
+    "dgd/utils.py": "f5da1c235375afb180aa95f7da475c68f84ed270558fcf19861fcc639428a547",
+    "higgs/higgs_utils.py": "6934a9d05d08818119ee97e64b846a9d6b59a1afc800b0dfd3966c53a049f648",
+    "higgs/interface_ablation.py": "d4c21c76c0d8ed25ffe639dde9747a08e72745a7d4ce815391892b2f80352ba3",
+    "higgs/sampling.py": "4f770fd6df760b9a071b7fc2402e37dae1312bb94eb0b649b54a31fc6e0bc345",
+    "configs/model/beta_h1.yaml": "9695f5b0aab61d172e4fabf56bf0c18b0ee36a6164da8def30807265e0cf5d19",
+    "tests/test_beta_h1_semantics.py": "5bfaea8d78fec257481a24ee358733f072999205f1780d8ccf323890ab1464f5"
+  }
+}

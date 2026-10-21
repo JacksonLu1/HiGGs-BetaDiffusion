@@ -1,0 +1,521 @@
+--- a/dgd/diffusion_model_beta_h1.py
++++ b/dgd/diffusion_model_beta_h1.py
+@@ -24,6 +24,7 @@
+ )
+ from metrics.beta_train_metrics import BetaH1Loss
+ from models.transformer_model import GraphTransformer
++from models.two_hop_edge import two_hop_options
+ 
+ 
+ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
+@@ -66,7 +67,16 @@
+         # models only the edge-present channel and reconstructs no-edge later.
+         input_dims["E"] -= 1
+         output_dims["E"] -= 1
+-        self.model = GraphTransformer(
++        self.two_hop_options = two_hop_options(cfg.model.get("two_hop"))
++        self._two_hop_checkpoint_loaded = False
++        self._two_hop_warm_start_audit = None
++        backbone = GraphTransformer
++        backbone_kwargs = {}
++        if self.two_hop_options["enabled"]:
++            from models.h1_twohop_transformer import H1TwoHopGraphTransformer
++            backbone = H1TwoHopGraphTransformer
++            backbone_kwargs["two_hop_channels"] = self.two_hop_options["channels"]
++        self.model = backbone(
+             n_layers=cfg.model.n_layers,
+             input_dims=input_dims,
+             hidden_mlp_dims=cfg.model.hidden_mlp_dims,
+@@ -74,6 +84,7 @@
+             output_dims=output_dims,
+             act_fn_in=nn.ReLU(),
+             act_fn_out=nn.ReLU(),
++            **backbone_kwargs,
+         )
+ 
+         self.input_space = str(cfg.model.input_space)
+@@ -127,10 +138,31 @@
+         except Exception as error:
+             print(f"[HiGGs] beta_h1 hyperparameter serialization skipped: {error}")
+         print("[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion")
++        if self.two_hop_options["enabled"]:
++            print("[HiGGs] H1 dense two-hop residual: enabled, channels="
++                  f"{self.two_hop_options['channels']}; zero-initialized")
+ 
+     def on_save_checkpoint(self, checkpoint):
+         checkpoint["model_family"] = self.family
+         checkpoint["stage"] = self.stage
++        if self.two_hop_options["enabled"]:
++            checkpoint["h1_two_hop"] = {
++                "version": 1, "channels": self.two_hop_options["channels"],
++                "warm_start": self._two_hop_warm_start_audit,
++            }
++
++    def on_load_checkpoint(self, checkpoint):
++        # A resumed/upgraded checkpoint must not be overwritten by warm start.
++        self._two_hop_checkpoint_loaded = True
++        self._two_hop_warm_start_audit = checkpoint.get("h1_two_hop", {}).get(
++            "warm_start")
++
++    def on_fit_start(self):
++        path = self.two_hop_options["warm_start_checkpoint"]
++        if path is not None and not self._two_hop_checkpoint_loaded:
++            from models.h1_twohop_warm_start import warm_start_original_h1
++            self._two_hop_warm_start_audit = warm_start_original_h1(self, path)
++            print(f"[HiGGs] H1 two-hop warm start: {self._two_hop_warm_start_audit}")
+ 
+     def configure_optimizers(self):
+         return torch.optim.AdamW(
+--- /dev/null
++++ b/dgd/models/two_hop_edge.py
+@@ -0,0 +1,87 @@
++"""H1-only dense two-hop edge residual, inspired by Local PPGN.
++
++This is an adaptation of edge-wise two-hop messages, not the paper's sparse
++local-expansion generator. The forward/reverse diffusion kernels are untouched.
++"""
++
++from collections.abc import Mapping
++
++import torch
++from torch import nn
++
++
++def two_hop_options(value=None):
++    defaults = dict(enabled=False, channels=16, warm_start_checkpoint=None)
++    if value is not None:
++        if not isinstance(value, Mapping):
++            raise TypeError("model.two_hop must be a mapping")
++        unknown = set(value) - set(defaults)
++        if unknown:
++            raise ValueError(f"Unknown model.two_hop options: {sorted(unknown)}")
++        defaults.update(value)
++    if type(defaults['enabled']) is not bool:
++        raise TypeError("model.two_hop.enabled must be a bool")
++    channels = defaults['channels']
++    if type(channels) is not int or not 1 <= channels <= 128:
++        raise ValueError("model.two_hop.channels must be an integer in [1, 128]")
++    path = defaults['warm_start_checkpoint']
++    if path is not None and (not isinstance(path, str) or not path.strip()):
++        raise TypeError("model.two_hop.warm_start_checkpoint must be a path or null")
++    if path is not None and not defaults['enabled']:
++        raise ValueError("two-hop warm start requires model.two_hop.enabled=true")
++    return defaults
++
++
++class TwoHopEdgeResidual(nn.Module):
++    """Add a masked, symmetric residual to hidden edge features.
++
++    Products are reduced over valid intermediate nodes without allocating an
++    [N,N,N,C] tensor. Dense matmul still costs O(B*C*N^3); use H1 communities.
++    The zero output initialization makes the initial residual exactly zero.
++    """
++
++    def __init__(self, edge_dim, global_dim, channels=16):
++        super().__init__()
++        if min(edge_dim, global_dim, channels) <= 0:
++            raise ValueError("Two-hop dimensions must be positive")
++        self.channels = channels
++        self.left = nn.Linear(edge_dim, channels)
++        self.right = nn.Linear(edge_dim, channels)
++        self.output = nn.Sequential(
++            nn.Linear(edge_dim + channels, edge_dim), nn.SiLU(),
++            nn.Linear(edge_dim, edge_dim),
++        )
++        self.gate = nn.Linear(global_dim, 1)
++        nn.init.zeros_(self.output[-1].weight)
++        nn.init.zeros_(self.output[-1].bias)
++        nn.init.zeros_(self.gate.weight)
++        nn.init.zeros_(self.gate.bias)
++
++    def forward(self, edges, global_features, node_mask):
++        if edges.ndim != 4 or edges.size(1) != edges.size(2):
++            raise ValueError("Expected edge tensor [batch, nodes, nodes, channels]")
++        batch, n, _, _ = edges.shape
++        if node_mask.shape != (batch, n) or node_mask.dtype != torch.bool:
++            raise ValueError("Expected boolean node_mask [batch, nodes]")
++        if global_features.ndim != 2 or global_features.size(0) != batch:
++            raise ValueError("Expected global features [batch, channels]")
++        valid = node_mask[:, :, None] & node_mask[:, None, :]
++        valid = valid & ~torch.eye(n, device=edges.device, dtype=torch.bool)[None]
++        clean = edges.masked_fill(~valid[..., None], 0)
++        clean = (clean + clean.transpose(1, 2)) * 0.5
++        left = self.left(clean).tanh().masked_fill(~valid[..., None], 0)
++        right = self.right(clean).tanh().masked_fill(~valid[..., None], 0)
++        left = left.permute(0, 3, 1, 2).reshape(batch * self.channels, n, n)
++        right = right.permute(0, 3, 1, 2).reshape(batch * self.channels, n, n)
++        # Keep reductions finite with mixed precision; float64 remains float64.
++        with torch.autocast(device_type=edges.device.type, enabled=False):
++            dtype = torch.float64 if edges.dtype == torch.float64 else torch.float32
++            messages = torch.bmm(left.to(dtype), right.to(dtype))
++        messages = messages.reshape(batch, self.channels, n, n).permute(0, 2, 3, 1)
++        normalizer = (node_mask.sum(-1).to(messages.dtype) - 2).clamp_min(1).sqrt()
++        messages = messages / normalizer[:, None, None, None]
++        messages = ((messages + messages.transpose(1, 2)) * 0.5).to(edges.dtype)
++        residual = self.output(torch.cat((clean, messages), dim=-1))
++        residual = residual * self.gate(global_features).sigmoid()[:, None, None, :]
++        residual = (residual + residual.transpose(1, 2)) * 0.5
++        return edges + residual.masked_fill(~valid[..., None], 0)
+--- /dev/null
++++ b/dgd/models/h1_twohop_transformer.py
+@@ -0,0 +1,40 @@
++"""Opt-in H1 backbone; the shared HiGGs GraphTransformer is not edited."""
++
++import torch
++
++import utils
++from models.transformer_model import GraphTransformer
++from models.two_hop_edge import TwoHopEdgeResidual
++
++
++class H1TwoHopGraphTransformer(GraphTransformer):
++    def __init__(self, *args, two_hop_channels=16, **kwargs):
++        super().__init__(*args, **kwargs)
++        hidden = kwargs['hidden_dims']
++        self.two_hop_edge = TwoHopEdgeResidual(
++            int(hidden['de']), int(hidden['dy']), two_hop_channels)
++
++    def forward(self, X, E, y, node_mask):
++        # Same forward as the server backbone, plus one hidden-edge residual.
++        bs, n = X.shape[:2]
++        diag_mask = ~torch.eye(n, device=E.device, dtype=torch.bool)
++        diag_mask = diag_mask[None, :, :, None].expand(bs, -1, -1, -1)
++        X_to_out = X[..., :self.out_dim_X]
++        E_to_out = E[..., :self.out_dim_E]
++        y_to_out = y[..., :self.out_dim_y]
++        new_E = self.mlp_in_E(E)
++        new_E = (new_E + new_E.transpose(1, 2)) / 2
++        after_in = utils.PlaceHolder(
++            X=self.mlp_in_X(X), E=new_E, y=self.mlp_in_y(y)).mask(node_mask)
++        X, E, y = after_in.X, after_in.E, after_in.y
++        for layer in self.tf_layers:
++            X, E, y = layer(X, E, y, node_mask)
++        E = self.two_hop_edge(E, y, node_mask)
++        X = self.mlp_out_X(X)
++        E = self.mlp_out_E(E)
++        y = self.mlp_out_y(y)
++        X = X + X_to_out
++        E = (E + E_to_out) * diag_mask
++        y = y + y_to_out
++        E = 1 / 2 * (E + E.transpose(1, 2))
++        return utils.PlaceHolder(X=X, E=E, y=y).mask(node_mask)
+--- /dev/null
++++ b/dgd/models/h1_twohop_warm_start.py
+@@ -0,0 +1,63 @@
++"""Read-only, weights-only warm start with a fresh optimizer for H1 two-hop."""
++
++import hashlib
++import sys
++from pathlib import Path
++
++import torch
++from omegaconf import OmegaConf
++
++
++def warm_start_original_h1(model, checkpoint_path):
++    if not model.two_hop_options['enabled']:
++        raise ValueError("Warm start is only available for the H1 two-hop variant")
++    root = str(Path(__file__).resolve().parents[2])
++    if root not in sys.path:
++        sys.path.insert(0, root)
++    # Reuse the server's centralized Config*Logger pickle compatibility.
++    from higgs.higgs_utils import _load_checkpoint_cpu
++    path = Path(checkpoint_path).expanduser().resolve(strict=True)
++    checkpoint = _load_checkpoint_cpu(path)
++    source_cfg = checkpoint['hyper_parameters']['cfg']
++    if not OmegaConf.is_config(source_cfg):
++        source_cfg = OmegaConf.create(source_cfg)
++    family = checkpoint.get('model_family', OmegaConf.select(source_cfg, 'model.family'))
++    if family != 'beta_h1' or float(OmegaConf.select(source_cfg, 'dataset.h')) != 1:
++        raise ValueError("Warm-start checkpoint must be a Beta-H1 checkpoint")
++    keys = (
++        'dataset.name', 'dataset.h', 'dataset.resolution', 'dataset.regime',
++        'dataset.max_size', 'train.batch_size', 'model.diffusion_steps', 'model.input_space',
++        'model.pre_condition', 'model.sigmoid_start', 'model.sigmoid_end',
++        'model.sigmoid_power', 'model.eta', 'model.eta_strategy',
++        'model.scale_shift', 'model.edge_threshold', 'model.beta_eps',
++        'model.beta_loss', 'model.lambda_train', 'model.n_layers',
++        'model.hidden_mlp_dims', 'model.hidden_dims', 'model.extra_features',
++    )
++    def plain(cfg, key):
++        value = OmegaConf.select(cfg, key)
++        return OmegaConf.to_container(value, resolve=True) if OmegaConf.is_config(value) else value
++    differences = {key: (plain(source_cfg, key), plain(model.cfg, key))
++                   for key in keys if plain(source_cfg, key) != plain(model.cfg, key)}
++    if differences:
++        raise ValueError(f"Warm-start config mismatch (source, requested): {differences}")
++    source = checkpoint['state_dict']
++    target = model.state_dict()
++    adapter_keys = {key for key in target if key.startswith('model.two_hop_edge.')}
++    if not adapter_keys or set(source) != set(target) - adapter_keys:
++        raise ValueError("Expected an original H1 state dict; only new two-hop keys may be missing")
++    for key, tensor in source.items():
++        if tensor.shape != target[key].shape:
++            raise ValueError(f"Warm-start tensor shape mismatch: {key}")
++        if key in ('node_channel_prior', 'edge_channel_prior'):
++            if not torch.equal(tensor.cpu(), target[key].cpu()):
++                raise ValueError(f"Warm-start train-derived prior differs: {key}")
++    result = model.load_state_dict(source, strict=False)
++    if set(result.missing_keys) != adapter_keys or result.unexpected_keys:
++        raise RuntimeError(f"Unexpected warm-start state mismatch: {result}")
++    digest = hashlib.sha256()
++    with path.open('rb') as handle:
++        for block in iter(lambda: handle.read(1024 * 1024), b''):
++            digest.update(block)
++    return dict(checkpoint=str(path), sha256=digest.hexdigest(),
++                epoch=checkpoint.get('epoch'), global_step=checkpoint.get('global_step'),
++                optimizer_restored=False, new_parameter_tensors=len(adapter_keys))
+--- /dev/null
++++ b/configs/model/beta_h1_twohop.yaml
+@@ -0,0 +1,11 @@
++# H1-only structural residual. Inherit all Beta mathematics and backbone sizes.
++defaults:
++  - beta_h1
++  - _self_
++
++two_hop:
++  enabled: true
++  channels: 16
++  # Read original weights at fit start; inference never opens this path.
++  # A resumed upgraded checkpoint takes precedence over this warm-start source.
++  warm_start_checkpoint: null
+--- /dev/null
++++ b/tests/test_h1_twohop.py
+@@ -0,0 +1,237 @@
++"""No dataset/checkpoint downloads: H1 two-hop compatibility and numerical tests."""
++
++import copy
++import inspect
++import sys
++import tempfile
++import unittest
++from pathlib import Path
++
++import torch
++from omegaconf import OmegaConf
++from pytorch_lightning import Trainer
++from pytorch_lightning.callbacks import ModelCheckpoint
++from torch_geometric.data import Batch, Data
++from torch.utils.data import DataLoader
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT))
++sys.path.insert(0, str(ROOT / 'dgd'))
++
++from diffusion_model_beta_h1 import ConditionalGraphBetaDiffusionH1
++from models.h1_twohop_transformer import H1TwoHopGraphTransformer
++from models.h1_twohop_warm_start import warm_start_original_h1
++from models.transformer_model import GraphTransformer
++from models.two_hop_edge import TwoHopEdgeResidual, two_hop_options
++from test_beta_h1_semantics import _cfg, _DatasetInfo
++
++
++def cases(name, values):
++    def decorate(function):
++        function._cases = (name, values)
++        return function
++    return decorate
++
++
++def make_model(enabled=False):
++    cfg = _cfg()
++    if enabled:
++        cfg.model.two_hop = dict(enabled=True, channels=4, warm_start_checkpoint=None)
++    return ConditionalGraphBetaDiffusionH1(cfg, _DatasetInfo()).eval()
++
++
++def graph_inputs(n=5):
++    mask = torch.tensor([[True] * (n - 1) + [False], [True] * n])
++    X = torch.randn(2, n, 1) * mask[..., None]
++    E = torch.randn(2, n, n, 1)
++    E = (E + E.transpose(1, 2)) / 2
++    E *= (mask[:, :, None] & mask[:, None, :])[..., None]
++    E[:, torch.arange(n), torch.arange(n)] = 0
++    return X, E, torch.tensor([[1., 0.], [0., 1.]]), mask
++
++
++@cases('value', [dict(enabled='false'), dict(channels=0),
++                dict(channels=True), dict(unknown=3),
++                dict(warm_start_checkpoint='/tmp/old.ckpt')])
++def test_invalid_configuration_fails(value):
++    with unittest.TestCase().assertRaises((TypeError, ValueError)):
++        two_hop_options(value)
++
++
++def test_disabled_model_uses_unchanged_backbone_and_strict_old_state():
++    model = make_model()
++    assert type(model.model) is GraphTransformer
++    assert not any('two_hop' in key for key in model.state_dict())
++    clone = make_model()
++    clone.load_state_dict(model.state_dict(), strict=True)
++    X, E, y, mask = graph_inputs()
++    t = torch.full((2, 1), .5)
++    eta_X, eta_E = model._eta_tensors(2, 5, X)
++    for a, b in zip(model._predict_clean(X, E, y, t, model._alpha(t), eta_X, eta_E, mask),
++                    clone._predict_clean(X, E, y, t, clone._alpha(t), eta_X, eta_E, mask)):
++        assert torch.equal(a, b)
++
++
++def test_zero_initialized_variant_matches_original_predictions():
++    base, variant = make_model(), make_model(True)
++    missing = variant.load_state_dict(base.state_dict(), strict=False)
++    assert missing.missing_keys and not missing.unexpected_keys
++    assert all(k.startswith('model.two_hop_edge.') for k in missing.missing_keys)
++    assert isinstance(variant.model, H1TwoHopGraphTransformer)
++    X, E, y, mask = graph_inputs()
++    t = torch.full((2, 1), .5)
++    eta_X, eta_E = base._eta_tensors(2, 5, X)
++    base_out = base._predict_clean(X, E, y, t, base._alpha(t), eta_X, eta_E, mask)
++    new_out = variant._predict_clean(X, E, y, t, variant._alpha(t), eta_X, eta_E, mask)
++    assert all(torch.equal(a, b) for a, b in zip(base_out, new_out))
++    with torch.no_grad():
++        variant.model.two_hop_edge.output[-1].weight.fill_(.05)
++    changed = variant._predict_clean(X, E, y, t, variant._alpha(t), eta_X, eta_E, mask)
++    assert not torch.equal(base_out[1], changed[1])
++
++
++def test_trained_residual_symmetry_mask_padding_and_permutation():
++    block = TwoHopEdgeResidual(8, 5, channels=4).double()
++    with torch.no_grad():
++        block.output[-1].weight.normal_(std=.1)
++    mask = torch.tensor([[True, True, True, False, False]])
++    E = torch.randn(1, 5, 5, 8, dtype=torch.float64)
++    E = (E + E.transpose(1, 2)) / 2
++    E[:, torch.arange(5), torch.arange(5)] = 0
++    valid = mask[:, :, None] & mask[:, None, :]
++    E *= valid[..., None]
++    y = torch.randn(1, 5, dtype=torch.float64)
++    out = block(E, y, mask)
++    assert torch.allclose(out, out.transpose(1, 2), atol=1e-12)
++    assert not out.masked_select(~valid[..., None]).any()
++    assert not out[:, torch.arange(5), torch.arange(5)].any()
++    permutation = torch.tensor([3, 2, 0, 4, 1])
++    permuted = block(E[:, permutation][:, :, permutation], y, mask[:, permutation])
++    assert torch.allclose(permuted, out[:, permutation][:, :, permutation], atol=1e-12)
++    small = block(E[:, :3, :3], y, mask[:, :3])
++    assert torch.allclose(small, out[:, :3, :3], atol=1e-12)
++
++
++@cases('n', [1, 2, 5])
++def test_finite_gradients_for_singleton_small_graphs(n):
++    block = TwoHopEdgeResidual(8, 5, 4)
++    mask = torch.ones(2, n, dtype=torch.bool)
++    E = torch.zeros(2, n, n, 8, requires_grad=True)
++    out = block(E, torch.randn(2, 5), mask)
++    out.sum().backward()
++    assert torch.isfinite(out).all() and torch.isfinite(E.grad).all()
++    assert all(p.grad is None or torch.isfinite(p.grad).all() for p in block.parameters())
++    if n > 1:
++        assert block.output[-1].weight.grad.abs().sum() > 0
++
++
++def test_enabled_sampling_keeps_schema_fixed_x_y_and_singletons():
++    model = make_model(True)
++    y = torch.tensor([[1., 0.], [0., 1.]])
++    saved = y.clone()
++    graphs, nx_graphs = model.sampling_batch_h1(
++        0, 2, 0, 1, num_nodes=torch.tensor([1, 4]), y=y, figures=False)
++    assert torch.equal(y, saved)
++    for n, (X, E), graph in zip([1, 4], graphs, nx_graphs):
++        assert X.dtype == torch.long and X.shape == (n,)
++        assert E.dtype == torch.long and E.shape == (n, n)
++        assert torch.equal(E, E.T) and not E.diagonal().any()
++        assert set(E.unique().tolist()) <= {0, 1}
++        assert graph.number_of_nodes() == n
++
++
++def test_warm_start_checks_config_priors_and_original_weight_identity(tmp_path):
++    original = make_model()
++    cfg = copy.deepcopy(original.cfg)
++    source = tmp_path / 'original.ckpt'
++    torch.save(dict(state_dict=original.state_dict(), model_family='beta_h1',
++                    hyper_parameters=dict(cfg=cfg), epoch=10, global_step=30), source)
++    digest_before = source.read_bytes()
++    variant = make_model(True)
++    audit = warm_start_original_h1(variant, source)
++    assert audit['epoch'] == 10 and not audit['optimizer_restored']
++    assert source.read_bytes() == digest_before
++    for key, value in original.state_dict().items():
++        assert torch.equal(value, variant.state_dict()[key])
++    variant.cfg.model.edge_threshold = .4
++    with unittest.TestCase().assertRaisesRegex(ValueError, 'config mismatch'):
++        warm_start_original_h1(variant, source)
++
++
++@cases('classes', [4, 7])
++def test_multiclass_node_denoising_loss_and_gradient(classes):
++    info = _DatasetInfo()
++    info.input_dims = dict(X=classes, E=2, y=classes + 1)
++    info.output_dims = dict(X=classes, E=2, y=classes)
++    info.node_types = torch.ones(classes) / classes
++    cfg = _cfg()
++    cfg.model.two_hop = dict(enabled=True, channels=4, warm_start_checkpoint=None)
++    model = ConditionalGraphBetaDiffusionH1(cfg, info)
++    edges = torch.tensor([[0, 1, 1, 2], [1, 0, 2, 1]])
++    graph = Data(x=torch.eye(classes)[[0, 1, 0]], edge_index=edges,
++                 edge_attr=torch.tensor([[0., 1.]]).repeat(4, 1),
++                 y=torch.eye(classes)[[0]])
++    result = model._shared_step(Batch.from_data_list([graph, graph]), 'train')
++    assert torch.isfinite(result['loss'])
++    result['loss'].backward()
++    gradient = model.model.two_hop_edge.output[-1].weight.grad
++    assert gradient is not None and torch.isfinite(gradient).all()
++
++
++def test_one_epoch_synthetic_train_val_and_checkpoint_roundtrip(tmp_path):
++    torch.manual_seed(1234)
++    model = make_model(True)
++    edges = torch.tensor([[0, 1, 1, 2], [1, 0, 2, 1]])
++    graph = Data(x=torch.ones(3, 1), edge_index=edges,
++                 edge_attr=torch.tensor([[0., 1.]]).repeat(4, 1),
++                 y=torch.tensor([[1., 0.]]))
++    loader = DataLoader([graph] * 4, batch_size=2, collate_fn=Batch.from_data_list)
++    callback = ModelCheckpoint(dirpath=tmp_path, monitor='val/h1_total',
++                               mode='min', save_top_k=1, save_last=True)
++    trainer = Trainer(accelerator='cpu', devices=1, max_epochs=1,
++                      limit_train_batches=2, limit_val_batches=2,
++                      num_sanity_val_steps=0, logger=False,
++                      enable_progress_bar=False, callbacks=[callback])
++    trainer.fit(model, loader, loader)
++    assert torch.isfinite(trainer.callback_metrics['train/h1_total'])
++    assert torch.isfinite(trainer.callback_metrics['val/h1_total'])
++    print('[two-hop synthetic smoke] train/h1_total=',
++          float(trainer.callback_metrics['train/h1_total']),
++          'val/h1_total=', float(trainer.callback_metrics['val/h1_total']))
++    assert Path(callback.best_model_path).is_file()
++    assert Path(callback.last_model_path).is_file()
++    saved = torch.load(callback.last_model_path, map_location='cpu')
++    assert saved['model_family'] == 'beta_h1' and saved['stage'] == 'h1'
++    assert saved['h1_two_hop']['channels'] == 4
++    restored = ConditionalGraphBetaDiffusionH1.load_from_checkpoint(callback.last_model_path)
++    assert restored.two_hop_options['enabled']
++    assert restored._two_hop_checkpoint_loaded
++    restored.two_hop_options['warm_start_checkpoint'] = 'missing_original.ckpt'
++    restored.on_fit_start()  # Resume/inference must not need the warm-start file.
++    assert all(torch.equal(v, restored.state_dict()[k]) for k, v in model.state_dict().items())
++
++
++def load_tests(loader, tests, pattern):
++    suite = unittest.TestSuite()
++    functions = [(name, value) for name, value in globals().items()
++                 if name.startswith('test_') and inspect.isfunction(value)]
++    # Also run the existing server H1 semantic regression tests unchanged.
++    import test_beta_h1_semantics as original
++    functions += [(name, value) for name, value in vars(original).items()
++                  if name.startswith('test_') and inspect.isfunction(value)]
++    for name, function in functions:
++        case_name, values = getattr(function, '_cases', (None, [None]))
++        for value in values:
++            def run(function=function, case_name=case_name, value=value):
++                kwargs = {} if case_name is None else {case_name: value}
++                with tempfile.TemporaryDirectory(prefix='h1_twohop_test_') as tmp:
++                    if 'tmp_path' in inspect.signature(function).parameters:
++                        kwargs['tmp_path'] = Path(tmp)
++                    function(**kwargs)
++            description = name if case_name is None else f'{name}[{value!r}]'
++            suite.addTest(unittest.FunctionTestCase(run, description=description))
++    return suite
++
++
++if __name__ == '__main__':
++    unittest.main(verbosity=2)

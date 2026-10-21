@@ -1,5 +1,5 @@
 name: 'cora'            # ego, ego_positional
-datadir: 'data/cora_r2/'
+datadir: 'data/cora/'
 h: 1
 random_subset: null
 pin_memory: False

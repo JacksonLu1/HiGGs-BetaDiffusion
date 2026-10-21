@@ -322,7 +322,7 @@ def main(cfg: DictConfig):
     utils.create_folders(cfg)
     cfg = setup_wandb(cfg)
 
-    os.mkdir("sampling")
+    os.makedirs("sampling", exist_ok=True)
     os.chdir("sampling")
 
     for i in range(n_graphs):

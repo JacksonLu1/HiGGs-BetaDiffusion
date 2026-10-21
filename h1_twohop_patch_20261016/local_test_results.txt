@@ -1,0 +1,161 @@
+E:\ANACONDA\envs\higgs_env\lib\site-packages\pytorch_lightning\utilities\imports.py:22: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+unittest.case.FunctionTestCase (run)
+test_invalid_configuration_fails[{'enabled': 'false'}] ... ok
+unittest.case.FunctionTestCase (run)
+test_invalid_configuration_fails[{'channels': 0}] ... ok
+unittest.case.FunctionTestCase (run)
+test_invalid_configuration_fails[{'channels': True}] ... ok
+unittest.case.FunctionTestCase (run)
+test_invalid_configuration_fails[{'unknown': 3}] ... ok
+unittest.case.FunctionTestCase (run)
+test_invalid_configuration_fails[{'warm_start_checkpoint': '/tmp/old.ckpt'}] ... ok
+unittest.case.FunctionTestCase (run)
+test_disabled_model_uses_unchanged_backbone_and_strict_old_state ... ok
+unittest.case.FunctionTestCase (run)
+test_zero_initialized_variant_matches_original_predictions ... ok
+unittest.case.FunctionTestCase (run)
+test_trained_residual_symmetry_mask_padding_and_permutation ... ok
+unittest.case.FunctionTestCase (run)
+test_finite_gradients_for_singleton_small_graphs[1] ... ok
+unittest.case.FunctionTestCase (run)
+test_finite_gradients_for_singleton_small_graphs[2] ... ok
+unittest.case.FunctionTestCase (run)
+test_finite_gradients_for_singleton_small_graphs[5] ... ok
+unittest.case.FunctionTestCase (run)
+test_enabled_sampling_keeps_schema_fixed_x_y_and_singletons ... ok
+unittest.case.FunctionTestCase (run)
+test_warm_start_checks_config_priors_and_original_weight_identity ... ok
+unittest.case.FunctionTestCase (run)
+test_multiclass_node_denoising_loss_and_gradient[4] ... ok
+unittest.case.FunctionTestCase (run)
+test_multiclass_node_denoising_loss_and_gradient[7] ... ok
+unittest.case.FunctionTestCase (run)
+test_one_epoch_synthetic_train_val_and_checkpoint_roundtrip ... GPU available: True (cuda), used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+
+  | Name        | Type                     | Params
+---------------------------------------------------------
+0 | model       | H1TwoHopGraphTransformer | 77.4 K
+1 | loss_module | BetaH1Loss               | 0     
+---------------------------------------------------------
+77.4 K    Trainable params
+0         Non-trainable params
+77.4 K    Total params
+0.309     Total estimated model params size (MB)
+`Trainer.fit` stopped: `max_epochs=1` reached.
+ok
+unittest.case.FunctionTestCase (run)
+test_unit_shifted_roundtrip_and_graph_masks ... ok
+unittest.case.FunctionTestCase (run)
+test_single_class_h1_loss_is_edge_only_and_strict_upper ... ok
+unittest.case.FunctionTestCase (run)
+test_h1_sampling_schema_fixed_x_y_singleton_and_padding_safety ... ok
+unittest.case.FunctionTestCase (run)
+test_threshold_semantics_are_applied_in_unit_domain ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 1.468s
+
+OK
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+[HiGGs] H1 dense two-hop residual: enabled, channels=4; zero-initialized
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+[HiGGs] H1 dense two-hop residual: enabled, channels=4; zero-initialized
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+[HiGGs] H1 dense two-hop residual: enabled, channels=4; zero-initialized
+Model output dims:
+X: 4
+E: 1
+y: 4
+Model input dims:
+{'X': 4, 'E': 1, 'y': 5}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+[HiGGs] H1 dense two-hop residual: enabled, channels=4; zero-initialized
+Model output dims:
+X: 7
+E: 1
+y: 7
+Model input dims:
+{'X': 7, 'E': 1, 'y': 8}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+[HiGGs] H1 dense two-hop residual: enabled, channels=4; zero-initialized
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+[HiGGs] H1 dense two-hop residual: enabled, channels=4; zero-initialized
+[two-hop synthetic smoke] train/h1_total= 552.9197280838112 val/h1_total= 696.3511086644382
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+[HiGGs] H1 dense two-hop residual: enabled, channels=4; zero-initialized
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion
+Model output dims:
+X: 1
+E: 1
+y: 2
+Model input dims:
+{'X': 1, 'E': 1, 'y': 3}
+[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion

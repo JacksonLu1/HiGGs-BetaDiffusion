@@ -334,9 +334,42 @@ def prepare_glue_dataset(
 
     # The H2 adjacency is symmetric, so dense_to_sparse contains both edge
     # orientations. Keep one stable record per unordered present pair.
-    pair_records = unique_undirected_pairs(h2_edge_index, h2_edge_type)
+    pair_records = list(
+        unique_undirected_pairs(h2_edge_index, h2_edge_type)
+    )
+
+    if not pair_records:
+        raise ValueError(
+            "Glue received no H2 community pairs"
+        )
+
+    # DYNAMIC_GLUE_PADDING_FIX
+    # All pos tensors in the Glue dataset must have one common size.
+    # The original fixed size 700 fails when a generated pair has
+    # more than 700 nodes.
+    pair_node_totals = [
+        int(h1_node_types[int(left)].shape[0])
+        + int(h1_node_types[int(right)].shape[0])
+        for left, right, _ in pair_records
+    ]
+
+    max_pair_nodes = max(pair_node_totals)
+    max_nodes = max(700, max_pair_nodes)
+
+    oversize_pairs = sum(
+        total > 700
+        for total in pair_node_totals
+    )
+
+    print(
+        "[HiGGs interface] Glue dynamic padding: "
+        f"base=700 "
+        f"max_pair_nodes={max_pair_nodes} "
+        f"max_nodes={max_nodes} "
+        f"oversize_pairs={oversize_pairs}"
+    )
+
     pbar = tqdm(pair_records)
-    max_nodes = 700
     datalist = []
     pair_ids = []
     raw_edge_classes = []
@@ -353,6 +386,20 @@ def prepare_glue_dataset(
 
     # Lots of code also found in dgd/datasets/..., better documented there
     # Prepares datasets of pairs of h1 graphs
+    dataset_name = str(
+        cfg.dataset.get("name", cfg.general.name)
+    ).strip().lower()
+
+    is_cora = (
+        dataset_name == "cora"
+        or dataset_name.startswith("cora_")
+    )
+
+    print(
+        "[HiGGs interface] Glue condition dataset: "
+        f"dataset_name={dataset_name} is_cora={is_cora}"
+    )
+
     for left, right, raw_edge_class in pbar:
         pair_ids.append((left, right))
         raw_edge_classes.append(raw_edge_class)
@@ -371,22 +418,66 @@ def prepare_glue_dataset(
 
         pos = torch.Tensor([True]*com1_nodes.shape[0] + [False]*com2_nodes.shape[0]).to(torch.int)
         pos = torch.Tensor(utils.get_intra_matrix(pos))
-        pos = F.pad(input=pos,
-                    pad=(0, max_nodes - N, 0, max_nodes - N),
-                    value=False)
+        pad_nodes = max_nodes - int(N)
+
+        if pad_nodes < 0:
+            raise ValueError(
+                "Glue padding became negative despite dynamic sizing: "
+                f"N={N}, max_nodes={max_nodes}"
+            )
+
+        pos = F.pad(
+            input=pos,
+            pad=(0, pad_nodes, 0, pad_nodes),
+            value=False,
+        )
 
         x = F.one_hot(pair_nodes, num_classes=x_out)
         if x_out == 2:
             x = x[:,0].reshape(-1,1)
 
-        graph_type = adapt_h2_to_glue_class(
-            raw_edge_class,
-            options["h2_to_glue_condition_mode"],
-            configured_present_class_index=options[
-                "glue_present_class_index"],
-            training_cache_audit=training_cache_audit,
-            dataset_name=str(cfg.general.name),
-        )
+        if is_cora:
+            # CORA_GLUE_PAIR_MAJORITY_FIX
+            # Glue training uses the majority node class of the joined
+            # community pair. Reproduce exactly the same condition here.
+            pair_node_classes = (
+                pair_nodes.detach().long().reshape(-1).cpu()
+            )
+
+            if pair_node_classes.numel() == 0:
+                raise ValueError(
+                    "Cora Glue pair contains no node classes"
+                )
+
+            min_class = int(pair_node_classes.min().item())
+            max_class = int(pair_node_classes.max().item())
+
+            if min_class < 0 or max_class >= y_out:
+                raise ValueError(
+                    "Cora Glue pair node class is outside the "
+                    f"checkpoint y range: min={min_class}, "
+                    f"max={max_class}, y_out={y_out}"
+                )
+
+            class_counts = torch.bincount(
+                pair_node_classes,
+                minlength=y_out,
+            )
+
+            # torch.argmax and numpy.argmax both select the first class
+            # during a tie, matching majority_classing().
+            graph_type = int(
+                torch.argmax(class_counts).item()
+            )
+        else:
+            graph_type = adapt_h2_to_glue_class(
+                raw_edge_class,
+                options["h2_to_glue_condition_mode"],
+                configured_present_class_index=options[
+                    "glue_present_class_index"],
+                training_cache_audit=training_cache_audit,
+                dataset_name=str(cfg.general.name),
+            )
         if graph_type < 0 or graph_type >= y_out:
             raise ValueError(
                 f"Glue condition class {graph_type} is outside {y_out} classes")
@@ -428,7 +519,11 @@ def prepare_glue_dataset(
     else:
         condition_histogram = {}
     audit = {
-        "condition_mode": options["h2_to_glue_condition_mode"],
+        "condition_mode": (
+            "pair_majority"
+            if is_cora
+            else options["h2_to_glue_condition_mode"]
+        ),
         "raw_h2_edge_type_histogram": raw_histogram,
         "glue_condition_histogram_after_adapter": condition_histogram,
         "verified_glue_training_y_histogram": (

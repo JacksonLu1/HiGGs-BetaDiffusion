@@ -265,6 +265,46 @@ def get_samplers(cfg):
     cfg.general.test_only = resume
     cfg.general.name = name
     cfg = utils.update_config_with_new_keys_harsh(cfg, saved_cfg)
+    # SAMPLER_INFERENCE_MODE_FIX
+    # Checkpoints are used only for sampling. Disable Dropout and gradients.
+    model.eval()
+
+    if hasattr(model, "freeze"):
+        model.freeze()
+    else:
+        for parameter in model.parameters():
+            parameter.requires_grad_(False)
+
+    dropout_modules = [
+        module
+        for module in model.modules()
+        if isinstance(
+            module,
+            (
+                torch.nn.Dropout,
+                torch.nn.Dropout1d,
+                torch.nn.Dropout2d,
+                torch.nn.Dropout3d,
+            ),
+        )
+    ]
+    dropout_training = sum(
+        int(module.training) for module in dropout_modules
+    )
+
+    print(
+        "[HiGGs inference] "
+        f"class={model.__class__.__name__} "
+        f"model.training={model.training} "
+        f"dropout_modules={len(dropout_modules)} "
+        f"dropout_training={dropout_training}"
+    )
+
+    if model.training or dropout_training != 0:
+        raise RuntimeError(
+            "Sampling model did not enter evaluation mode correctly"
+        )
+
     return cfg, model
 
 def setup_wandb(cfg):

@@ -1,0 +1,15 @@
+{
+  "original_sha256": {
+    "dgd/models/two_hop_edge.py": "2f7b0025e7975792d804b29b368811c473eb2d950b741e997675737b4e27a1f3",
+    "dgd/models/h1_twohop_transformer.py": "7145bfcddbd3f582a38f50bc7d11b5482891d1db2f77fbb6ed3c0c1f31046cf4",
+    "dgd/diffusion_model_beta_h1.py": "19f2cb70fec552167f66257fe0032bd226f6b48f1837ab2902ddd4a48177bee0"
+  },
+  "modified_files": [
+    "dgd/models/two_hop_edge.py",
+    "dgd/models/h1_twohop_transformer.py",
+    "dgd/diffusion_model_beta_h1.py"
+  ],
+  "added_files": [
+    "configs/model/beta_h1_twohop_mean.yaml"
+  ]
+}

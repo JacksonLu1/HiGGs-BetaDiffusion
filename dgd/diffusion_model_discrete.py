@@ -287,8 +287,7 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
                     to_generate = bs
                     to_save = min(samples_left_to_save, bs)
                     chains_save = min(chains_left_to_save, bs)
-                    samples.extend(self.sample_batch_glue(batch_id=ident, batch_size=to_generate, num_nodes=None,
-                                                     save_final=to_save,
+                    samples.extend(self.sample_batch_glue(batch_id=ident, batch_size=to_generate,
                                                      keep_chain=chains_save,
                                                      number_chain_steps=self.number_chain_steps,
                                                      data = outs[0]['data']))
@@ -393,8 +392,7 @@ class DiscreteDenoisingDiffusion(pl.LightningModule):
                 to_generate = bs  # min(samples_left_to_generate, bs)
                 to_save = min(samples_left_to_save, bs)
                 chains_save = min(chains_left_to_save, bs)
-                samples.extend(self.sample_batch_glue(batch_id=ident, batch_size=to_generate, num_nodes=None,
-                                                      save_final=to_save,
+                samples.extend(self.sample_batch_glue(batch_id=ident, batch_size=to_generate,
                                                       keep_chain=chains_save,
                                                       number_chain_steps=self.number_chain_steps,
                                                       data=outs[0]['data']))

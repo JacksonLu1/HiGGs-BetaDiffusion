@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+from collections.abc import Mapping
 import os
 from pathlib import Path
 
@@ -24,6 +25,7 @@ from diffusion.beta_diffusion_utils import (
 )
 from metrics.beta_train_metrics import BetaH1Loss
 from models.transformer_model import GraphTransformer
+from models.two_hop_edge import two_hop_options
 
 
 class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
@@ -66,7 +68,17 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
         # models only the edge-present channel and reconstructs no-edge later.
         input_dims["E"] -= 1
         output_dims["E"] -= 1
-        self.model = GraphTransformer(
+        self.two_hop_options = two_hop_options(cfg.model.get("two_hop"))
+        self._two_hop_checkpoint_loaded = False
+        self._two_hop_warm_start_audit = None
+        backbone = GraphTransformer
+        backbone_kwargs = {}
+        if self.two_hop_options["enabled"]:
+            from models.h1_twohop_transformer import H1TwoHopGraphTransformer
+            backbone = H1TwoHopGraphTransformer
+            backbone_kwargs["two_hop_channels"] = self.two_hop_options["channels"]
+            backbone_kwargs["two_hop_normalization"] = self.two_hop_options["normalization"]
+        self.model = backbone(
             n_layers=cfg.model.n_layers,
             input_dims=input_dims,
             hidden_mlp_dims=cfg.model.hidden_mlp_dims,
@@ -74,6 +86,7 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
             output_dims=output_dims,
             act_fn_in=nn.ReLU(),
             act_fn_out=nn.ReLU(),
+            **backbone_kwargs,
         )
 
         self.input_space = str(cfg.model.input_space)
@@ -127,10 +140,79 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
         except Exception as error:
             print(f"[HiGGs] beta_h1 hyperparameter serialization skipped: {error}")
         print("[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion")
+        if self.two_hop_options["enabled"]:
+            print("[HiGGs] H1 dense two-hop residual: enabled, channels="
+                  f"{self.two_hop_options['channels']}; normalization="
+                  f"{self.two_hop_options['normalization']}; "
+                  "zero-initialized before checkpoint load")
 
     def on_save_checkpoint(self, checkpoint):
         checkpoint["model_family"] = self.family
         checkpoint["stage"] = self.stage
+        if self.two_hop_options["enabled"]:
+            checkpoint["h1_two_hop"] = {
+                "version": 2, "channels": self.two_hop_options["channels"],
+                "normalization": self.two_hop_options["normalization"],
+                "warm_start": self._two_hop_warm_start_audit,
+            }
+
+    def on_load_checkpoint(self, checkpoint):
+        meta = checkpoint.get("h1_two_hop") or {}
+        if self.two_hop_options["enabled"]:
+            if not isinstance(meta, Mapping):
+                raise TypeError("Invalid H1 two-hop checkpoint metadata")
+            hp = checkpoint.get("hyper_parameters") or {}
+            saved_cfg = hp.get("cfg") if isinstance(hp, Mapping) else None
+            saved_model = (
+                saved_cfg.get("model")
+                if isinstance(saved_cfg, Mapping) else None
+            )
+            if not isinstance(saved_model, Mapping):
+                raise RuntimeError("Two-hop checkpoint requires saved model config")
+            saved = two_hop_options(saved_model.get("two_hop"))
+            if not saved["enabled"]:
+                raise RuntimeError(
+                    "Checkpoint does not enable two-hop; use explicit warm-start "
+                    "for original H1 weights"
+                )
+            version = meta.get("version", 1)
+            if type(version) is not int or version not in (1, 2):
+                raise RuntimeError(f"Unsupported two-hop metadata version: {version!r}")
+            stored_mode = meta.get("normalization", "sqrt")
+            requested_mode = self.two_hop_options["normalization"]
+            actual_mode = self.model.two_hop_edge.normalization
+            if not (
+                saved["normalization"] == stored_mode
+                == requested_mode == actual_mode
+            ):
+                raise RuntimeError(
+                    "Two-hop normalization mismatch: "
+                    f"saved_cfg={saved['normalization']!r}, "
+                    f"metadata={stored_mode!r}, "
+                    f"requested={requested_mode!r}, actual={actual_mode!r}. "
+                    "Legacy checkpoints without normalization are sqrt."
+                )
+            stored_channels = meta.get("channels", saved["channels"])
+            if (
+                type(stored_channels) is not int
+                or not (
+                    saved["channels"] == stored_channels
+                    == self.two_hop_options["channels"]
+                    == self.model.two_hop_edge.channels
+                )
+            ):
+                raise RuntimeError("Two-hop checkpoint channels mismatch")
+        self._two_hop_checkpoint_loaded = True
+        self._two_hop_warm_start_audit = (
+            meta.get("warm_start") if isinstance(meta, Mapping) else None
+        )
+
+    def on_fit_start(self):
+        path = self.two_hop_options["warm_start_checkpoint"]
+        if path is not None and not self._two_hop_checkpoint_loaded:
+            from models.h1_twohop_warm_start import warm_start_original_h1
+            self._two_hop_warm_start_audit = warm_start_original_h1(self, path)
+            print(f"[HiGGs] H1 two-hop warm start: {self._two_hop_warm_start_audit}")
 
     def configure_optimizers(self):
         return torch.optim.AdamW(

@@ -16,34 +16,56 @@ def sum_except_batch(x):
 
 
 def assert_correctly_masked(variable, node_mask):
-    """Assert that a tensor is finite and zero outside its broadcastable mask."""
-    mask = node_mask
-    if mask.dim() == variable.dim() - 1:
-        mask = mask.unsqueeze(-1)
+    """MASK_DIAGNOSTIC_FIX: validate finiteness before mask residual."""
 
-    has_nan = bool(torch.isnan(variable).any().item())
-    has_inf = bool(torch.isinf(variable).any().item())
-    outside_max = float('nan')
-    shape_compatible = True
+    if not torch.isfinite(node_mask.float()).all():
+        raise FloatingPointError(
+            "node_mask contains NaN or Inf"
+        )
 
-    try:
-        expanded_mask = torch.broadcast_to(mask.bool(), variable.shape)
-        outside_values = variable.masked_select(~expanded_mask)
-        outside_max = (outside_values.abs().max().item()
-                       if outside_values.numel() > 0 else 0.0)
-    except RuntimeError:
-        shape_compatible = False
+    finite = torch.isfinite(variable)
 
-    is_correct = (shape_compatible and not has_nan and not has_inf and
-                  outside_max < 1e-4)
-    if not is_correct:
-        print("Mask check failed: "
-              f"variable.shape={tuple(variable.shape)}, "
-              f"mask.shape={tuple(mask.shape)}, "
-              f"has_nan={has_nan}, has_inf={has_inf}, "
-              f"outside_max_abs={outside_max}")
+    if not finite.all():
+        bad_count = int((~finite).sum().item())
+        nan_count = int(torch.isnan(variable).sum().item())
+        posinf_count = int(torch.isposinf(variable).sum().item())
+        neginf_count = int(torch.isneginf(variable).sum().item())
 
-    assert is_correct, 'Variables not masked properly.'
+        finite_values = variable[finite]
+        finite_min = (
+            float(finite_values.min().item())
+            if finite_values.numel()
+            else float("nan")
+        )
+        finite_max = (
+            float(finite_values.max().item())
+            if finite_values.numel()
+            else float("nan")
+        )
+
+        raise FloatingPointError(
+            "Non-finite tensor detected before mask assertion: "
+            f"shape={tuple(variable.shape)}, "
+            f"bad={bad_count}, nan={nan_count}, "
+            f"+inf={posinf_count}, -inf={neginf_count}, "
+            f"finite_min={finite_min}, finite_max={finite_max}"
+        )
+
+    mask = node_mask.to(dtype=variable.dtype)
+    residual = variable * (1 - mask)
+
+    max_abs = (
+        float(residual.abs().max().item())
+        if residual.numel()
+        else 0.0
+    )
+
+    assert max_abs < 1e-4, (
+        "Variables not masked properly: "
+        f"shape={tuple(variable.shape)}, "
+        f"mask_shape={tuple(node_mask.shape)}, "
+        f"masked_residual_max={max_abs}"
+    )
 
 
 def sample_gaussian(size):

@@ -55,6 +55,31 @@ def to_list(value: Any) -> Sequence:
 
 
 class SBMDataset(InMemoryDataset):
+    # HIGGS_SBM_CACHE_ONLY_V1: opt-in, read existing H1 caches only.
+    def _use_existing_h1_cache_only(self):
+        if os.environ.get("HIGGS_SBM_CACHE_ONLY") != "1":
+            return False
+        if (float(self.h) != 1 or float(self.resolution) != 1
+                or self.max_size != 500 or self.batch_size != 8
+                or self.regime != "majority"):
+            raise RuntimeError("SBM cache-only requires h1/r1/majority/max500/bs8")
+        paths = self.processed_paths
+        if len(paths) != 3:
+            raise RuntimeError(f"Expected three processed caches: {paths}")
+        missing = [path for path in paths
+                   if not osp.isfile(path) or osp.getsize(path) == 0]
+        if missing:
+            raise RuntimeError(f"Missing existing processed caches: {missing}")
+        return True
+
+    def _download(self):
+        if not self._use_existing_h1_cache_only():
+            return super()._download()
+
+    def _process(self):
+        if not self._use_existing_h1_cache_only():
+            return super()._process()
+
     train_url = ('https://figshare.com/ndownloader/files/13612760')
     test_url = 'https://figshare.com/ndownloader/files/13612757'
     valid_url = 'https://figshare.com/ndownloader/files/13612766'
@@ -181,6 +206,8 @@ class SBMDataset(InMemoryDataset):
         """
         Download sbm files.
         """
+        if os.environ.get("HIGGS_SBM_CACHE_ONLY") == "1":
+            raise RuntimeError("SBM cache-only forbids raw regeneration")
         self.adjs, self.eigvals, self.eigvecs, self.n_nodes, self.max_eigval, self.min_eigval, self.same_sample, self.n_max = torch.load(self.raw_paths[0])
 
         node_count_aggregator = 0
@@ -401,6 +428,8 @@ class SBMDataset(InMemoryDataset):
                    "Min_Community_Size": np.min(sizes)})
 
     def process(self):
+        if os.environ.get("HIGGS_SBM_CACHE_ONLY") == "1":
+            raise RuntimeError("SBM cache-only forbids data processing")
 
         target_df = pd.read_csv(self.split_paths[self.file_idx], index_col=0)
 

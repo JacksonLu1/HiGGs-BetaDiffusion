@@ -44,9 +44,9 @@ data/cache regeneration, H2/Glue changes or metric edits are included.
 
 ## Installation mechanism
 
-Use `git apply --recount --check --whitespace=nowarn <patch>` first, then the same
-command without `--check`. `--recount` computes hunk lengths from actual patch
-contents. The patch neither deletes files nor changes datasets or checkpoints.
+Use `git apply --check --whitespace=nowarn <patch>` first, then the same
+command without `--check`. Standard hunk counts are provided and validated.
+The patch neither deletes files nor changes datasets or checkpoints.
 New-file collisions and context mismatches fail the check. Verify the base H1 SHA
 before applying. Make a separate backup of the old H1 file for rollback/testing.
 

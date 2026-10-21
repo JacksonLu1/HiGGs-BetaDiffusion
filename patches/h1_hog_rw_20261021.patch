@@ -1,7 +1,7 @@
 diff --git a/dgd/diffusion_model_beta_h1.py b/dgd/diffusion_model_beta_h1.py
 --- a/dgd/diffusion_model_beta_h1.py
 +++ b/dgd/diffusion_model_beta_h1.py
-@@ -26,6 +26,10 @@
+@@ -26,6 +26,9 @@
  from metrics.beta_train_metrics import BetaH1Loss
  from models.transformer_model import GraphTransformer
  from models.two_hop_edge import two_hop_options
@@ -11,7 +11,7 @@ diff --git a/dgd/diffusion_model_beta_h1.py b/dgd/diffusion_model_beta_h1.py
  
  
  class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
-@@ -69,6 +73,13 @@
+@@ -69,6 +72,13 @@
          input_dims["E"] -= 1
          output_dims["E"] -= 1
          self.two_hop_options = two_hop_options(cfg.model.get("two_hop"))
@@ -25,7 +25,7 @@ diff --git a/dgd/diffusion_model_beta_h1.py b/dgd/diffusion_model_beta_h1.py
          self._two_hop_checkpoint_loaded = False
          self._two_hop_warm_start_audit = None
          backbone = GraphTransformer
-@@ -140,6 +151,12 @@
+@@ -140,6 +150,11 @@
          except Exception as error:
              print(f"[HiGGs] beta_h1 hyperparameter serialization skipped: {error}")
          print("[HiGGs] Stage h1 model: Conditional Graph Beta Diffusion")
@@ -37,7 +37,7 @@ diff --git a/dgd/diffusion_model_beta_h1.py b/dgd/diffusion_model_beta_h1.py
          if self.two_hop_options["enabled"]:
              print("[HiGGs] H1 dense two-hop residual: enabled, channels="
                    f"{self.two_hop_options['channels']}; normalization="
-@@ -149,6 +166,13 @@
+@@ -149,6 +164,13 @@
      def on_save_checkpoint(self, checkpoint):
          checkpoint["model_family"] = self.family
          checkpoint["stage"] = self.stage
@@ -51,7 +51,7 @@ diff --git a/dgd/diffusion_model_beta_h1.py b/dgd/diffusion_model_beta_h1.py
          if self.two_hop_options["enabled"]:
              checkpoint["h1_two_hop"] = {
                  "version": 2, "channels": self.two_hop_options["channels"],
-@@ -159,6 +183,30 @@
+@@ -159,4 +181,23 @@
      def on_load_checkpoint(self, checkpoint):
 +        hog_meta = checkpoint.get("h1_hog_rw")
 +        if self.hog_rw_options["enabled"]:
@@ -75,7 +75,7 @@ diff --git a/dgd/diffusion_model_beta_h1.py b/dgd/diffusion_model_beta_h1.py
          meta = checkpoint.get("h1_two_hop") or {}
          if self.two_hop_options["enabled"]:
              if not isinstance(meta, Mapping):
-@@ -303,6 +351,13 @@
+@@ -303,8 +344,15 @@
          if self.domain_features is not None:
              domain = self.domain_features(noisy_data)
              extra_X = torch.cat((extra_X, domain.X), dim=-1)
@@ -95,7 +95,7 @@ diff --git a/dgd/diffusion/hog_rw_features.py b/dgd/diffusion/hog_rw_features.py
 new file mode 100644
 --- /dev/null
 +++ b/dgd/diffusion/hog_rw_features.py
-@@ -0,0 +1,102 @@
+@@ -0,0 +1,83 @@
 +"""HOG-Diff RW/SPD input subcomponent, NOT the complete HOG-Diff model.
 +
 +get_rw_feat is adapted from Yiming Huang and Tolga Birdal, HOG-Diff (2026):
@@ -183,7 +183,7 @@ diff --git a/configs/model/beta_h1_hog_rw.yaml b/configs/model/beta_h1_hog_rw.ya
 new file mode 100644
 --- /dev/null
 +++ b/configs/model/beta_h1_hog_rw.yaml
-@@ -0,0 +1,19 @@
+@@ -0,0 +1,18 @@
 +# HOG-Diff RW/SPD subcomponent transfer, not a new encoding algorithm.
 +# Single-factor experiment: do not simultaneously add precondition/degree eta.
 +defaults:
@@ -206,7 +206,7 @@ diff --git a/THIRD_PARTY_NOTICES_HOG_RW.md b/THIRD_PARTY_NOTICES_HOG_RW.md
 new file mode 100644
 --- /dev/null
 +++ b/THIRD_PARTY_NOTICES_HOG_RW.md
-@@ -0,0 +1,30 @@
+@@ -0,0 +1,28 @@
 +# HOG-Diff RW/SPD input subcomponent
 +
 +Source: https://github.com/Yiminghh/HOG-Diff/blob/main/models/utils.py
@@ -239,7 +239,7 @@ diff --git a/tests/test_h1_hog_rw.py b/tests/test_h1_hog_rw.py
 new file mode 100644
 --- /dev/null
 +++ b/tests/test_h1_hog_rw.py
-@@ -0,0 +1,245 @@
+@@ -0,0 +1,222 @@
 +"""CPU-only feature/regression smoke. No real dataset or model downloads."""
 +import copy
 +import importlib.util

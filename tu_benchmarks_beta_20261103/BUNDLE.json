@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "sha256": {
+    "build_bundle.py": "9d404ec34378c8e545b8a02fc6830766015c33996ae73a02585c020645eced22",
+    "evaluate.py": "b32df73f68d611a16ee8abf096cd8e85f058baf3fb48ef1476d964df1b3f2569",
+    "install.py": "f61701e9193e51ddb51a61c4df975814d48e3f3e5f526e5c422e43642f8fd526",
+    "launch.py": "5658b511b56af1952c114fc4769c12baec60defbb201be4cdb002d4b56f2c5f0",
+    "payload/dgd/datasets/tu_benchmark_beta.py": "a45580ac47d822ebdba4da9aa4d17bfdd452eb05b47b8be6e7178c0acff0fd61",
+    "payload/dgd/tu_benchmark_models.py": "5595ca4d273a78384e4853dccadc3e245898ae863d1d272ac72c3887bc8067bb",
+    "payload/tools/tu_beta_common.py": "0419826c5ed5e5147ac84858a48da451f22e818563e8c72af90134af712a0a1d",
+    "payload/tools/tu_beta_sample.py": "86dd38abf0187403d37e8a567e1b77a54f59637418d54e3592c3ac1fb8c877a2",
+    "payload/tools/tu_beta_train.py": "ccac6cb873a0136d8436d7dde716fa78960e659a53d24858e3405fb785d28156",
+    "README.md": "ec2af85878290cd6ca2738c33212e591af52cb96c1a7631a878363dc38826b36",
+    "test_evaluate.py": "033ac4f33c64f9f347c7c6ce18c7fd39c3868cbcf5e4769511d77acd37a40a8f",
+    "test_install.py": "a2b6e8832b506806816efdc7baff4553fcb0d84e97209771b4976d6ca17ea3fa",
+    "test_launch.py": "c30e18f6b4715737c7ea66754bdf31990ce29c77c667ab3cdd67907160317699",
+    "test_payload.py": "3e918f9e64982022e9557a23e2b2261d8717b72ef09897e6305d52508bacd1d4",
+    "VERIFICATION.md": "c51f08153fe20443b283bc7a7f4560fd02f51ea602629f08751d5ff8639b2f34"
+  }
+}

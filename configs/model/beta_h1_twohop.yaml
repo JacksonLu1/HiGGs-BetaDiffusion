@@ -1,0 +1,11 @@
+# H1-only structural residual. Inherit all Beta mathematics and backbone sizes.
+defaults:
+  - beta_h1
+  - _self_
+
+two_hop:
+  enabled: true
+  channels: 16
+  # Read original weights at fit start; inference never opens this path.
+  # A resumed upgraded checkpoint takes precedence over this warm-start source.
+  warm_start_checkpoint: null

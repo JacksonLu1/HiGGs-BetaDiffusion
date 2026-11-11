@@ -1,0 +1,8 @@
+# Independent mean-normalized H1 two-hop experiment.
+defaults:
+  - beta_h1_twohop
+  - _self_
+
+two_hop:
+  normalization: mean
+  warm_start_checkpoint: null

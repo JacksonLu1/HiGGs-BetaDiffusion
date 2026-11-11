@@ -1,0 +1,17 @@
+name: proteins
+datadir: data/proteins_r${dataset.resolution}_s${dataset.split_seed}_l${dataset.louvain_seed}/
+source: data_sources/small_benchmarks/proteins.json
+manifest: data_sources/splits/proteins_r${dataset.resolution}_s${dataset.split_seed}_l${dataset.louvain_seed}.json
+h: 1
+resolution: 1
+split_seed: 1234
+louvain_seed: 0
+max_size: 620
+regime: majority
+learning_scope: topology_only
+singleton_policy: masked_padding
+random_subset: null
+pin_memory: false
+subsample: false
+dataset_testing: false
+skip_component_test: true

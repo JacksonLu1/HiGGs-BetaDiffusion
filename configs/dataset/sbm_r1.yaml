@@ -1,0 +1,10 @@
+name: 'sbm'            # Keep the existing SBM datamodule routing
+datadir: 'data/sbm/'
+h: 2
+random_subset: null
+pin_memory: False
+subsample: False
+resolution: 1
+max_size: 500 # for non-subsample is reasonable
+regime: 'majority' # graph classing by majority node class
+dataset_testing: False

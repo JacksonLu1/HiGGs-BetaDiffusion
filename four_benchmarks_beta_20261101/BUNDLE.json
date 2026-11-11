@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "sha256": {
+    "build_bundle.py": "8b466574211099c0d6ce9c27f37a1088619faedfad7c3a17ef7fee5106a6c474",
+    "evaluate.py": "2a07a79236ef6a17a1342283aa119844207e3e4acfd9153388ba9eca6d5ee604",
+    "install.py": "b64b8b1a878b8009e30fc1302a96c33dc4cca0b2c189d93039feda161bbec9ec",
+    "launch.py": "185bf20d8728477d4bfd3ad2763e322ea314854ed2cae40c155aa91148f40cc3",
+    "payload/dgd/datasets/four_benchmark_beta.py": "72d924dbeb88fa6d51834ce7574014972ad16df089e18455509a8030162230b2",
+    "payload/dgd/four_benchmark_models.py": "e52e2bf7c92f522f9d5e8a7ca1b9ac8a6bd98bcf69021d768e5231815c765d9f",
+    "payload/tools/qb_beta_common.py": "2600068b91dbd3839f86acce00546b24367206ae30a8ea4c0257e0b0e778028a",
+    "payload/tools/qb_beta_sample.py": "5e97ee261892bf596ff955ba88d1d0fd58d9042f8474cb60253506319ecdd122",
+    "payload/tools/qb_beta_train.py": "a1d2673c20afcf01972cb214bb37b24a3f7126dab29bb8ccdf5a9acb8ecd2632",
+    "README.md": "47a1c2db4fbe41ddbf6b2447644bf2e68b791b8fb25d4b33629ba01b808309fb",
+    "test_cpu_models.py": "f2156aeb4e116cbd96da00ac4b5c61e6efe24ae2e0fbbb5f2176ab8818a588b1",
+    "test_evaluate.py": "22508b66e524ad1b30a27505b46076e7f8669455e94271dcacb3251141498c11",
+    "test_install_data.py": "03910b808a1fe1cd8388be4f95183a66c2107eab81daa3ced1bdf17865198b17",
+    "test_launch.py": "167936be9a67a6da46a1491b432674492d2f0326e5f2de20f95aa3f80e6ea5a6",
+    "test_sample.py": "5a2c818e74b0ce53a3af6723dba3d350a82108fb194de31ff4ac78c94223135b",
+    "test_training_config.py": "d807bbb1549805e0ecc0e5be359cfbc3838bc4e78235e25f68edce22c5b1bd8c",
+    "VERIFICATION.md": "3987d8730fd9dafb6e19d536002a001e2bcf51b6ff8be7c9b27cfbcb183915f0",
+    "verify_local_real_cache_smoke.py": "b09bcb669222d946faae118ae7be9b47ec02b3b808ec8c656714d20c679f6bc1"
+  }
+}

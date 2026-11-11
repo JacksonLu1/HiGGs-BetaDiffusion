@@ -1,0 +1,18 @@
+# Stacked experiment: retain the existing mean two-hop and append HOG RW/SPD.
+# No change to the published Beta forward/reverse process or evaluation.
+defaults:
+  - beta_h1_twohop_mean
+  - _self_
+
+hog_rw:
+  enabled: true
+  rw_depth: 4
+
+two_hop:
+  enabled: true
+  normalization: mean
+  channels: 16
+  warm_start_checkpoint: null
+
+pre_condition: false
+eta_strategy: fixed

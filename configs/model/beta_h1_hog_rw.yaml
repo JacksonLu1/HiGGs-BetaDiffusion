@@ -1,0 +1,18 @@
+# HOG-Diff RW/SPD subcomponent transfer, not a new encoding algorithm.
+# Single-factor experiment: do not simultaneously add precondition/degree eta.
+defaults:
+  - beta_h1
+  - _self_
+
+hog_rw:
+  enabled: true
+  rw_depth: 4
+
+two_hop:
+  enabled: false
+  channels: 16
+  normalization: mean
+  warm_start_checkpoint: null
+
+pre_condition: false
+eta_strategy: fixed

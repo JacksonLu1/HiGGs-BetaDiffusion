@@ -1,0 +1,14 @@
+name: dd
+datadir: data/dd/
+source: data_sources/dd/DD.zip
+manifest: data_sources/splits/dd_hierarchy_r${dataset.resolution}_s${dataset.split_seed}_l${dataset.louvain_seed}.json
+h: 1
+resolution: 2
+split_seed: 1234
+louvain_seed: 0
+max_size: 500
+regime: majority
+random_subset: null
+pin_memory: false
+subsample: false
+dataset_testing: false

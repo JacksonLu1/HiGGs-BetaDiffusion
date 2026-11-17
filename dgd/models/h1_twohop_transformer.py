@@ -9,12 +9,12 @@ from models.two_hop_edge import TwoHopEdgeResidual
 
 class H1TwoHopGraphTransformer(GraphTransformer):
     def __init__(self, *args, two_hop_channels=16,
-                 two_hop_normalization='sqrt', **kwargs):
+                 two_hop_normalization='sqrt', two_hop_gate_mode='global', **kwargs):
         super().__init__(*args, **kwargs)
         hidden = kwargs['hidden_dims']
         self.two_hop_edge = TwoHopEdgeResidual(
             int(hidden['de']), int(hidden['dy']), two_hop_channels,
-            normalization=two_hop_normalization)
+            normalization=two_hop_normalization, gate_mode=two_hop_gate_mode)
 
     def forward(self, X, E, y, node_mask):
         # Same forward as the server backbone, plus one hidden-edge residual.

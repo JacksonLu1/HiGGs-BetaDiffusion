@@ -12,7 +12,7 @@ from torch import nn
 
 def two_hop_options(value=None):
     defaults = dict(enabled=False, channels=16,
-                    warm_start_checkpoint=None, normalization='sqrt')
+                    warm_start_checkpoint=None, normalization='sqrt', gate_mode='global')
     if value is not None:
         if not isinstance(value, Mapping):
             raise TypeError("model.two_hop must be a mapping")
@@ -27,11 +27,19 @@ def two_hop_options(value=None):
         raise ValueError("model.two_hop.channels must be an integer in [1, 128]")
     if defaults['normalization'] not in ('sqrt', 'mean'):
         raise ValueError("two-hop normalization must be sqrt or mean")
+    if defaults['gate_mode'] not in ('global', 'pair', 'gru'):
+        raise ValueError('two-hop gate_mode must be global, pair or gru')
+    if defaults['gate_mode'] != 'global' and not defaults['enabled']:
+        raise ValueError('Pair/GRU update requires enabled two-hop')
+    if defaults['gate_mode'] == 'gru' and defaults['normalization'] != 'mean':
+        raise ValueError('This GRU prototype requires mean two-hop')
     path = defaults['warm_start_checkpoint']
     if path is not None and (not isinstance(path, str) or not path.strip()):
         raise TypeError("model.two_hop.warm_start_checkpoint must be a path or null")
     if path is not None and not defaults['enabled']:
         raise ValueError("two-hop warm start requires model.two_hop.enabled=true")
+    if path is not None and defaults['gate_mode'] == 'gru':
+        raise ValueError('GRU prototype requires fresh training; no implicit warm-start')
     return defaults
 
 
@@ -40,16 +48,22 @@ class TwoHopEdgeResidual(nn.Module):
 
     Products are reduced over valid intermediate nodes without allocating an
     [N,N,N,C] tensor. Dense matmul still costs O(B*C*N^3); use H1 communities.
-    The zero output initialization makes the initial residual exactly zero.
+    Global/pair have an initially zero residual. GRU performs a direct
+    update: zero MLP input does NOT imply an identity GRU update.
     """
 
     def __init__(self, edge_dim, global_dim, channels=16,
-                 normalization='sqrt'):
+                 normalization='sqrt', gate_mode='global'):
         super().__init__()
         if min(edge_dim, global_dim, channels) <= 0:
             raise ValueError("Two-hop dimensions must be positive")
         if normalization not in ('sqrt', 'mean'):
             raise ValueError("two-hop normalization must be sqrt or mean")
+        if gate_mode not in ('global', 'pair', 'gru'):
+            raise ValueError('Invalid gate_mode')
+        if gate_mode == 'gru' and normalization != 'mean':
+            raise ValueError('GRU prototype requires mean normalization')
+        self.gate_mode = gate_mode
         self.normalization = normalization
         self.channels = channels
         self.left = nn.Linear(edge_dim, channels)
@@ -58,11 +72,24 @@ class TwoHopEdgeResidual(nn.Module):
             nn.Linear(edge_dim + channels, edge_dim), nn.SiLU(),
             nn.Linear(edge_dim, edge_dim),
         )
-        self.gate = nn.Linear(global_dim, 1)
+        if gate_mode == 'gru':
+            self.gru = nn.GRUCell(edge_dim, edge_dim)
+        else:
+            self.gate = nn.Linear(global_dim, 1)
         nn.init.zeros_(self.output[-1].weight)
         nn.init.zeros_(self.output[-1].bias)
-        nn.init.zeros_(self.gate.weight)
-        nn.init.zeros_(self.gate.bias)
+        if gate_mode != 'gru':
+            nn.init.zeros_(self.gate.weight)
+            nn.init.zeros_(self.gate.bias)
+        # Preserve the learned global logit and add a symmetric pair correction.
+        # Only the final layer starts at zero: initial predictions match global
+        # gating, while the new branch can learn after gradients reach its output.
+        if gate_mode == 'pair':
+            self.pair_gate = nn.Sequential(
+                nn.Linear(edge_dim + channels, channels), nn.SiLU(),
+                nn.Linear(channels, 1))
+            nn.init.zeros_(self.pair_gate[-1].weight)
+            nn.init.zeros_(self.pair_gate[-1].bias)
 
     def forward(self, edges, global_features, node_mask):
         if edges.ndim != 4 or edges.size(1) != edges.size(2):
@@ -91,6 +118,18 @@ class TwoHopEdgeResidual(nn.Module):
         messages = messages / normalizer[:, None, None, None]
         messages = ((messages + messages.transpose(1, 2)) * 0.5).to(edges.dtype)
         residual = self.output(torch.cat((clean, messages), dim=-1))
-        residual = residual * self.gate(global_features).sigmoid()[:, None, None, :]
+        if self.gate_mode == 'gru':
+            # One independent update per pair. Shared weights, no node-order
+            # sequence and no persistent state between diffusion steps.
+            updated = self.gru(residual.reshape(-1, clean.size(-1)),
+                               clean.reshape(-1, clean.size(-1))).reshape_as(clean)
+            updated = (updated + updated.transpose(1, 2)) * 0.5
+            return updated.masked_fill(~valid[..., None], 0)
+        logits = self.gate(global_features)[:, None, None, :]
+        if self.gate_mode == 'pair':
+            pair_logits = self.pair_gate(torch.cat((clean, messages), dim=-1))
+            pair_logits = (pair_logits + pair_logits.transpose(1, 2)) * 0.5
+            logits = logits + pair_logits
+        residual = residual * logits.sigmoid()
         residual = (residual + residual.transpose(1, 2)) * 0.5
         return edges + residual.masked_fill(~valid[..., None], 0)

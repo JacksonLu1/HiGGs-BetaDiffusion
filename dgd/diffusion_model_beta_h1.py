@@ -86,6 +86,7 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
             backbone = H1TwoHopGraphTransformer
             backbone_kwargs["two_hop_channels"] = self.two_hop_options["channels"]
             backbone_kwargs["two_hop_normalization"] = self.two_hop_options["normalization"]
+            backbone_kwargs["two_hop_gate_mode"] = self.two_hop_options["gate_mode"]
         self.model = backbone(
             n_layers=cfg.model.n_layers,
             input_dims=input_dims,
@@ -159,7 +160,7 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
             print("[HiGGs] H1 dense two-hop residual: enabled, channels="
                   f"{self.two_hop_options['channels']}; normalization="
                   f"{self.two_hop_options['normalization']}; "
-                  "zero-initialized before checkpoint load")
+                  "MLP output zero-initialized; direct GRU is not an identity initialization")
 
     def on_save_checkpoint(self, checkpoint):
         checkpoint["model_family"] = self.family
@@ -173,7 +174,9 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
             }
         if self.two_hop_options["enabled"]:
             checkpoint["h1_two_hop"] = {
-                "version": 2, "channels": self.two_hop_options["channels"],
+                "version": 4 if self.two_hop_options["gate_mode"] == "gru" else 3,
+                "channels": self.two_hop_options["channels"],
+                "gate_mode": self.two_hop_options["gate_mode"],
                 "normalization": self.two_hop_options["normalization"],
                 "warm_start": self._two_hop_warm_start_audit,
             }
@@ -221,8 +224,15 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
                     "for original H1 weights"
                 )
             version = meta.get("version", 1)
-            if type(version) is not int or version not in (1, 2):
+            if type(version) is not int or version not in (1, 2, 3, 4):
                 raise RuntimeError(f"Unsupported two-hop metadata version: {version!r}")
+            stored_gate = meta.get("gate_mode", "global")
+            if (stored_gate == "gru") != (version == 4):
+                raise RuntimeError("GRU requires dedicated two-hop metadata version 4")
+            if (version < 3 and stored_gate != "global") or not (
+                    saved["gate_mode"] == stored_gate == self.two_hop_options["gate_mode"]
+                    == self.model.two_hop_edge.gate_mode):
+                raise RuntimeError("Two-hop gate mode mismatch; no implicit checkpoint conversion")
             stored_mode = meta.get("normalization", "sqrt")
             requested_mode = self.two_hop_options["normalization"]
             actual_mode = self.model.two_hop_edge.normalization

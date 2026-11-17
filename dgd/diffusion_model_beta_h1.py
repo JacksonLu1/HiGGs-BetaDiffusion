@@ -29,6 +29,9 @@ from models.two_hop_edge import two_hop_options
 from diffusion.hog_rw_features import (
     HOG_RW_ALGORITHM, hog_rw_options, masked_hog_rw_features,
 )
+from diffusion.h1_kcore_features import (
+    KCORE_ALGORITHM, h1_kcore_options, masked_h1_kcore_features,
+)
 
 
 class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
@@ -77,6 +80,15 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
             # Change only this local copy, never dataset_infos.input_dims.
             input_dims["X"] += self.hog_rw_options["rw_depth"]
             input_dims["E"] += self.hog_rw_options["rw_depth"] + 1
+        self.kcore_options = h1_kcore_options(cfg.model.get("h1_kcore"))
+        if self.kcore_options["enabled"]:
+            if (not self.hog_rw_options["enabled"]
+                    or not self.two_hop_options["enabled"]
+                    or self.two_hop_options["normalization"] != "mean"
+                    or self.two_hop_options["warm_start_checkpoint"] is not None):
+                raise ValueError("H1 k-core requires HOG, mean two-hop and no warm start")
+            input_dims["X"] += 2
+            input_dims["E"] += 1
         self._two_hop_checkpoint_loaded = False
         self._two_hop_warm_start_audit = None
         backbone = GraphTransformer
@@ -160,10 +172,23 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
                   f"{self.two_hop_options['channels']}; normalization="
                   f"{self.two_hop_options['normalization']}; "
                   "zero-initialized before checkpoint load")
+        if self.kcore_options["enabled"]:
+            print(f"[HiGGs] H1 noisy k-core features: k={self.kcore_options['k']}; "
+                  f"max_t={self.kcore_options['max_t']}; input_dims={input_dims}")
+
+    def _kcore_checkpoint_metadata(self):
+        return {
+            "version": 1,
+            "algorithm": KCORE_ALGORITHM,
+            "k": self.kcore_options["k"],
+            "max_t": self.kcore_options["max_t"],
+        }
 
     def on_save_checkpoint(self, checkpoint):
         checkpoint["model_family"] = self.family
         checkpoint["stage"] = self.stage
+        if self.kcore_options["enabled"]:
+            checkpoint["h1_kcore"] = self._kcore_checkpoint_metadata()
         if self.hog_rw_options["enabled"]:
             checkpoint["h1_hog_rw"] = {
                 "version": 2,
@@ -179,6 +204,21 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
             }
 
     def on_load_checkpoint(self, checkpoint):
+        kcore_meta = checkpoint.get("h1_kcore")
+        if self.kcore_options["enabled"]:
+            hp = checkpoint.get("hyper_parameters") or {}
+            saved_cfg = hp.get("cfg") if isinstance(hp, Mapping) else None
+            saved_model = saved_cfg.get("model") if isinstance(saved_cfg, Mapping) else None
+            if (not isinstance(kcore_meta, Mapping)
+                    or type(kcore_meta.get("version")) is not int
+                    or type(kcore_meta.get("k")) is not int
+                    or type(kcore_meta.get("max_t")) is not float
+                    or dict(kcore_meta) != self._kcore_checkpoint_metadata()
+                    or not isinstance(saved_model, Mapping)
+                    or h1_kcore_options(saved_model.get("h1_kcore")) != self.kcore_options):
+                raise RuntimeError("H1 k-core checkpoint/config mismatch")
+        elif kcore_meta is not None:
+            raise RuntimeError("Cannot load an H1 k-core checkpoint with k-core disabled")
         hog_meta = checkpoint.get("h1_hog_rw")
         if self.hog_rw_options["enabled"]:
             if not isinstance(hog_meta, Mapping):
@@ -357,6 +397,12 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
                 self.hog_rw_options["rw_depth"])
             extra_X = torch.cat((extra_X, rw_X.to(extra_X)), dim=-1)
             extra_E = torch.cat((extra_E, spd_E.to(extra_E)), dim=-1)
+        if self.kcore_options["enabled"]:
+            core_X, core_E = masked_h1_kcore_features(
+                public_E[..., 1], node_mask, t,
+                k=self.kcore_options["k"], max_t=self.kcore_options["max_t"])
+            extra_X = torch.cat((extra_X, core_X.to(extra_X)), dim=-1)
+            extra_E = torch.cat((extra_E, core_E.to(extra_E)), dim=-1)
         return extra_X, extra_E, extra_y
 
     def _predict_clean(self, X_t, E_t, condition_y, t, alpha_t,

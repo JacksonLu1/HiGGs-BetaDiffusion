@@ -1,0 +1,10 @@
+# Experimental H1 only. The data split, Louvain partition, Beta schedule,
+# mean two-hop, HOG RW/SPD, H2 and Glue are unchanged.
+defaults:
+  - beta_h1_twohop_mean_hog_rw
+  - _self_
+
+h1_kcore:
+  enabled: true
+  k: 3
+  max_t: 0.5

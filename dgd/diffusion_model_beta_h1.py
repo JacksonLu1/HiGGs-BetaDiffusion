@@ -157,10 +157,11 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
                   f"normalization={self.two_hop_options['normalization']}; "
                   "original Beta transitions unchanged")
         if self.two_hop_options["enabled"]:
+            gate = self.two_hop_options["gate_mode"]
             print("[HiGGs] H1 dense two-hop residual: enabled, channels="
                   f"{self.two_hop_options['channels']}; normalization="
                   f"{self.two_hop_options['normalization']}; "
-                  "MLP output zero-initialized; direct GRU is not an identity initialization")
+                  f"edge update={gate}; MLP output zero-initialized")
 
     def on_save_checkpoint(self, checkpoint):
         checkpoint["model_family"] = self.family
@@ -173,10 +174,11 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
                 "two_hop": self.two_hop_options["enabled"],
             }
         if self.two_hop_options["enabled"]:
+            gate = self.two_hop_options["gate_mode"]
             checkpoint["h1_two_hop"] = {
-                "version": 4 if self.two_hop_options["gate_mode"] == "gru" else 3,
+                "version": {"gru": 4, "bilstm_gru": 5}.get(gate, 3),
                 "channels": self.two_hop_options["channels"],
-                "gate_mode": self.two_hop_options["gate_mode"],
+                "gate_mode": gate,
                 "normalization": self.two_hop_options["normalization"],
                 "warm_start": self._two_hop_warm_start_audit,
             }
@@ -224,11 +226,12 @@ class ConditionalGraphBetaDiffusionH1(pl.LightningModule):
                     "for original H1 weights"
                 )
             version = meta.get("version", 1)
-            if type(version) is not int or version not in (1, 2, 3, 4):
+            if type(version) is not int or version not in (1, 2, 3, 4, 5):
                 raise RuntimeError(f"Unsupported two-hop metadata version: {version!r}")
             stored_gate = meta.get("gate_mode", "global")
-            if (stored_gate == "gru") != (version == 4):
-                raise RuntimeError("GRU requires dedicated two-hop metadata version 4")
+            specific = {"gru": 4, "bilstm_gru": 5}.get(stored_gate)
+            if specific != (version if version >= 4 else None):
+                raise RuntimeError("GRU and BiLSTM-GRU require metadata versions 4 and 5 respectively")
             if (version < 3 and stored_gate != "global") or not (
                     saved["gate_mode"] == stored_gate == self.two_hop_options["gate_mode"]
                     == self.model.two_hop_edge.gate_mode):

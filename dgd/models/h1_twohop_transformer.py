@@ -5,6 +5,7 @@ import torch
 import utils
 from models.transformer_model import GraphTransformer
 from models.two_hop_edge import TwoHopEdgeResidual
+from models.bilstm_edge import BiLSTMEdgeUpdate
 
 
 class H1TwoHopGraphTransformer(GraphTransformer):
@@ -12,9 +13,14 @@ class H1TwoHopGraphTransformer(GraphTransformer):
                  two_hop_normalization='sqrt', two_hop_gate_mode='global', **kwargs):
         super().__init__(*args, **kwargs)
         hidden = kwargs['hidden_dims']
-        self.two_hop_edge = TwoHopEdgeResidual(
-            int(hidden['de']), int(hidden['dy']), two_hop_channels,
-            normalization=two_hop_normalization, gate_mode=two_hop_gate_mode)
+        dims = int(hidden['de']), int(hidden['dy']), two_hop_channels
+        if two_hop_gate_mode == 'bilstm_gru':
+            if two_hop_normalization != 'bilstm':
+                raise ValueError('BiLSTM GRU requires bilstm aggregation')
+            self.two_hop_edge = BiLSTMEdgeUpdate(*dims)
+        else:
+            self.two_hop_edge = TwoHopEdgeResidual(
+                *dims, normalization=two_hop_normalization, gate_mode=two_hop_gate_mode)
 
     def forward(self, X, E, y, node_mask):
         # Same forward as the server backbone, plus one hidden-edge residual.

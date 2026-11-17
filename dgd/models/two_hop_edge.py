@@ -25,21 +25,25 @@ def two_hop_options(value=None):
     channels = defaults['channels']
     if type(channels) is not int or not 1 <= channels <= 128:
         raise ValueError("model.two_hop.channels must be an integer in [1, 128]")
-    if defaults['normalization'] not in ('sqrt', 'mean'):
-        raise ValueError("two-hop normalization must be sqrt or mean")
-    if defaults['gate_mode'] not in ('global', 'pair', 'gru'):
-        raise ValueError('two-hop gate_mode must be global, pair or gru')
+    if defaults['normalization'] not in ('sqrt', 'mean', 'bilstm'):
+        raise ValueError("two-hop normalization must be sqrt, mean or bilstm")
+    if defaults['gate_mode'] not in ('global', 'pair', 'gru', 'bilstm_gru'):
+        raise ValueError('two-hop gate_mode must be global, pair, gru or bilstm_gru')
     if defaults['gate_mode'] != 'global' and not defaults['enabled']:
-        raise ValueError('Pair/GRU update requires enabled two-hop')
+        raise ValueError('Pair and GRU updates require enabled two-hop')
     if defaults['gate_mode'] == 'gru' and defaults['normalization'] != 'mean':
         raise ValueError('This GRU prototype requires mean two-hop')
+    if (defaults['gate_mode'] == 'bilstm_gru') != (defaults['normalization'] == 'bilstm'):
+        raise ValueError('BiLSTM aggregation and bilstm_gru must be enabled together')
+    if defaults['gate_mode'] == 'bilstm_gru' and (channels < 2 or channels % 2):
+        raise ValueError('BiLSTM requires an even channel count of at least 2')
     path = defaults['warm_start_checkpoint']
     if path is not None and (not isinstance(path, str) or not path.strip()):
         raise TypeError("model.two_hop.warm_start_checkpoint must be a path or null")
     if path is not None and not defaults['enabled']:
         raise ValueError("two-hop warm start requires model.two_hop.enabled=true")
-    if path is not None and defaults['gate_mode'] == 'gru':
-        raise ValueError('GRU prototype requires fresh training; no implicit warm-start')
+    if path is not None and defaults['gate_mode'] in ('gru', 'bilstm_gru'):
+        raise ValueError('GRU experiments require fresh training; no implicit warm-start')
     return defaults
 
 

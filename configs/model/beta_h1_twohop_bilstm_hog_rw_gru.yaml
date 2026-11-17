@@ -1,0 +1,8 @@
+defaults:
+  - beta_h1_twohop_mean_hog_rw
+  - _self_
+
+two_hop:
+  gate_mode: bilstm_gru
+  normalization: bilstm
+  warm_start_checkpoint: null
